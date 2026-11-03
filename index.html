@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="サンリオのキャラクター、グッズ、ニュースを紹介するトップページです。"
+    >
+    <title>サンリオ | Sanrio</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <script type="module" src="./js/main.js"></script>
+  </head>
+  <body>
+    <header class="site-header outer-box">
+      <div class="inner-box site-header__inner">
+        <div class="part-box site-header__top">
+          <div class="site-header__mobile-tools">
+            <button
+              class="site-header__menu-toggle"
+              type="button"
+              data-js="menu-toggle"
+              aria-expanded="false"
+              aria-controls="mobile-main-menu"
+              aria-label="メニューを開く"
+            >
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </button>
+            <a class="site-header__mobile-login" href="#news">
+              <img src="./images/used/icon-mypage-portal.svg" alt="" aria-hidden="true">
+              <span>ログイン</span>
+            </a>
+          </div>
+          <a class="site-header__logo" href="./index.html" aria-label="Sanrio ホーム">
+            <img src="./images/used/logo.svg" alt="Sanrio">
+          </a>
+          <nav class="part-box site-header__tools" aria-label="ユーティリティ">
+            <a class="site-header__tool" href="#news">
+              <img class="site-header__tool-icon" src="./images/used/icon-mysearch.svg" alt="" aria-hidden="true">
+              <span>探す</span>
+            </a>
+            <a class="site-header__tool" href="#hero">
+              <img class="site-header__tool-icon" src="./images/used/icon-shopsearch.svg" alt="" aria-hidden="true">
+              <span>店舗検索</span>
+            </a>
+            <a class="site-header__tool" href="#news">
+              <img class="site-header__tool-icon" src="./images/used/icon-onlineshop.svg" alt="" aria-hidden="true">
+              <span>オンライン<br>ショップ</span>
+            </a>
+          </nav>
+        </div>
+        <nav id="primary-navigation" class="part-box site-header__nav" aria-label="メインナビゲーション">
+          <a class="site-nav__link" href="#hero">
+            <img class="site-nav__icon" src="./images/used/icon-character.svg" alt="" aria-hidden="true">
+            <span>キャラクター</span>
+          </a>
+          <a class="site-nav__link" href="#hero">
+            <img class="site-nav__icon" src="./images/used/icon-goods.svg" alt="" aria-hidden="true">
+            <span>グッズ</span>
+          </a>
+          <a class="site-nav__link" href="#hero">
+            <img class="site-nav__icon" src="./images/used/icon-movie.svg" alt="" aria-hidden="true">
+            <span>ムービー</span>
+          </a>
+          <a class="site-nav__link" href="#hero">
+            <img class="site-nav__icon" src="./images/used/icon-digital.svg" alt="" aria-hidden="true">
+            <span>デジタル</span>
+          </a>
+          <a class="site-nav__link" href="#hero">
+            <img class="site-nav__icon" src="./images/used/icon-spots.svg" alt="" aria-hidden="true">
+            <span>スポット</span>
+          </a>
+          <a class="site-nav__link" href="#news">
+            <img class="site-nav__icon" src="./images/used/icon-news.svg" alt="" aria-hidden="true">
+            <span>ニュース</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <section
+      class="mobile-menu outer-box"
+      id="mobile-main-menu"
+      data-js="mobile-menu"
+      role="dialog"
+      aria-modal="true"
+      aria-label="メインメニュー"
+      aria-hidden="true"
+      inert
+    >
+      <div class="part-box mobile-menu__header">
+        <div class="part-box mobile-menu__account">
+          <button class="mobile-menu__close" type="button" data-js="menu-close" aria-label="メニューを閉じる">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </button>
+          <a class="mobile-menu__login" href="#news" data-js="menu-link">
+            <img src="./images/used/icon-mypage-portal.svg" alt="" aria-hidden="true">
+            <span>ログイン</span>
+          </a>
+        </div>
+        <a class="mobile-menu__logo" href="./index.html" aria-label="Sanrio ホーム">
+          <img src="./images/used/logo.svg" alt="Sanrio">
+        </a>
+        <nav class="part-box mobile-menu__tools" aria-label="ユーティリティ">
+          <a class="mobile-menu__tool" href="#hero" data-js="menu-link">
+            <img src="./images/used/icon-shopsearch.svg" alt="" aria-hidden="true">
+            <span>店舗検索</span>
+          </a>
+          <a class="mobile-menu__tool" href="#news" data-js="menu-link">
+            <img src="./images/used/icon-onlineshop.svg" alt="" aria-hidden="true">
+            <span>オンライン<br>ショップ</span>
+          </a>
+        </nav>
+      </div>
+      <div class="mobile-menu__scroll">
+        <div class="mobile-menu__content">
+          <div class="mobile-menu__search" role="search">
+            <label class="visually-hidden" for="mobile-menu-search">キーワードを入力</label>
+            <img src="./images/used/icon-mysearch.svg" alt="" aria-hidden="true">
+            <input id="mobile-menu-search" type="search" placeholder="キーワードを入力">
+          </div>
+          <a class="mobile-menu__search-help" href="#news" data-js="menu-link">
+            <span aria-hidden="true">⌄</span>
+            詳細検索はコチラ
+          </a>
+          <nav class="mobile-menu__navigation" aria-label="メインナビゲーション">
+            <a class="mobile-menu__category" href="#hero" data-js="menu-link">
+              <img src="./images/used/icon-character.svg" alt="" aria-hidden="true">
+              <span>キャラクター</span>
+              <span class="mobile-menu__category-arrow" aria-hidden="true"></span>
+            </a>
+            <a class="mobile-menu__category" href="#hero" data-js="menu-link">
+              <img src="./images/used/icon-goods.svg" alt="" aria-hidden="true">
+              <span>グッズ</span>
+              <span class="mobile-menu__category-arrow" aria-hidden="true"></span>
+            </a>
+            <a class="mobile-menu__category" href="#hero" data-js="menu-link">
+              <img src="./images/used/icon-movie.svg" alt="" aria-hidden="true">
+              <span>ムービー</span>
+              <span class="mobile-menu__category-arrow" aria-hidden="true"></span>
+            </a>
+            <a class="mobile-menu__category" href="#hero" data-js="menu-link">
+              <img src="./images/used/icon-digital.svg" alt="" aria-hidden="true">
+              <span>デジタル</span>
+              <span class="mobile-menu__category-arrow" aria-hidden="true"></span>
+            </a>
+            <a class="mobile-menu__category" href="#hero" data-js="menu-link">
+              <img src="./images/used/icon-spots.svg" alt="" aria-hidden="true">
+              <span>スポット</span>
+              <span class="mobile-menu__category-arrow" aria-hidden="true"></span>
+            </a>
+            <a class="mobile-menu__category" href="#news" data-js="menu-link">
+              <img src="./images/used/icon-news.svg" alt="" aria-hidden="true">
+              <span>ニュース</span>
+              <span class="mobile-menu__category-arrow" aria-hidden="true"></span>
+            </a>
+          </nav>
+          <a class="mobile-menu__banner" href="#news" data-js="menu-link">
+            <img src="./images/used/sanrio-dt_25.png" alt="Sanrio+とは？ 大好きなキャラクターがお部屋で待ってるよ！ お話ししたり、気になるニュースをチェック！">
+          </a>
+        </div>
+        <footer class="mobile-menu__footer">
+          <p class="mobile-menu__follow">FOLLOW</p>
+          <nav class="part-box mobile-menu__social" aria-label="ソーシャルメディア">
+            <a class="mobile-menu__social-link mobile-menu__social-link--facebook" href="https://www.facebook.com/Sanrio/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <span aria-hidden="true">f</span>
+            </a>
+            <a class="mobile-menu__social-link mobile-menu__social-link--x" href="https://x.com/sanrio_news" target="_blank" rel="noopener noreferrer" aria-label="X">
+              <span aria-hidden="true">𝕏</span>
+            </a>
+            <a class="mobile-menu__social-link mobile-menu__social-link--youtube" href="https://www.youtube.com/user/sanrio" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+              <span aria-hidden="true"></span>
+            </a>
+          </nav>
+          <nav class="part-box mobile-menu__related" aria-label="関連リンク">
+            <a href="https://www.sanrio.co.jp/" target="_blank" rel="noopener noreferrer">サンリオ公式サイト</a>
+            <a href="https://www.sanrio.co.jp/characters/" target="_blank" rel="noopener noreferrer">キャラクター紹介</a>
+          </nav>
+        </footer>
+      </div>
+    </section>
+
+    <aside class="quick-links outer-box" aria-label="会員・ログイン">
+      <a class="quick-links__link" href="#hero">
+        <img class="quick-links__icon" src="./images/used/icon-key.svg" alt="" aria-hidden="true">
+        <span>ログイン</span>
+      </a>
+      <a class="quick-links__link" href="#news">
+        <img class="quick-links__icon" src="./images/used/icon-sanrioplus-card.svg" alt="" aria-hidden="true">
+        <span>Sanrio+<br>会員登録</span>
+      </a>
+      <a class="quick-links__link" href="#news">
+        <img class="quick-links__icon" src="./images/used/icon-ribon.svg" alt="" aria-hidden="true">
+        <span>Sanrio+<br>とは？</span>
+      </a>
+    </aside>
+
+    <main id="main-content" class="site-main">
+      <section id="hero" class="hero-section outer-box" aria-label="おすすめコンテンツ">
+        <div class="inner-box hero-section__inner">
+          <div class="hero-carousel">
+            <div class="hero-stage">
+              <div class="hero-track" data-js="slide-track">
+                <article class="hero-card hero-card--side hero-card--left">
+                  <img class="hero-card__image" data-js="left-image" src="./images/used/sanrio-dt_37.jpg" alt="" aria-hidden="true">
+                </article>
+                <article class="hero-card hero-card--center" data-js="active-slide">
+                  <img class="hero-card__image" data-js="active-image" src="./images/used/sanrio-dt_38.jpg" alt="おともだちリップチャーム">
+                </article>
+                <article class="hero-card hero-card--side hero-card--right">
+                  <img class="hero-card__image" data-js="right-image" src="./images/used/sanrio-dt_60.jpg" alt="" aria-hidden="true">
+                </article>
+              </div>
+              <button
+                class="hero-controls__arrow hero-controls__arrow--previous"
+                type="button"
+                data-js="previous-slide"
+                aria-label="前のおすすめ"
+              >
+                <span class="hero-controls__circle" aria-hidden="true"></span>
+                <span class="hero-controls__arrow-icon" aria-hidden="true"></span>
+              </button>
+              <button
+                class="hero-controls__arrow hero-controls__arrow--next"
+                type="button"
+                data-js="next-slide"
+                aria-label="次のおすすめ"
+              >
+                <span class="hero-controls__circle" aria-hidden="true"></span>
+                <span class="hero-controls__arrow-icon" aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="hero-controls">
+              <div class="hero-controls__copy">
+                <h1 class="hero-controls__title" data-js="slide-title">おともだちリップチャーム</h1>
+                <p class="hero-controls__description" data-js="slide-description">おともだちと一緒におでかけしたくなる、かわいいリップチャームが登場。</p>
+              </div>
+              <div class="character-decoration" aria-hidden="true">
+                <div class="inner-box character-decoration__inner">
+                  <div class="character-decoration__side character-decoration__side--left">
+                    <img
+                      class="character-decoration__image character-decoration__image--left"
+                      src="./images/used/sanrio-dt_73.png"
+                      alt=""
+                    >
+                  </div>
+                  <div class="character-decoration__side character-decoration__side--right">
+                    <img
+                      class="character-decoration__image character-decoration__image--right"
+                      src="./images/used/sanrio-dt_74.png"
+                      alt=""
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="part-box hero-controls__pagination" role="group" aria-label="おすすめを選択">
+                <button
+                  class="hero-controls__dot"
+                  type="button"
+                  data-js="slide-dot"
+                  data-slide-index="0"
+                  aria-label="おすすめ 1"
+                  aria-current="true"
+                ></button>
+                <button
+                  class="hero-controls__dot"
+                  type="button"
+                  data-js="slide-dot"
+                  data-slide-index="1"
+                  aria-label="おすすめ 2"
+                  aria-current="false"
+                ></button>
+                <button
+                  class="hero-controls__dot"
+                  type="button"
+                  data-js="slide-dot"
+                  data-slide-index="2"
+                  aria-label="おすすめ 3"
+                  aria-current="false"
+                ></button>
+                <button
+                  class="hero-controls__dot"
+                  type="button"
+                  data-js="slide-dot"
+                  data-slide-index="3"
+                  aria-label="おすすめ 4"
+                  aria-current="false"
+                ></button>
+              </div>
+              <p class="visually-hidden" data-js="slide-status" aria-live="polite">1 / 4</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="news" class="news-section outer-box" aria-labelledby="news-heading">
+        <div class="inner-box news-section__inner">
+          <div class="part-box news-panel">
+            <div class="news-panel__heading">
+              <h2 id="news-heading">重要なお知らせ</h2>
+              <a class="news-panel__more" href="#news">もっと見る ⊕</a>
+            </div>
+            <ul class="news-panel__list">
+              <li class="news-panel__item">
+                <time class="news-panel__date" datetime="2026-10-29">2026/10/29</time>
+                <span>VIVANT × サンリオキャラクターズ コラボレーション終了に関するお知らせ</span>
+              </li>
+              <li class="news-panel__item">
+                <time class="news-panel__date" datetime="2026-10-14">2026/10/14</time>
+                <span>商品の自主回収に関するお詫びとお知らせ</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </body>
+</html>
