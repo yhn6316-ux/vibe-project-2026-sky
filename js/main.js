@@ -31,9 +31,31 @@ const status = document.querySelector('[data-js="slide-status"]');
 const dots = Array.from(document.querySelectorAll('[data-js="slide-dot"]'));
 const previousButton = document.querySelector('[data-js="previous-slide"]');
 const nextButton = document.querySelector('[data-js="next-slide"]');
+const headerSearchToggle = document.querySelector('[data-js="header-search-toggle"]');
+const headerSearchOverlay = document.querySelector('[data-js="header-search-overlay"]');
+const headerSearchPanel = document.querySelector("#header-search-panel");
+const headerSearchForm = document.querySelector('[data-js="header-search-form"]');
+const headerSearchInput = document.querySelector("#header-search-keyword");
+const headerSearchCategoryControl = document.querySelector('[data-js="header-search-category-control"]');
+const headerSearchCategory = document.querySelector("#header-search-category");
+const headerSearchCategoryToggle = document.querySelector('[data-js="header-search-category-toggle"]');
+const headerSearchCategoryValue = document.querySelector('[data-js="header-search-category-value"]');
+const headerSearchCategoryOptions = document.querySelector('[data-js="header-search-category-options"]');
+const headerSearchCategoryOptionItems = Array.from(
+  document.querySelectorAll(".site-search__category-option"),
+);
 const menuToggle = document.querySelector('[data-js="menu-toggle"]');
+const siteHeader = document.querySelector(".site-header");
 const mobileMenu = document.querySelector('[data-js="mobile-menu"]');
-const menuClose = document.querySelector('[data-js="menu-close"]');
+const menuSearchInput = document.querySelector("#mobile-menu-search");
+const searchHelpToggle = document.querySelector('[data-js="search-help-toggle"]');
+const detailSearchPanel = document.querySelector('[data-js="search-panel"]');
+const detailSearchForm = document.querySelector('[data-js="detail-search-form"]');
+const detailSearchInput = document.querySelector("#mobile-menu-search-detail");
+const searchModeInput = document.querySelector("#mobile-menu-search-category");
+const searchModeToggle = document.querySelector('[data-js="search-mode-toggle"]');
+const searchModeLabel = document.querySelector('[data-js="search-mode-label"]');
+const searchModeOptions = document.querySelector('[data-js="search-mode-options"]');
 
 if (
   !(
@@ -45,9 +67,30 @@ if (
     && status instanceof HTMLElement
     && previousButton instanceof HTMLButtonElement
     && nextButton instanceof HTMLButtonElement
+    && headerSearchToggle instanceof HTMLButtonElement
+    && headerSearchOverlay instanceof HTMLElement
+    && headerSearchPanel instanceof HTMLElement
+    && headerSearchForm instanceof HTMLFormElement
+    && headerSearchInput instanceof HTMLInputElement
+    && headerSearchCategoryControl instanceof HTMLElement
+    && headerSearchCategory instanceof HTMLInputElement
+    && headerSearchCategoryToggle instanceof HTMLButtonElement
+    && headerSearchCategoryValue instanceof HTMLElement
+    && headerSearchCategoryOptions instanceof HTMLElement
+    && headerSearchCategoryOptionItems.length > 0
+    && headerSearchCategoryOptionItems.every((option) => option instanceof HTMLElement)
     && menuToggle instanceof HTMLButtonElement
+    && siteHeader instanceof HTMLElement
     && mobileMenu instanceof HTMLElement
-    && menuClose instanceof HTMLButtonElement
+    && menuSearchInput instanceof HTMLInputElement
+    && searchHelpToggle instanceof HTMLButtonElement
+    && detailSearchPanel instanceof HTMLElement
+    && detailSearchForm instanceof HTMLFormElement
+    && detailSearchInput instanceof HTMLInputElement
+    && searchModeInput instanceof HTMLInputElement
+    && searchModeToggle instanceof HTMLButtonElement
+    && searchModeLabel instanceof HTMLElement
+    && searchModeOptions instanceof HTMLElement
     && dots.length === slides.length
     && dots.every((dot) => dot instanceof HTMLButtonElement)
   )
@@ -63,6 +106,9 @@ const pendingDirections = [];
 let autoplayTimer;
 let contentRevealTimer;
 let isMobileMenuOpen = false;
+let isHeaderSearchOpen = false;
+let isHeaderSearchCategoryOpen = false;
+let headerSearchCloseTimer;
 let mobileMenuCloseTimer;
 let pageScrollPosition = 0;
 let savedBodyStyles;
@@ -301,6 +347,7 @@ const closeMobileMenu = (targetId, restoreFocus = true, immediate = false) => {
   restoreMenuFocusOnClose = restoreFocus;
   menuToggle.setAttribute("aria-expanded", "false");
   menuToggle.setAttribute("aria-label", "メニューを開く");
+  siteHeader.classList.remove("is-menu-open");
   mobileMenu.classList.remove("is-open");
   window.clearTimeout(mobileMenuCloseTimer);
   if (immediate) {
@@ -334,7 +381,7 @@ const openMobileMenu = () => {
     overflow: document.body.style.overflow,
   };
   backgroundInertStates = Array.from(document.body.children)
-    .filter((element) => element !== mobileMenu)
+    .filter((element) => element !== mobileMenu && !element.contains(menuToggle))
     .map((element) => [element, element.inert]);
   backgroundInertStates.forEach(([element]) => {
     element.inert = true;
@@ -347,13 +394,122 @@ const openMobileMenu = () => {
 
   menuToggle.setAttribute("aria-expanded", "true");
   menuToggle.setAttribute("aria-label", "メニューを閉じる");
+  siteHeader.classList.add("is-menu-open");
   mobileMenu.inert = false;
   mobileMenu.setAttribute("aria-hidden", "false");
   mobileMenu.classList.add("is-visible");
   void mobileMenu.offsetHeight;
   mobileMenu.classList.add("is-open");
-  menuClose.focus();
+  menuSearchInput.focus();
   window.clearTimeout(autoplayTimer);
+};
+
+const finishHeaderSearchClose = () => {
+  if (isHeaderSearchOpen) {
+    return;
+  }
+
+  window.clearTimeout(headerSearchCloseTimer);
+  headerSearchOverlay.classList.remove("is-closing");
+  headerSearchOverlay.setAttribute("aria-hidden", "true");
+};
+
+const closeHeaderSearchCategory = (restoreFocus = false) => {
+  if (!isHeaderSearchCategoryOpen) {
+    return;
+  }
+
+  isHeaderSearchCategoryOpen = false;
+  headerSearchCategoryControl.classList.remove("is-open");
+  headerSearchCategoryToggle.setAttribute("aria-expanded", "false");
+  headerSearchCategoryOptions.setAttribute("aria-hidden", "true");
+  headerSearchCategoryOptions.inert = true;
+  if (restoreFocus) {
+    headerSearchCategoryToggle.focus();
+  }
+};
+
+const openHeaderSearchCategory = (focusSelectedOption = false) => {
+  if (!isHeaderSearchCategoryOpen) {
+    isHeaderSearchCategoryOpen = true;
+    headerSearchCategoryControl.classList.add("is-open");
+    headerSearchCategoryToggle.setAttribute("aria-expanded", "true");
+    headerSearchCategoryOptions.setAttribute("aria-hidden", "false");
+    headerSearchCategoryOptions.inert = false;
+  }
+
+  if (focusSelectedOption) {
+    const selectedOption = headerSearchCategoryOptions.querySelector('[aria-selected="true"]');
+    if (!(selectedOption instanceof HTMLElement)) {
+      throw new Error("검색 방식 선택 항목을 찾을 수 없습니다.");
+    }
+    selectedOption.focus();
+  }
+};
+
+const selectHeaderSearchCategory = (value) => {
+  const selectedOption = headerSearchCategoryOptionItems.find(
+    (option) => option.dataset.value === value,
+  );
+  if (!(selectedOption instanceof HTMLElement)) {
+    throw new Error(`검색 방식 선택 항목을 찾을 수 없습니다: ${value}`);
+  }
+
+  const label = selectedOption.dataset.triggerLabel;
+  if (!label) {
+    throw new Error("검색 방식 선택 항목의 이름이 비어 있습니다.");
+  }
+
+  headerSearchCategory.value = value;
+  headerSearchCategoryValue.textContent = label;
+  headerSearchCategoryOptionItems.forEach((option) => {
+    option.setAttribute("aria-selected", String(option === selectedOption));
+  });
+  headerSearchCategory.dispatchEvent(new Event("input", { bubbles: true }));
+  headerSearchCategory.dispatchEvent(new Event("change", { bubbles: true }));
+};
+
+const closeHeaderSearch = (restoreFocus = true) => {
+  if (!isHeaderSearchOpen) {
+    return;
+  }
+
+  closeHeaderSearchCategory();
+  selectHeaderSearchCategory("all");
+  headerSearchInput.value = "";
+  isHeaderSearchOpen = false;
+  headerSearchToggle.setAttribute("aria-expanded", "false");
+  headerSearchOverlay.inert = true;
+  headerSearchOverlay.setAttribute("aria-hidden", "true");
+  headerSearchOverlay.classList.remove("is-open");
+  headerSearchOverlay.classList.add("is-closing");
+  if (restoreFocus) {
+    headerSearchToggle.focus();
+  }
+  window.clearTimeout(headerSearchCloseTimer);
+  headerSearchCloseTimer = window.setTimeout(
+    finishHeaderSearchClose,
+    parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--duration-search")) || 550,
+  );
+};
+
+const openHeaderSearch = () => {
+  if (
+    isHeaderSearchOpen
+    || window.matchMedia("(max-width: 768px)").matches
+  ) {
+    return;
+  }
+
+  isHeaderSearchOpen = true;
+  window.clearTimeout(headerSearchCloseTimer);
+  headerSearchOverlay.classList.remove("is-closing");
+  headerSearchOverlay.inert = false;
+  headerSearchOverlay.setAttribute("aria-hidden", "false");
+  void headerSearchPanel.offsetHeight;
+  headerSearchOverlay.classList.add("is-open");
+  headerSearchToggle.setAttribute("aria-expanded", "true");
+  headerSearchInput.focus();
 };
 
 previousButton.addEventListener("click", () => {
@@ -378,6 +534,194 @@ dots.forEach((dot) => {
 
 document.addEventListener("visibilitychange", startAutoplay);
 
+headerSearchToggle.addEventListener("click", () => {
+  if (isHeaderSearchOpen) {
+    closeHeaderSearch();
+  } else {
+    openHeaderSearch();
+  }
+});
+headerSearchOverlay.addEventListener("click", (event) => {
+  if (
+    !(event.target instanceof Element)
+    || !event.target.closest('[data-js="header-search-close"]')
+  ) {
+    return;
+  }
+
+  closeHeaderSearch();
+});
+headerSearchCategoryToggle.addEventListener("click", () => {
+  if (!isHeaderSearchCategoryOpen) {
+    openHeaderSearchCategory();
+  }
+});
+headerSearchCategoryToggle.addEventListener("keydown", (event) => {
+  if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+    event.preventDefault();
+    openHeaderSearchCategory(true);
+  } else if (event.key === "Escape" && isHeaderSearchCategoryOpen) {
+    event.preventDefault();
+    closeHeaderSearchCategory();
+  }
+});
+headerSearchCategoryOptions.addEventListener("click", (event) => {
+  if (!(event.target instanceof Element)) {
+    return;
+  }
+
+  const option = event.target.closest(".site-search__category-option");
+  if (!(option instanceof HTMLElement) || !headerSearchCategoryOptionItems.includes(option)) {
+    return;
+  }
+
+  const value = option.dataset.value;
+  if (!value) {
+    throw new Error("검색 방식 선택 항목에 값이 없습니다.");
+  }
+  selectHeaderSearchCategory(value);
+});
+headerSearchCategoryOptions.addEventListener("keydown", (event) => {
+  if (!(event.target instanceof HTMLElement)) {
+    return;
+  }
+
+  const currentIndex = headerSearchCategoryOptionItems.indexOf(event.target);
+  if (currentIndex < 0) {
+    return;
+  }
+
+  if (event.key === "Escape") {
+    event.preventDefault();
+    event.stopPropagation();
+    closeHeaderSearchCategory(true);
+    return;
+  }
+
+  if (event.key === "Tab") {
+    closeHeaderSearchCategory();
+    if (event.shiftKey) {
+      event.preventDefault();
+      headerSearchCategoryToggle.focus();
+    } else {
+      event.preventDefault();
+      headerSearchInput.focus();
+    }
+    return;
+  }
+
+  let nextIndex = currentIndex;
+  if (event.key === "ArrowDown") {
+    nextIndex = (currentIndex + 1) % headerSearchCategoryOptionItems.length;
+  } else if (event.key === "ArrowUp") {
+    nextIndex = (currentIndex - 1 + headerSearchCategoryOptionItems.length)
+      % headerSearchCategoryOptionItems.length;
+  } else if (event.key === "Home") {
+    nextIndex = 0;
+  } else if (event.key === "End") {
+    nextIndex = headerSearchCategoryOptionItems.length - 1;
+  } else if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    const value = event.target.dataset.value;
+    if (!value) {
+      throw new Error("검색 방식 선택 항목에 값이 없습니다.");
+    }
+    selectHeaderSearchCategory(value);
+    return;
+  } else {
+    return;
+  }
+
+  event.preventDefault();
+  headerSearchCategoryOptionItems[nextIndex].focus();
+});
+document.addEventListener("click", (event) => {
+  if (
+    isHeaderSearchCategoryOpen
+    && event.target instanceof Node
+    && !headerSearchCategoryControl.contains(event.target)
+  ) {
+    closeHeaderSearchCategory();
+  }
+
+  if (
+    !isHeaderSearchOpen
+    || !(event.target instanceof Node)
+    || headerSearchPanel.contains(event.target)
+    || headerSearchToggle.contains(event.target)
+  ) {
+    return;
+  }
+
+  closeHeaderSearch();
+});
+headerSearchPanel.addEventListener("transitionend", (event) => {
+  if (event.target === headerSearchPanel && event.propertyName === "clip-path" && !isHeaderSearchOpen) {
+    finishHeaderSearchClose();
+  }
+});
+headerSearchPanel.addEventListener("click", (event) => {
+  if (!(event.target instanceof Element)) {
+    return;
+  }
+
+  const keywordButton = event.target.closest("[data-header-search-keyword]");
+  if (keywordButton instanceof HTMLButtonElement) {
+    keywordButton.setAttribute(
+      "aria-pressed",
+      String(keywordButton.getAttribute("aria-pressed") !== "true"),
+    );
+  }
+});
+headerSearchForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+});
+headerSearchForm.addEventListener("reset", () => {
+  headerSearchCategory.value = "all";
+  headerSearchForm.querySelectorAll("[data-header-search-keyword]").forEach((button) => {
+    button.setAttribute("aria-pressed", "false");
+  });
+  window.setTimeout(() => {
+    const selectedOption = headerSearchCategoryOptionItems.find(
+      (option) => option.dataset.value === headerSearchCategory.value,
+    );
+    if (!(selectedOption instanceof HTMLElement)) {
+      throw new Error("초기화된 검색 방식 선택 항목을 찾을 수 없습니다.");
+    }
+    const label = selectedOption.dataset.triggerLabel;
+    if (!label) {
+      throw new Error("검색 방식 선택 항목의 이름이 비어 있습니다.");
+    }
+    headerSearchCategoryValue.textContent = label;
+    headerSearchCategoryOptionItems.forEach((option) => {
+      option.setAttribute("aria-selected", String(option === selectedOption));
+    });
+  });
+});
+headerSearchForm.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    event.preventDefault();
+    closeHeaderSearch();
+    return;
+  }
+
+  if (event.key !== "Tab") {
+    return;
+  }
+  const focusableElements = Array.from(
+    headerSearchPanel.querySelectorAll('button:not(:disabled), input:not(:disabled), select:not(:disabled)'),
+  );
+  const firstElement = focusableElements[0];
+  const lastElement = focusableElements[focusableElements.length - 1];
+  if (event.shiftKey && document.activeElement === firstElement) {
+    event.preventDefault();
+    lastElement?.focus();
+  } else if (!event.shiftKey && document.activeElement === lastElement) {
+    event.preventDefault();
+    firstElement?.focus();
+  }
+});
+
 menuToggle.addEventListener("click", () => {
   if (isMobileMenuOpen) {
     closeMobileMenu();
@@ -386,9 +730,98 @@ menuToggle.addEventListener("click", () => {
   }
 });
 
-menuClose.addEventListener("click", () => closeMobileMenu());
+searchHelpToggle.addEventListener("click", () => {
+  const isExpanded = searchHelpToggle.getAttribute("aria-expanded") === "true";
+  searchHelpToggle.setAttribute("aria-expanded", String(!isExpanded));
+  detailSearchPanel.setAttribute("aria-hidden", String(isExpanded));
+  detailSearchPanel.inert = isExpanded;
+  detailSearchPanel.classList.toggle("is-expanded", !isExpanded);
+});
+detailSearchPanel.addEventListener("click", (event) => {
+  if (!(event.target instanceof Element)) {
+    return;
+  }
+
+  const searchModeButton = event.target.closest("[data-search-mode]");
+  if (searchModeButton instanceof HTMLButtonElement) {
+    searchModeInput.value = searchModeButton.dataset.searchMode ?? "";
+    searchModeLabel.textContent = searchModeInput.value === "include-all"
+      ? "すべて"
+      : searchModeButton.textContent.trim();
+    searchModeOptions.querySelectorAll('[role="option"]').forEach((option) => {
+      option.setAttribute("aria-selected", String(option === searchModeButton));
+    });
+    searchModeToggle.setAttribute("aria-expanded", "false");
+    searchModeOptions.setAttribute("aria-hidden", "true");
+    searchModeOptions.inert = true;
+    searchModeOptions.classList.remove("is-expanded");
+    searchModeToggle.focus();
+    return;
+  }
+
+  const keywordButton = event.target.closest("[data-search-keyword]");
+  if (keywordButton instanceof HTMLButtonElement) {
+    const isPressed = keywordButton.getAttribute("aria-pressed") === "true";
+    keywordButton.setAttribute("aria-pressed", String(!isPressed));
+  }
+});
+searchModeToggle.addEventListener("click", () => {
+  const isExpanded = searchModeToggle.getAttribute("aria-expanded") === "true";
+  searchModeToggle.setAttribute("aria-expanded", String(!isExpanded));
+  searchModeOptions.setAttribute("aria-hidden", String(isExpanded));
+  searchModeOptions.inert = isExpanded;
+  searchModeOptions.classList.toggle("is-expanded", !isExpanded);
+});
+document.addEventListener("click", (event) => {
+  if (
+    !(event.target instanceof Node)
+    || searchModeToggle.getAttribute("aria-expanded") !== "true"
+    || searchModeToggle.contains(event.target)
+    || searchModeOptions.contains(event.target)
+  ) {
+    return;
+  }
+
+  searchModeToggle.setAttribute("aria-expanded", "false");
+  searchModeOptions.setAttribute("aria-hidden", "true");
+  searchModeOptions.inert = true;
+  searchModeOptions.classList.remove("is-expanded");
+});
+searchModeOptions.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    event.preventDefault();
+    searchModeToggle.setAttribute("aria-expanded", "false");
+    searchModeOptions.setAttribute("aria-hidden", "true");
+    searchModeOptions.inert = true;
+    searchModeOptions.classList.remove("is-expanded");
+    searchModeToggle.focus();
+  }
+});
+detailSearchForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+});
+detailSearchForm.addEventListener("reset", () => {
+  searchModeInput.value = "include-all";
+  searchModeLabel.textContent = "すべて";
+  searchModeOptions.querySelectorAll('[role="option"]').forEach((option) => {
+    option.setAttribute("aria-selected", String(option instanceof HTMLButtonElement && option.dataset.searchMode === "include-all"));
+  });
+  detailSearchInput.value = "";
+  detailSearchForm.querySelectorAll("[data-search-keyword]").forEach((button) => {
+    button.setAttribute("aria-pressed", "false");
+  });
+  searchModeToggle.setAttribute("aria-expanded", "false");
+  searchModeOptions.setAttribute("aria-hidden", "true");
+  searchModeOptions.inert = true;
+  searchModeOptions.classList.remove("is-expanded");
+  searchHelpToggle.setAttribute("aria-expanded", "false");
+  detailSearchPanel.setAttribute("aria-hidden", "true");
+  detailSearchPanel.inert = true;
+  detailSearchPanel.classList.remove("is-expanded");
+});
+
 mobileMenu.addEventListener("transitionend", (event) => {
-  if (event.target === mobileMenu && event.propertyName === "transform" && !isMobileMenuOpen) {
+  if (event.target === mobileMenu && event.propertyName === "clip-path" && !isMobileMenuOpen) {
     finishMobileMenuClose();
   }
 });
@@ -430,6 +863,9 @@ mobileMenu.addEventListener("keydown", (event) => {
   }
 });
 window.addEventListener("resize", () => {
+  if (isHeaderSearchOpen && window.matchMedia("(max-width: 768px)").matches) {
+    closeHeaderSearch(false);
+  }
   if (isMobileMenuOpen && !window.matchMedia("(max-width: 768px)").matches) {
     closeMobileMenu(undefined, false, true);
   }

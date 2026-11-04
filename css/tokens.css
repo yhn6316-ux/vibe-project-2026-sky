@@ -4,22 +4,27 @@
   --color-surface: #fff8fb;
   --color-surface-muted: #f7f5f6;
   --color-primary: #f49cc2;
+  --color-secondary: #68bfd0;
+  --color-search-form: #f0c1d3;
   --color-primary-deep: #70203f;
   --color-primary-soft: #ffe3ef;
   --filter-icon-white: brightness(0) invert(1);
-  --color-secondary: #68bfd0;
+  --filter-icon-primary: brightness(0) saturate(100%) invert(77%) sepia(22%) saturate(1000%) hue-rotate(291deg) brightness(98%) contrast(92%);
+  --filter-icon-primary-strong: brightness(0) saturate(100%) invert(77%) sepia(22%) saturate(1000%) hue-rotate(291deg) brightness(98%) contrast(92%);
+  --filter-icon-white-strong: brightness(0) invert(1);
+  --filter-icon-menu-accent: brightness(0) saturate(100%) invert(77%) sepia(31%) saturate(562%) hue-rotate(145deg) brightness(90%) contrast(88%);
   --color-secondary-deep: #347e8b;
-  --color-menu: var(--color-primary);
-  --color-menu-text: var(--color-primary-deep);
-  --color-menu-divider: rgb(112 32 63 / 35%);
-  --color-social-facebook: #1877f2;
-  --color-social-youtube: #ff0000;
+  --color-menu: #8bd0dd;
+  --color-menu-text: var(--color-white);
+  --color-menu-accent: var(--color-menu);
+  --color-menu-divider: rgb(255 255 255 / 70%);
   --color-text: #49434a;
   --color-text-muted: #726d73;
   --color-border: #e8e1e5;
   --color-white: #ffffff;
   --color-dot: #dedade;
   --color-nav-divider: rgb(112 32 63 / 30%);
+  --color-search-backdrop: rgb(42 35 40 / 52%);
 
   --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
     "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
@@ -53,6 +58,7 @@
   --radius-sm: 0.5rem;
   --radius-md: 1rem;
   --radius-lg: 1.5rem;
+  --radius-menu-field: 0.5rem;
   --radius-pill: 62.4375rem;
   --border-width-thin: 0.0625rem;
   --border-width-strong: 0.125rem;
@@ -61,9 +67,9 @@
   --size-mobile-content: 35rem;
   --size-header-top: 6.25rem;
   --size-header-menu: 1.5rem;
+  --size-header-menu-line: 1.25rem;
   --size-header-tools: 2.25rem;
   --size-logo-mobile: 6rem;
-  --size-logo-compact: 4.75rem;
   --size-logo-desktop: 9.5rem;
   --size-icon: 1.5rem;
   --size-nav-row: 3.6875rem;
@@ -79,13 +85,30 @@
   --size-quick-link: 4rem;
   --size-decoration-mobile: 7.5rem;
   --size-decoration-desktop: 10rem;
+  --size-search-overlay-height: 20rem;
+  --size-search-form-width: 63.75rem;
+  --size-search-form-height: 16.8rem;
+  --size-search-decoration: 2.8125rem;
+  --size-search-label-column: 8rem;
+  --size-search-category-column: 9rem;
+  --size-search-select-arrow: 1.25rem;
+  --offset-search-select-arrow: 0.875rem;
+  --size-search-select-arrow-stroke: 0.1875rem;
+  --size-search-submit: 27.5rem;
+  --size-search-submit-icon: 1.75rem;
+  --size-search-submit-icon-glyph: 1.25rem;
+  --size-search-submit-label-line: 1.6rem;
+  --size-search-reset-icon: 1.225rem;
+  --font-size-search-reset-icon: 0.875rem;
   --size-visually-hidden: 0.0625rem;
   --offset-quick-links: 15rem;
 
   --shadow-card: 0 0.25rem 1rem rgb(82 54 68 / 8%);
   --z-header: 10;
-  --z-quick-links: 20;
+  --z-quick-links: 9;
   --z-mobile-menu: 30;
+  --duration-search: 550ms;
+  --duration-search-button: 600ms;
 
   --content-width: 90rem;
   --header-content-width: 60rem;
@@ -97,6 +120,7 @@
   --mobile-news-width: 35rem;
   --hover-scale: 1.12;
   --focus-outline: 0.1875rem solid var(--color-secondary-deep);
+  --focus-outline-menu: 0.1875rem solid var(--color-menu-accent);
   --duration-fast: 120ms;
   --duration-base: 200ms;
   --duration-slide: 500ms;

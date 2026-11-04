@@ -37,10 +37,16 @@
             <img src="./images/used/logo.svg" alt="Sanrio">
           </a>
           <nav class="part-box site-header__tools" aria-label="ユーティリティ">
-            <a class="site-header__tool" href="#news">
+            <button
+              class="site-header__tool"
+              type="button"
+              data-js="header-search-toggle"
+              aria-expanded="false"
+              aria-controls="header-search-panel"
+            >
               <img class="site-header__tool-icon" src="./images/used/icon-mysearch.svg" alt="" aria-hidden="true">
               <span>探す</span>
-            </a>
+            </button>
             <a class="site-header__tool" href="#hero">
               <img class="site-header__tool-icon" src="./images/used/icon-shopsearch.svg" alt="" aria-hidden="true">
               <span>店舗検索</span>
@@ -78,6 +84,111 @@
           </a>
         </nav>
       </div>
+      <div
+        class="site-header__search-overlay"
+        data-js="header-search-overlay"
+        aria-hidden="true"
+        inert
+      >
+        <button
+          class="site-header__search-backdrop"
+          type="button"
+          data-js="header-search-close"
+          aria-label="検索を閉じる"
+          tabindex="-1"
+        ></button>
+        <section
+          class="site-header__search-panel"
+          id="header-search-panel"
+          role="dialog"
+          aria-label="サイト内検索"
+        >
+          <form class="site-search" data-js="header-search-form" role="search">
+            <div class="site-search__fields">
+              <label class="site-search__label" for="header-search-keyword">
+                <img src="./images/used/icon-berry.svg" alt="" aria-hidden="true">
+                フリーワード
+              </label>
+              <span class="visually-hidden" id="header-search-category-label">検索方式</span>
+              <div class="site-search__category-control" data-js="header-search-category-control">
+                <input
+                  type="hidden"
+                  id="header-search-category"
+                  name="category"
+                  value="all"
+                >
+                <button
+                  class="site-search__category"
+                  type="button"
+                  role="combobox"
+                  aria-labelledby="header-search-category-label"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                  aria-controls="header-search-category-options"
+                  data-js="header-search-category-toggle"
+                >
+                  <span data-js="header-search-category-value">すべて</span>
+                </button>
+                <div
+                  class="site-search__category-options"
+                  id="header-search-category-options"
+                  role="listbox"
+                  aria-labelledby="header-search-category-label"
+                  aria-hidden="true"
+                  inert
+                  data-js="header-search-category-options"
+                >
+                  <div class="site-search__category-option" role="option" aria-selected="true" tabindex="-1" data-value="all" data-trigger-label="すべて">すべてを含む</div>
+                  <div class="site-search__category-option" role="option" aria-selected="false" tabindex="-1" data-value="any" data-trigger-label="いずれかを含む">いずれかを含む</div>
+                  <div class="site-search__category-option" role="option" aria-selected="false" tabindex="-1" data-value="natural" data-trigger-label="自然文検索">自然文検索</div>
+                </div>
+              </div>
+              <input
+                class="site-search__input"
+                id="header-search-keyword"
+                name="keyword"
+                type="search"
+                placeholder="入力してください"
+              >
+              <p class="site-search__note">※複数のキーワードを指定する場合は、スペースで区切って入力してください。</p>
+            </div>
+            <div class="site-search__popular">
+              <p class="site-search__label">
+                <img src="./images/used/icon-berry.svg" alt="" aria-hidden="true">
+                人気のキーワード
+              </p>
+              <div class="site-search__keywords">
+                <button type="button" data-header-search-keyword="シナモロール" aria-pressed="false">シナモロール</button>
+                <button type="button" data-header-search-keyword="当りくじ" aria-pressed="false">当りくじ</button>
+                <button type="button" data-header-search-keyword="いちご新聞" aria-pressed="false">いちご新聞</button>
+                <button type="button" data-header-search-keyword="クロミ" aria-pressed="false">クロミ</button>
+                <button type="button" data-header-search-keyword="ウサハナ" aria-pressed="false">ウサハナ</button>
+              </div>
+            </div>
+            <div class="site-search__actions">
+              <button class="site-search__submit" type="submit">
+                <span class="site-search__submit-label">
+                  <span>検索</span>
+                  <span aria-hidden="true">検索</span>
+                </span>
+                <span aria-hidden="true">
+                  <img src="./images/used/icon-mysearch.svg" alt="">
+                </span>
+              </button>
+              <button class="site-search__reset" type="reset">
+                <span aria-hidden="true">×</span>
+                条件クリア
+              </button>
+            </div>
+          </form>
+        </section>
+        <img
+          class="site-header__search-decoration"
+          src="./images/img-dt/deco-pull.svg"
+          alt=""
+          aria-hidden="true"
+        >
+      </div>
     </header>
 
     <section
@@ -90,31 +201,6 @@
       aria-hidden="true"
       inert
     >
-      <div class="part-box mobile-menu__header">
-        <div class="part-box mobile-menu__account">
-          <button class="mobile-menu__close" type="button" data-js="menu-close" aria-label="メニューを閉じる">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </button>
-          <a class="mobile-menu__login" href="#news" data-js="menu-link">
-            <img src="./images/used/icon-mypage-portal.svg" alt="" aria-hidden="true">
-            <span>ログイン</span>
-          </a>
-        </div>
-        <a class="mobile-menu__logo" href="./index.html" aria-label="Sanrio ホーム">
-          <img src="./images/used/logo.svg" alt="Sanrio">
-        </a>
-        <nav class="part-box mobile-menu__tools" aria-label="ユーティリティ">
-          <a class="mobile-menu__tool" href="#hero" data-js="menu-link">
-            <img src="./images/used/icon-shopsearch.svg" alt="" aria-hidden="true">
-            <span>店舗検索</span>
-          </a>
-          <a class="mobile-menu__tool" href="#news" data-js="menu-link">
-            <img src="./images/used/icon-onlineshop.svg" alt="" aria-hidden="true">
-            <span>オンライン<br>ショップ</span>
-          </a>
-        </nav>
-      </div>
       <div class="mobile-menu__scroll">
         <div class="mobile-menu__content">
           <div class="mobile-menu__search" role="search">
@@ -122,10 +208,89 @@
             <img src="./images/used/icon-mysearch.svg" alt="" aria-hidden="true">
             <input id="mobile-menu-search" type="search" placeholder="キーワードを入力">
           </div>
-          <a class="mobile-menu__search-help" href="#news" data-js="menu-link">
-            <span aria-hidden="true">⌄</span>
+          <button
+            class="mobile-menu__search-help"
+            type="button"
+            data-js="search-help-toggle"
+            aria-expanded="false"
+            aria-controls="mobile-menu-search-panel"
+          >
+            <span aria-hidden="true"></span>
             詳細検索はコチラ
-          </a>
+          </button>
+          <div
+            class="mobile-menu__search-panel"
+            id="mobile-menu-search-panel"
+            data-js="search-panel"
+            aria-hidden="true"
+            inert
+          >
+            <div class="mobile-menu__search-panel-inner">
+              <form class="mobile-menu__search-form" data-js="detail-search-form">
+                <label class="mobile-menu__search-label" for="mobile-menu-search-category">
+                  <span aria-hidden="true"></span>
+                  フリーワード
+                </label>
+                <div class="mobile-menu__search-mode">
+                  <input id="mobile-menu-search-category" type="hidden" name="search-mode" value="include-all">
+                  <button
+                    class="mobile-menu__search-select"
+                    type="button"
+                    data-js="search-mode-toggle"
+                    aria-haspopup="listbox"
+                    aria-expanded="false"
+                    aria-controls="mobile-menu-search-options"
+                  >
+                    <span data-js="search-mode-label">すべて</span>
+                    <span class="mobile-menu__search-select-arrow" aria-hidden="true"></span>
+                  </button>
+                  <div
+                    class="mobile-menu__search-options"
+                    id="mobile-menu-search-options"
+                    data-js="search-mode-options"
+                    role="listbox"
+                    aria-label="検索方法"
+                    aria-hidden="true"
+                    inert
+                  >
+                    <div class="mobile-menu__search-options-inner">
+                      <button type="button" role="option" aria-selected="true" data-search-mode="include-all">すべて</button>
+                      <button type="button" role="option" aria-selected="false" data-search-mode="include-any">いずれかを含む</button>
+                      <button type="button" role="option" aria-selected="false" data-search-mode="natural">自然文検索</button>
+                    </div>
+                  </div>
+                </div>
+                <label class="visually-hidden" for="mobile-menu-search-detail">検索キーワード</label>
+                <input
+                  id="mobile-menu-search-detail"
+                  class="mobile-menu__search-input"
+                  type="search"
+                  placeholder="入力してください"
+                >
+                <p class="mobile-menu__search-note">※複数のキーワードを指定する場合は、スペースで区切って入力してください。</p>
+                <div class="mobile-menu__popular">
+                  <p class="mobile-menu__search-label">
+                    <span aria-hidden="true"></span>
+                    人気のキーワード
+                  </p>
+                  <div class="mobile-menu__popular-keywords">
+                    <button type="button" data-search-keyword="シナモロール" aria-pressed="false">シナモロール</button>
+                    <button type="button" data-search-keyword="当りくじ" aria-pressed="false">当りくじ</button>
+                    <button type="button" data-search-keyword="いちご新聞" aria-pressed="false">いちご新聞</button>
+                    <button type="button" data-search-keyword="クロミ" aria-pressed="false">クロミ</button>
+                    <button type="button" data-search-keyword="ウサハナ" aria-pressed="false">ウサハナ</button>
+                  </div>
+                </div>
+                <div class="mobile-menu__search-actions">
+                  <button class="mobile-menu__search-submit" type="submit">検索</button>
+                  <button class="mobile-menu__search-reset" type="reset">
+                    <span aria-hidden="true">×</span>
+                    条件クリア
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
           <nav class="mobile-menu__navigation" aria-label="メインナビゲーション">
             <a class="mobile-menu__category" href="#hero" data-js="menu-link">
               <img src="./images/used/icon-character.svg" alt="" aria-hidden="true">
@@ -166,18 +331,18 @@
           <p class="mobile-menu__follow">FOLLOW</p>
           <nav class="part-box mobile-menu__social" aria-label="ソーシャルメディア">
             <a class="mobile-menu__social-link mobile-menu__social-link--facebook" href="https://www.facebook.com/Sanrio/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-              <span aria-hidden="true">f</span>
+              <span aria-hidden="true"></span>
             </a>
             <a class="mobile-menu__social-link mobile-menu__social-link--x" href="https://x.com/sanrio_news" target="_blank" rel="noopener noreferrer" aria-label="X">
-              <span aria-hidden="true">𝕏</span>
+              <span aria-hidden="true"></span>
             </a>
             <a class="mobile-menu__social-link mobile-menu__social-link--youtube" href="https://www.youtube.com/user/sanrio" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
               <span aria-hidden="true"></span>
             </a>
           </nav>
           <nav class="part-box mobile-menu__related" aria-label="関連リンク">
-            <a href="https://www.sanrio.co.jp/" target="_blank" rel="noopener noreferrer">サンリオ公式サイト</a>
-            <a href="https://www.sanrio.co.jp/characters/" target="_blank" rel="noopener noreferrer">キャラクター紹介</a>
+            <a href="https://www.sanrio.co.jp/" target="_blank" rel="noopener noreferrer">ソーシャルメディア</a>
+            <a href="https://www.sanrio.co.jp/characters/" target="_blank" rel="noopener noreferrer">関連サイト</a>
           </nav>
         </footer>
       </div>
@@ -315,6 +480,48 @@
             </ul>
           </div>
         </div>
+      </section>
+
+      <section class="characters-section outer-box" aria-labelledby="characters-heading">
+        <div class="characters-section__heading">
+          <img class="characters-section__kitty" src="./images/used/kitty_symbol.svg" alt="" aria-hidden="true">
+          <h2 id="characters-heading">Characters</h2>
+          <p>キャラクター</p>
+        </div>
+
+        <div class="characters-orbit" aria-label="サンリオキャラクター">
+          <div class="characters-orbit__ground" aria-hidden="true"></div>
+          <div class="characters-orbit__path" aria-hidden="true"></div>
+
+          <img class="characters-orbit__character characters-orbit__character--pochacco" src="./images/used/sanrio-dt_50.png" alt="ポチャッコ">
+          <img class="characters-orbit__character characters-orbit__character--melody" src="./images/used/sanrio-dt_47.png" alt="マイメロディ">
+          <img class="characters-orbit__character characters-orbit__character--kuromi" src="./images/used/sanrio-dt_46.png" alt="クロミ">
+          <img class="characters-orbit__character characters-orbit__character--twins" src="./images/used/sanrio-dt_76.png" alt="リトルツインスターズ">
+          <img class="characters-orbit__character characters-orbit__character--cloud" src="./images/used/sanrio-dt_40.png" alt="" aria-hidden="true">
+          <img class="characters-orbit__character characters-orbit__character--tuxedosam" src="./images/used/sanrio-dt_53.png" alt="タキシードサム">
+          <img class="characters-orbit__character characters-orbit__character--badtz" src="./images/used/sanrio-dt_39.png" alt="バッドばつ丸">
+          <img class="characters-orbit__character characters-orbit__character--keroppi" src="./images/used/sanrio-dt_44.png" alt="けろけろけろっぴ">
+
+          <div class="characters-feature">
+            <p class="characters-feature__name">ハンギョドン</p>
+            <img class="characters-feature__image characters-feature__image--desktop" src="./images/used/sanrio-dt_42.png" alt="ハンギョドン">
+            <p class="characters-feature__latin">HANGYODON</p>
+          </div>
+
+          <div class="characters-mobile-current">
+            <p>ポムポムプリン</p>
+            <span>POMPOMPURIN</span>
+          </div>
+          <div class="characters-mobile-feature" role="img" aria-label="ポムポムプリン">
+            <img src="./images/used/sanrio-dt_38.jpg" alt="">
+          </div>
+        </div>
+
+        <a class="characters-section__link" href="#characters-heading">
+          <img src="./images/used/icon-ribon.svg" alt="" aria-hidden="true">
+          <span>キャラクター TOP</span>
+          <span class="characters-section__arrow" aria-hidden="true">➜</span>
+        </a>
       </section>
 
     </main>
