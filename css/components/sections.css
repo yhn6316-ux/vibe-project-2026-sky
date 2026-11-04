@@ -82,8 +82,8 @@
 
 .characters-section {
   position: relative;
-  min-height: 38rem;
-  padding-block: var(--space-6) var(--space-4);
+  min-height: auto;
+  padding-block: var(--space-6) 0;
   overflow: hidden;
   background: var(--color-bg);
 }
@@ -122,118 +122,324 @@
 
 .characters-orbit {
   position: relative;
-  height: clamp(24rem, 31vw, 30rem);
-  margin-block-start: var(--space-8);
-}
-
-.characters-orbit__ground,
-.characters-orbit__path {
-  position: absolute;
-  inset-inline: -2%;
-  inset-block-start: 24%;
-  height: 82%;
-  border-radius: 50% 50% 0 0 / 67% 67% 0 0;
-  pointer-events: none;
+  width: 1920px;
+  min-width: 1920px;
+  height: 22rem;
+  margin: 0;
+  margin-block-start: var(--space-12);
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
 }
 
 .characters-orbit__ground {
-  background: #fcf5fa;
+  display: none;
 }
 
 .characters-orbit__path {
-  border-block-start: 2px dotted var(--color-primary);
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.characters-orbit__svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.characters-orbit__svg--mobile {
+  display: none;
+}
+
+.characters-orbit__dash {
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-dasharray: 0 10;
+  animation: orbit-dash-ccw 24s linear infinite;
+}
+
+.characters-orbit__dash--desktop {
+  stroke: var(--color-primary);
+}
+
+.characters-orbit__dash--mobile {
+  stroke: #ffc000;
+}
+
+@keyframes orbit-dash-ccw {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 300px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .characters-orbit__dash {
+    animation: none;
+  }
 }
 
 .characters-orbit__character {
   position: absolute;
   z-index: 1;
-  width: clamp(3.75rem, 5vw, 5.75rem);
-  height: auto;
+  width: 100px;
+  height: 100px;
   object-fit: contain;
   transform: translate(-50%, -50%);
+  transition: inset-inline-start 1.6s cubic-bezier(0.25, 1, 0.5, 1),
+              inset-block-start 1.6s cubic-bezier(0.25, 1, 0.5, 1),
+              opacity 1.2s ease,
+              transform 1.6s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: inset-inline-start, inset-block-start, transform, opacity;
+}
+
+.characters-orbit__character--hangyodon {
+  inset-inline-start: 50%;
+  inset-block-start: 30%;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1.15);
 }
 
 .characters-orbit__character--pochacco {
-  inset-inline-start: 8%;
-  inset-block-start: 46.5%;
-  width: clamp(4rem, 5vw, 5.5rem);
+  inset-inline-start: 4%;
+  inset-block-start: 66.5%;
 }
 
 .characters-orbit__character--melody {
-  inset-inline-start: 18%;
-  inset-block-start: 35.5%;
+  inset-inline-start: 14%;
+  inset-block-start: 49%;
 }
 
 .characters-orbit__character--kuromi {
-  inset-inline-start: 29%;
-  inset-block-start: 29%;
-  width: clamp(3.5rem, 4.5vw, 5rem);
+  inset-inline-start: 24.5%;
+  inset-block-start: 39%;
 }
 
 .characters-orbit__character--twins {
-  inset-inline-start: 40%;
-  inset-block-start: 25%;
-  width: clamp(4.5rem, 5.5vw, 6.25rem);
+  inset-inline-start: 35%;
+  inset-block-start: 33%;
 }
 
 .characters-orbit__character--cloud {
-  inset-inline-start: 61%;
-  inset-block-start: 25%;
-  width: clamp(4rem, 5vw, 5.5rem);
+  inset-inline-start: 65%;
+  inset-block-start: 33%;
 }
 
 .characters-orbit__character--tuxedosam {
-  inset-inline-start: 73%;
-  inset-block-start: 29.5%;
+  inset-inline-start: 75.5%;
+  inset-block-start: 39%;
 }
 
 .characters-orbit__character--badtz {
-  inset-inline-start: 84%;
-  inset-block-start: 38%;
-  width: clamp(4rem, 5vw, 5.5rem);
+  inset-inline-start: 86%;
+  inset-block-start: 49%;
 }
 
 .characters-orbit__character--keroppi {
-  inset-inline-start: 93%;
-  inset-block-start: 47.5%;
-  width: clamp(3.75rem, 4.5vw, 5rem);
+  inset-inline-start: 96%;
+  inset-block-start: 66.5%;
 }
 
 .characters-feature {
   position: absolute;
   z-index: 2;
   inset-inline-start: 50%;
-  inset-block-start: 0;
-  display: grid;
-  justify-items: center;
-  align-content: center;
-  width: clamp(13rem, 13vw, 15.25rem);
-  aspect-ratio: 1;
-  border: 2px solid #dedede;
-  border-inline-end-color: #80dda3;
-  border-block-end-color: #80dda3;
+  inset-block-start: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 244px;
+  height: 244px;
   border-radius: 50%;
   background: var(--color-white);
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  overflow: hidden;
+  cursor: pointer;
 }
 
-.characters-feature__name,
-.characters-feature__latin {
+/* 호버 시: 원의 아래쪽부터 테두리색과 동일한 색이 원모양으로 채워지는 오버레이 */
+.characters-feature::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: var(--feature-accent-color, #5ec8ba);
+  transform: translateY(100%);
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.characters-feature:hover::before {
+  transform: translateY(0);
+}
+
+.characters-feature__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  border-radius: 50%;
+  overflow: visible;
+  z-index: 2;
+}
+
+.characters-feature__ring-base {
+  fill: none;
+  stroke: #dedede;
+  stroke-width: 2.5;
+}
+
+.characters-feature__ring-accent {
+  fill: none;
+  stroke: var(--feature-accent-color, #5ec8ba);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 754;
+  stroke-dashoffset: 754;
+  transform-origin: 122px 122px;
+  transform: rotate(-90deg);
+  transition: stroke-dashoffset 2.0s linear, stroke 0.4s ease;
+}
+
+.characters-feature__name {
+  position: relative;
+  z-index: 3;
   margin: 0;
+  margin-block-end: 0.875rem;
   color: var(--color-primary);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-bold);
   letter-spacing: var(--letter-spacing-label);
+  line-height: 1.2;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  will-change: opacity, transform, color;
+  transition: opacity 0.65s cubic-bezier(0.2, 0, 0, 1),
+              transform 0.65s cubic-bezier(0.2, 0, 0, 1),
+              color 0.3s ease;
 }
 
 .characters-feature__image--desktop {
-  width: 60%;
-  height: 58%;
+  position: relative;
+  z-index: 3;
+  width: 130px;
+  height: 130px;
   object-fit: contain;
+  transform: scale(1);
+  will-change: transform, opacity;
+  transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
 .characters-feature__latin {
-  font-size: var(--font-size-xs);
+  position: relative;
+  z-index: 3;
+  margin: 0;
+  margin-block-start: 0.8125rem;
+  color: var(--color-primary);
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  will-change: opacity, transform, color;
+  transition: opacity 0.65s cubic-bezier(0.2, 0, 0, 1) 0.06s,
+              transform 0.65s cubic-bezier(0.2, 0, 0, 1) 0.06s,
+              color 0.3s ease;
+}
+
+/* 마우스 호버 시: 원안의 글자색 #fff로 변경 */
+.characters-feature:hover .characters-feature__name,
+.characters-feature:hover .characters-feature__latin {
+  color: #ffffff;
+}
+
+/* 마우스 호버 시: 원 내부 이미지 제자리 통통 튀는 바운스 애니메이션 */
+.characters-feature:not(.is-image-exiting):hover .characters-feature__image--desktop {
+  animation: feature-image-bounce 0.75s ease infinite !important;
+}
+
+@keyframes feature-image-bounce {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1, 1);
+  }
+  15% {
+    transform: translate3d(0, 0, 0) scale(1.04, 0.96);
+  }
+  40% {
+    transform: translate3d(0, -10px, 0) scale(0.97, 1.03);
+  }
+  60% {
+    transform: translate3d(0, 0, 0) scale(1.03, 0.97);
+  }
+  75% {
+    transform: translate3d(0, -4px, 0) scale(0.99, 1.01);
+  }
+  90% {
+    transform: translate3d(0, 0, 0) scale(1.01, 0.99);
+  }
+}
+
+/* 텍스트 숨김 상태 (퇴장 시 및 새 이미지 진입 동안 부드러운 GPU 가속 숨김) */
+.characters-feature.is-text-hidden .characters-feature__name {
+  opacity: 0;
+  transform: translate3d(0, -6px, 0);
+  transition: opacity 0.6s ease, transform 0.6s ease, color 0.3s ease;
+}
+
+.characters-feature.is-text-hidden .characters-feature__latin {
+  opacity: 0;
+  transform: translate3d(0, 6px, 0);
+  transition: opacity 0.6s ease, transform 0.6s ease, color 0.3s ease;
+}
+
+/* 2단계 퇴장: 텍스트가 사라진 뒤 이미지가 축소되며 페이드아웃 */
+.characters-feature.is-image-exiting .characters-feature__image--desktop {
+  opacity: 0 !important;
+  transform: translate3d(0, 0, 0) scale(0.7) !important;
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+.characters-feature.is-image-entering .characters-feature__image--desktop {
+  animation: feature-image-expand 1.3s ease-out forwards;
+}
+
+@keyframes feature-image-expand {
+  0% {
+    opacity: 0;
+    transform: scale(0.65);
+  }
+  40% {
+    opacity: 1;
+  }
+  75% {
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .characters-feature__name,
+  .characters-feature__latin,
+  .characters-feature__image--desktop {
+    transition: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 .characters-mobile-current,
@@ -245,7 +451,7 @@
   position: absolute;
   z-index: 3;
   inset-inline-start: 50%;
-  inset-block-end: var(--space-8);
+  inset-block-end: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -287,8 +493,9 @@
 
 @media (max-width: 768px) {
   .characters-section {
-    min-height: 39rem;
-    padding-block-start: var(--space-8);
+    min-height: 33.5rem;
+    padding-block-start: var(--space-6);
+    padding-block-end: 0;
   }
 
   .characters-section__kitty {
@@ -305,8 +512,12 @@
   }
 
   .characters-orbit {
+    width: 100%;
+    min-width: 0;
     height: 30rem;
     margin-block-start: var(--space-2);
+    inset-inline-start: auto;
+    transform: none;
   }
 
   .characters-orbit__ground {
@@ -318,11 +529,18 @@
   }
 
   .characters-orbit__path {
-    inset-inline: -18%;
-    inset-block-start: 16%;
-    height: 69%;
-    border: 2px dotted #ffc000;
-    border-radius: 50%;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .characters-orbit__svg--desktop {
+    display: none;
+  }
+
+  .characters-orbit__svg--mobile {
+    display: block;
   }
 
   .characters-orbit__character {

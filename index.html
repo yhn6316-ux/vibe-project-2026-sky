@@ -370,7 +370,7 @@
             <div class="hero-stage">
               <div class="hero-track" data-js="slide-track">
                 <article class="hero-card hero-card--side hero-card--left">
-                  <img class="hero-card__image" data-js="left-image" src="./images/used/sanrio-dt_37.jpg" alt="" aria-hidden="true">
+                  <img class="hero-card__image" data-js="left-image" src="./images/used/sanrio-dt_30.png" alt="" aria-hidden="true">
                 </article>
                 <article class="hero-card hero-card--center" data-js="active-slide">
                   <img class="hero-card__image" data-js="active-image" src="./images/used/sanrio-dt_38.jpg" alt="おともだちリップチャーム">
@@ -454,8 +454,16 @@
                   aria-label="おすすめ 4"
                   aria-current="false"
                 ></button>
+                <button
+                  class="hero-controls__dot"
+                  type="button"
+                  data-js="slide-dot"
+                  data-slide-index="4"
+                  aria-label="おすすめ 5"
+                  aria-current="false"
+                ></button>
               </div>
-              <p class="visually-hidden" data-js="slide-status" aria-live="polite">1 / 4</p>
+              <p class="visually-hidden" data-js="slide-status" aria-live="polite">1 / 5</p>
             </div>
           </div>
         </div>
@@ -491,21 +499,34 @@
 
         <div class="characters-orbit" aria-label="サンリオキャラクター">
           <div class="characters-orbit__ground" aria-hidden="true"></div>
-          <div class="characters-orbit__path" aria-hidden="true"></div>
+          <div class="characters-orbit__path" aria-hidden="true">
+            <svg class="characters-orbit__svg characters-orbit__svg--desktop" viewBox="0 0 1920 352" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M -40 352 L -40 345.6 A 1000 240 0 0 1 1960 345.6 L 1960 352 Z" fill="#fcf5fa"></path>
+              <ellipse cx="960" cy="345.6" rx="1000" ry="240" class="characters-orbit__dash characters-orbit__dash--desktop"></ellipse>
+            </svg>
+            <svg class="characters-orbit__svg characters-orbit__svg--mobile" viewBox="0 0 390 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="195" cy="242.4" rx="265.2" ry="165.6" class="characters-orbit__dash characters-orbit__dash--mobile"></ellipse>
+            </svg>
+          </div>
 
-          <img class="characters-orbit__character characters-orbit__character--pochacco" src="./images/used/sanrio-dt_50.png" alt="ポチャッコ">
-          <img class="characters-orbit__character characters-orbit__character--melody" src="./images/used/sanrio-dt_47.png" alt="マイメロディ">
-          <img class="characters-orbit__character characters-orbit__character--kuromi" src="./images/used/sanrio-dt_46.png" alt="クロミ">
-          <img class="characters-orbit__character characters-orbit__character--twins" src="./images/used/sanrio-dt_76.png" alt="リトルツインスターズ">
-          <img class="characters-orbit__character characters-orbit__character--cloud" src="./images/used/sanrio-dt_40.png" alt="" aria-hidden="true">
-          <img class="characters-orbit__character characters-orbit__character--tuxedosam" src="./images/used/sanrio-dt_53.png" alt="タキシードサム">
-          <img class="characters-orbit__character characters-orbit__character--badtz" src="./images/used/sanrio-dt_39.png" alt="バッドばつ丸">
-          <img class="characters-orbit__character characters-orbit__character--keroppi" src="./images/used/sanrio-dt_44.png" alt="けろけろけろっぴ">
+          <img class="characters-orbit__character characters-orbit__character--keroppi" data-orbit-character data-character-id="keroppi" data-orbit-index="0" src="./images/used/sanrio-dt_44.png" alt="けろけろけろっぴ">
+          <img class="characters-orbit__character characters-orbit__character--badtz" data-orbit-character data-character-id="badtz" data-orbit-index="1" src="./images/used/sanrio-dt_39.png" alt="バッドばつ丸">
+          <img class="characters-orbit__character characters-orbit__character--tuxedosam" data-orbit-character data-character-id="tuxedosam" data-orbit-index="2" src="./images/used/sanrio-dt_53.png" alt="タキシードサム">
+          <img class="characters-orbit__character characters-orbit__character--cloud" data-orbit-character data-character-id="cloud" data-orbit-index="3" src="./images/used/sanrio-dt_40.png" alt="こぎみゅん">
+          <img class="characters-orbit__character characters-orbit__character--hangyodon" data-orbit-character data-character-id="hangyodon" data-orbit-index="4" src="./images/used/sanrio-dt_42.png" alt="ハンギョドン">
+          <img class="characters-orbit__character characters-orbit__character--twins" data-orbit-character data-character-id="twins" data-orbit-index="5" src="./images/used/sanrio-dt_76.png" alt="リトルツインスターズ">
+          <img class="characters-orbit__character characters-orbit__character--kuromi" data-orbit-character data-character-id="kuromi" data-orbit-index="6" src="./images/used/sanrio-dt_46.png" alt="クロミ">
+          <img class="characters-orbit__character characters-orbit__character--melody" data-orbit-character data-character-id="melody" data-orbit-index="7" src="./images/used/sanrio-dt_47.png" alt="マイメロディ">
+          <img class="characters-orbit__character characters-orbit__character--pochacco" data-orbit-character data-character-id="pochacco" data-orbit-index="8" src="./images/used/sanrio-dt_50.png" alt="ポチャッコ">
 
-          <div class="characters-feature">
-            <p class="characters-feature__name">ハンギョドン</p>
-            <img class="characters-feature__image characters-feature__image--desktop" src="./images/used/sanrio-dt_42.png" alt="ハンギョドン">
-            <p class="characters-feature__latin">HANGYODON</p>
+          <div class="characters-feature" data-js="characters-feature">
+            <svg class="characters-feature__ring" viewBox="0 0 244 244" aria-hidden="true">
+              <circle class="characters-feature__ring-base" cx="122" cy="122" r="120"></circle>
+              <circle class="characters-feature__ring-accent" data-js="feature-ring-accent" cx="122" cy="122" r="120"></circle>
+            </svg>
+            <p class="characters-feature__name" data-js="feature-name">ハンギョドン</p>
+            <img class="characters-feature__image characters-feature__image--desktop" data-js="feature-image" src="./images/used/sanrio-dt_42.png" alt="ハンギョドン">
+            <p class="characters-feature__latin" data-js="feature-latin">HANGYODON</p>
           </div>
 
           <div class="characters-mobile-current">

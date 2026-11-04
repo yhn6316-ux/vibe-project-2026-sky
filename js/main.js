@@ -21,6 +21,11 @@ const slides = [
     title: "サンリオおでかけレポ",
     description: "ぬいぐるみと一緒に楽しむ、サンリオのおでかけスポットをご紹介。",
   },
+  {
+    image: "./images/used/sanrio-dt_30.png",
+    title: "Hello Kitty’s Lounge",
+    description: "ここは、やさしさでつながる場所。",
+  },
 ];
 
 const title = document.querySelector('[data-js="slide-title"]');
@@ -873,3 +878,325 @@ window.addEventListener("resize", () => {
 
 updateSlideContent();
 startAutoplay();
+
+
+// --- Characters Orbit Counter-Clockwise Rotation ---
+const orbitCharactersData = [
+  { id: "keroppi", name: "けろけろけろっぴ", latin: "KEROKEROKEROPPI", image: "./images/used/sanrio-dt_44.png" },
+  { id: "badtz", name: "バッドばつ丸", latin: "BAD BADTZ-MARU", image: "./images/used/sanrio-dt_39.png" },
+  { id: "tuxedosam", name: "タキシードサム", latin: "TUXEDOSAM", image: "./images/used/sanrio-dt_53.png" },
+  { id: "cloud", name: "こぎみゅん", latin: "COGIMYUN", image: "./images/used/sanrio-dt_40.png" },
+  { id: "hangyodon", name: "ハンギョドン", latin: "HANGYODON", image: "./images/used/sanrio-dt_42.png" },
+  { id: "twins", name: "リトルツインスターズ", latin: "LITTLE TWIN STARS", image: "./images/used/sanrio-dt_76.png" },
+  { id: "kuromi", name: "クロミ", latin: "KUROMI", image: "./images/used/sanrio-dt_46.png" },
+  { id: "melody", name: "マイメロディ", latin: "MY MELODY", image: "./images/used/sanrio-dt_47.png" },
+  { id: "pochacco", name: "ポチャッコ", latin: "POCHACCO", image: "./images/used/sanrio-dt_50.png" },
+];
+
+const orbitSlots = [
+  { left: "96%", top: "66.5%", opacity: 1, scale: 1 },    // 0: Right end
+  { left: "86%", top: "49%", opacity: 1, scale: 1 },      // 1
+  { left: "75.5%", top: "39%", opacity: 1, scale: 1 },    // 2
+  { left: "65%", top: "33%", opacity: 1, scale: 1 },      // 3
+  { left: "50%", top: "30%", opacity: 0, scale: 1.15 },   // 4: Central feature (entered inside card)
+  { left: "35%", top: "33%", opacity: 1, scale: 1 },      // 5
+  { left: "24.5%", top: "39%", opacity: 1, scale: 1 },    // 6
+  { left: "14%", top: "49%", opacity: 1, scale: 1 },      // 7
+  { left: "4%", top: "66.5%", opacity: 1, scale: 1 },     // 8: Left end
+];
+
+const featureContainer = document.querySelector('[data-js="characters-feature"]');
+const featureRingAccentEl = document.querySelector('[data-js="feature-ring-accent"]');
+const featureNameEl = document.querySelector('[data-js="feature-name"]');
+const featureImageEl = document.querySelector('[data-js="feature-image"]');
+const featureLatinEl = document.querySelector('[data-js="feature-latin"]');
+const orbitElements = Array.from(document.querySelectorAll('[data-orbit-character]'));
+
+let currentOrbitStep = 0;
+let featureTimers = [];
+let currentRingOffset = 754;
+
+// 사용자가 명시적으로 지정한 6개 이미지 전용 색상 매핑 (그 외 모든 이미지는 기존 동적 추출 로직을 그대로 유지)
+const userSpecifiedImageColors = {
+  "sanrio-dt_47": "#F6BEC8",
+  "sanrio-dt_46": "#4B4948",
+  "sanrio-dt_76": "#FEF7AE",
+  "sanrio-dt_53": "#6C9BD2",
+  "sanrio-dt_39": "#231815",
+  "sanrio-dt_44": "#DAE248",
+};
+
+// 캐릭터별 기본 브랜드 폴백 컬러 맵 (원래 상태 100% 복원)
+const characterBrandColors = {
+  hangyodon: "#5ec8ba",
+  cloud: "#f5a878",
+  tuxedosam: "#3ea6de",
+  badtz: "#ffba00",
+  keroppi: "#78c544",
+  twins: "#60c2e8",
+  kuromi: "#a865c9",
+  melody: "#ff6b98",
+  pochacco: "#00b2a9",
+};
+
+// 캔버스를 통해 이미지의 지배적인 유채색(채도 높은 주요 색상)을 동적 추출하는 헬퍼 함수 (포차코 등 미언급 캐릭터에 그대로 적용)
+const extractImagePrimaryColor = (imgElement, fallbackColor) => {
+  try {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    if (!ctx) return fallbackColor;
+
+    canvas.width = 40;
+    canvas.height = 40;
+    ctx.drawImage(imgElement, 0, 0, 40, 40);
+    const imgData = ctx.getImageData(0, 0, 40, 40).data;
+
+    let bestColor = fallbackColor;
+    let highestScore = -1;
+
+    for (let i = 0; i < imgData.length; i += 4) {
+      const r = imgData[i];
+      const g = imgData[i + 1];
+      const b = imgData[i + 2];
+      const a = imgData[i + 3];
+
+      // 투명 픽셀 제외
+      if (a < 120) continue;
+
+      // 지나치게 어두운 외곽선이나 순백 배경 제외
+      const brightness = (r + g + b) / 3;
+      if (brightness < 25 || brightness > 240) continue;
+
+      // 채도 점수: 최대 채널 - 최소 채널
+      const max = Math.max(r, g, b);
+      const min = Math.min(r, g, b);
+      const saturation = max - min;
+
+      if (saturation > highestScore) {
+        highestScore = saturation;
+        bestColor = `rgb(${r}, ${g}, ${b})`;
+      }
+    }
+
+    return highestScore > 30 ? bestColor : fallbackColor;
+  } catch (err) {
+    return fallbackColor;
+  }
+};
+
+const clearFeatureTimers = () => {
+  featureTimers.forEach((t) => window.clearTimeout(t));
+  featureTimers = [];
+};
+
+const updateFeatureCard = (charId) => {
+  const char = orbitCharactersData.find((c) => c.id === charId);
+  if (!char || !featureContainer) return;
+
+  clearFeatureTimers();
+
+  // 1단계 (0ms): 텍스트들이 자연스럽게 사라짐(0.6s)과 동시에 원 테두리가 12시 최상단부터 시계방향으로 회색(#dedede)으로 채워지기 시작 (0.9초간 여유롭게)
+  featureContainer.classList.add("is-text-hidden");
+  featureContainer.classList.remove("is-image-entering", "is-image-exiting");
+
+  if (featureRingAccentEl) {
+    currentRingOffset -= 754;
+    featureRingAccentEl.style.transition = "stroke-dashoffset 0.9s linear";
+    featureRingAccentEl.style.strokeDashoffset = String(currentRingOffset);
+  }
+
+  // 2단계 (300ms): 기존 이미지가 자연스럽고 부드럽게 축소 페이드아웃 시작 (0.65s 소요 -> 950ms에 완전히 100% 소멸)
+  const t1 = window.setTimeout(() => {
+    featureContainer.classList.add("is-image-exiting");
+  }, 300);
+  featureTimers.push(t1);
+
+  // 3단계 (1000ms): ★ 기존 이미지가 완벽하게 전부 다 사라진 바로 그 시점에서 다음 이미지로 변경 및 새 이미지 등장 시작! ★
+  // 동시에 원 테두리가 12시 최상단부터 시계방향으로 2.0s 등속 채움 시작
+  const t2 = window.setTimeout(() => {
+    if (featureNameEl) featureNameEl.textContent = char.name;
+    if (featureLatinEl) featureLatinEl.textContent = char.latin;
+
+    // 사용자가 명시한 6개 이미지인지 확인
+    let specifiedColor = null;
+    if (char.image) {
+      for (const [key, color] of Object.entries(userSpecifiedImageColors)) {
+        if (char.image.includes(key)) {
+          specifiedColor = color;
+          break;
+        }
+      }
+    }
+
+    if (featureRingAccentEl) {
+      featureRingAccentEl.style.stroke = "";
+    }
+
+    if (specifiedColor) {
+      // 사용자가 언급한 이미지만 지정된 색상으로 정확히 적용
+      featureContainer.style.setProperty("--feature-accent-color", specifiedColor);
+      if (featureImageEl && featureImageEl instanceof HTMLImageElement) {
+        featureImageEl.src = char.image;
+        featureImageEl.alt = char.name;
+      }
+    } else {
+      // 언급하지 않은 이미지(포차코 등)는 기존 원래의 동적 이미지 색상 추출 로직을 100% 그대로 유지
+      const fallbackColor = characterBrandColors[char.id] || "#5ec8ba";
+
+      if (featureImageEl && featureImageEl instanceof HTMLImageElement) {
+        featureImageEl.src = char.image;
+        featureImageEl.alt = char.name;
+
+        const applyExtractedColor = () => {
+          const extracted = extractImagePrimaryColor(featureImageEl, fallbackColor);
+          featureContainer.style.setProperty("--feature-accent-color", extracted);
+        };
+
+        if (featureImageEl.complete && featureImageEl.naturalWidth > 0) {
+          applyExtractedColor();
+        } else {
+          featureContainer.style.setProperty("--feature-accent-color", fallbackColor);
+          featureImageEl.onload = applyExtractedColor;
+        }
+      } else {
+        featureContainer.style.setProperty("--feature-accent-color", fallbackColor);
+      }
+    }
+
+    featureContainer.classList.remove("is-image-exiting");
+    void featureContainer.offsetWidth; // reflow image
+    featureContainer.classList.add("is-image-entering");
+
+    // 새 캐릭터 테두리 12시 최상단부터 시계방향 2.0s 등속 채움 시작 (1000ms + 2000ms = 3000ms 완료)
+    if (featureRingAccentEl) {
+      currentRingOffset -= 754;
+      featureRingAccentEl.style.transition = "stroke-dashoffset 2.0s linear, stroke 0.4s ease";
+      featureRingAccentEl.style.strokeDashoffset = String(currentRingOffset);
+    }
+  }, 1000);
+  featureTimers.push(t2);
+
+  // 4단계 (2300ms): 새 이미지가 안착된 후 텍스트 등장 시작 (700ms 동안 진행되어 3000ms에 테두리와 완벽히 동시 완성)
+  const t3 = window.setTimeout(() => {
+    featureContainer.classList.remove("is-image-entering");
+    featureContainer.classList.remove("is-text-hidden");
+  }, 2300);
+  featureTimers.push(t3);
+};
+
+const advanceCharactersOrbit = () => {
+  if (
+    document.hidden ||
+    window.innerWidth <= 768 ||
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    return;
+  }
+
+  // Clean up any lingering clone from previous transition
+  document.querySelectorAll(".characters-orbit__character--clone").forEach((c) => c.remove());
+
+  // Find the character currently at slot 8 (leftmost position) before moving
+  const wrappingChar = orbitElements.find((el) => {
+    const initialIndex = Number(el.dataset.orbitIndex);
+    return (initialIndex + currentOrbitStep) % 9 === 8;
+  });
+
+  currentOrbitStep = (currentOrbitStep + 1) % 9;
+
+  // Seamless wrap-around for the left-to-right character transition:
+  // 1) The real element at slot 8 slides smoothly out along the arc towards bottom-left off-screen
+  // 2) A clone simultaneously slides in along the arc from bottom-right off-screen into slot 0
+  // 3) When transition completes (1650ms), silently swap the real element into slot 0 and remove the clone
+  if (wrappingChar) {
+    wrappingChar.style.transition = "";
+    wrappingChar.style.opacity = "0";
+    wrappingChar.style.insetInlineStart = "-4%";
+    wrappingChar.style.insetBlockStart = "85%";
+    wrappingChar.style.transform = "translate(-50%, -50%) scale(0.9)";
+
+    const clone = wrappingChar.cloneNode(true);
+    clone.classList.add("characters-orbit__character--clone");
+    clone.removeAttribute("data-orbit-character");
+    clone.style.transition = "none";
+    clone.style.opacity = "0";
+    clone.style.insetInlineStart = "104%";
+    clone.style.insetBlockStart = "85%";
+    clone.style.transform = "translate(-50%, -50%) scale(0.9)";
+
+    if (wrappingChar.parentElement) {
+      wrappingChar.parentElement.appendChild(clone);
+    }
+
+    void clone.offsetWidth;
+
+    clone.style.transition = "";
+    clone.style.opacity = "1";
+    clone.style.insetInlineStart = orbitSlots[0].left;
+    clone.style.insetBlockStart = orbitSlots[0].top;
+    clone.style.transform = `translate(-50%, -50%) scale(${orbitSlots[0].scale})`;
+
+    window.setTimeout(() => {
+      wrappingChar.style.transition = "none";
+      wrappingChar.style.opacity = "1";
+      wrappingChar.style.insetInlineStart = orbitSlots[0].left;
+      wrappingChar.style.insetBlockStart = orbitSlots[0].top;
+      wrappingChar.style.transform = `translate(-50%, -50%) scale(${orbitSlots[0].scale})`;
+      void wrappingChar.offsetWidth;
+      wrappingChar.style.transition = "";
+      clone.remove();
+    }, 1650);
+  }
+
+  // Animate all remaining characters along the orbit
+  orbitElements.forEach((el) => {
+    if (el === wrappingChar) return;
+
+    const initialIndex = Number(el.dataset.orbitIndex);
+    const slotIdx = (initialIndex + currentOrbitStep) % 9;
+    const slot = orbitSlots[slotIdx];
+
+    el.style.transition = "";
+    el.style.opacity = String(slot.opacity);
+    el.style.insetInlineStart = slot.left;
+    el.style.insetBlockStart = slot.top;
+    el.style.transform = `translate(-50%, -50%) scale(${slot.scale})`;
+
+    // When this character enters slot 4 (center), update the central feature!
+    if (slotIdx === 4) {
+      updateFeatureCard(el.dataset.characterId);
+    }
+  });
+};
+
+// 사이트를 열면 자동으로 처음 원(한교동)부터 12시 최상단에서 시계방향으로 색이 채워지는 인트로 애니메이션
+const initFirstFeatureRing = () => {
+  if (!featureContainer || !featureRingAccentEl) return;
+
+  featureContainer.classList.add("is-text-hidden");
+  featureContainer.style.setProperty("--feature-accent-color", "#5ec8ba");
+
+  window.setTimeout(() => {
+    // 1. 이미지 확대 진입 시작
+    featureContainer.classList.add("is-image-entering");
+
+    // 2. 테두리가 12시 최상단부터 시계방향으로 1.9s 동안 한교동 민트색으로 채워짐
+    currentRingOffset = 0;
+    featureRingAccentEl.style.transition = "stroke-dashoffset 2.0s linear, stroke 0.4s ease";
+    featureRingAccentEl.style.strokeDashoffset = "0";
+
+    // 3. 이미지가 안착된 후 텍스트 등장 시작 -> 1900ms에 테두리와 동시 완성
+    window.setTimeout(() => {
+      featureContainer.classList.remove("is-image-entering");
+      featureContainer.classList.remove("is-text-hidden");
+    }, 1300);
+  }, 300);
+};
+
+if (featureContainer) {
+  initFirstFeatureRing();
+}
+
+if (orbitElements.length > 0) {
+  window.setInterval(advanceCharactersOrbit, 6000);
+}
