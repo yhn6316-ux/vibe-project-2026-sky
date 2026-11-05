@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="サンリオからのお知らせをご覧いただけます。">
+    <title>お知らせ | Sanrio</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <script type="module" src="../js/notices.js"></script>
+  </head>
+  <body class="notices-page">
+    <!-- Header: Consistent with site header -->
+    <header class="site-header outer-box" id="page-top">
+      <div class="inner-box site-header__inner">
+        <div class="part-box site-header__top">
+          <a class="site-header__logo" href="../index.html" aria-label="Sanrio ホーム">
+            <img src="../images/used/logo.svg" alt="Sanrio">
+          </a>
+          <nav class="part-box site-header__tools" aria-label="ユーティリティ">
+            <a class="site-header__tool" href="../index.html#news"><img class="site-header__tool-icon" src="../images/used/icon-mysearch.svg" alt=""><span>探す</span></a>
+            <a class="site-header__tool" href="../index.html"><img class="site-header__tool-icon" src="../images/used/icon-shopsearch.svg" alt=""><span>店舗検索</span></a>
+            <a class="site-header__tool" href="../index.html"><img class="site-header__tool-icon" src="../images/used/icon-onlineshop.svg" alt=""><span>オンライン<br>ショップ</span></a>
+          </nav>
+        </div>
+        <nav class="part-box site-header__nav" aria-label="メインナビゲーション">
+          <a class="site-nav__link" href="../index.html#characters-heading"><img class="site-nav__icon" src="../images/used/icon-character.svg" alt=""><span>キャラクター</span></a>
+          <a class="site-nav__link" href="../index.html#goods-heading"><img class="site-nav__icon" src="../images/used/icon-goods.svg" alt=""><span>グッズ</span></a>
+          <a class="site-nav__link" href="../index.html#movies-heading"><img class="site-nav__icon" src="../images/used/icon-movie.svg" alt=""><span>ムービー</span></a>
+          <a class="site-nav__link" href="../index.html"><img class="site-nav__icon" src="../images/used/icon-digital.svg" alt=""><span>デジタル</span></a>
+          <a class="site-nav__link" href="../index.html"><img class="site-nav__icon" src="../images/used/icon-spots.svg" alt=""><span>スポット</span></a>
+          <a class="site-nav__link is-active" href="./notices.html"><img class="site-nav__icon" src="../images/used/icon-news.svg" alt=""><span>ニュース</span></a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="notices-main outer-box">
+      <!-- Floating Ribbons / Hearts Background Decorations -->
+      <div class="notice-decorations" aria-hidden="true">
+        <span class="notice-ribbon notice-ribbon--1"></span>
+        <span class="notice-ribbon notice-ribbon--2"></span>
+        <span class="notice-ribbon notice-ribbon--3"></span>
+        <span class="notice-ribbon notice-ribbon--4"></span>
+        <span class="notice-ribbon notice-ribbon--5"></span>
+        <span class="notice-ribbon notice-ribbon--6"></span>
+        <span class="notice-heart notice-heart--1">♥</span>
+        <span class="notice-heart notice-heart--2">♥</span>
+        <span class="notice-heart notice-heart--3">♥</span>
+        <span class="notice-heart notice-heart--4">♥</span>
+      </div>
+
+      <div class="inner-box notices-main__inner">
+        <!-- NOTICE Cloud Banner with Hello Kitty & My Melody -->
+        <div class="notice-banner" aria-label="NOTICE">
+          <!-- Hello Kitty Character Placement (left) -->
+          <img class="notice-banner__character notice-banner__character--kitty" src="../images/used/sanrio-dt_40.png" alt="ハローキティ">
+          <div class="notice-banner__cloud">
+            <span class="notice-banner__title">NOTICE</span>
+            <span class="notice-banner__ribbon-center">🎀</span>
+          </div>
+          <!-- My Melody Character Placement (right) -->
+          <img class="notice-banner__character notice-banner__character--melody" src="../images/used/sanrio-dt_47.png" alt="マイメロディ">
+        </div>
+
+        <!-- 1) List View (画像4: 공지 목록) -->
+        <section class="notice-view" data-js="notice-list-view" aria-label="お知らせ一覧" hidden>
+          <div class="notice-list-tools">
+            <div class="notice-select-wrap">
+              <label class="visually-hidden" for="notice-category">カテゴリ</label>
+              <select id="notice-category" class="notice-select" data-js="category-filter">
+                <option value="すべて">すべて</option>
+                <option value="ショップ">ショップ</option>
+                <option value="イベント">イベント</option>
+                <option value="グッズ">グッズ</option>
+                <option value="スポット">スポット</option>
+                <option value="キャンペーン">キャンペーン</option>
+                <option value="アプリ">アプリ</option>
+              </select>
+            </div>
+
+            <form class="notice-search" data-js="search-form" role="search">
+              <label class="visually-hidden" for="notice-keyword">キーワード</label>
+              <input id="notice-keyword" type="search" placeholder="キーワードを入力してください" data-js="keyword-input">
+              <button class="notice-search__button" type="submit" aria-label="検索">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="7"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </button>
+            </form>
+
+            <a class="notice-button notice-button--primary notice-btn-new" href="?view=create">
+              <span class="btn-icon" aria-hidden="true">✎</span> 新規投稿
+            </a>
+          </div>
+
+          <div class="notice-table-card">
+            <table class="notice-table">
+              <thead>
+                <tr>
+                  <th scope="col" class="th-no">No.</th>
+                  <th scope="col" class="th-title">タイトル</th>
+                  <th scope="col" class="th-category">カテゴリ</th>
+                  <th scope="col" class="th-date">投稿日</th>
+                  <th scope="col" class="th-arrow"><span class="visually-hidden">詳細</span></th>
+                </tr>
+              </thead>
+              <tbody data-js="notice-rows"></tbody>
+            </table>
+            <p class="notice-empty" data-js="empty-message" hidden>該当するお知らせはありません。</p>
+          </div>
+
+          <!-- Pagination -->
+          <nav class="notice-pagination" data-js="pagination" aria-label="ページネーション"></nav>
+        </section>
+
+        <!-- 2) Detail View (画像3: 공지 상세) -->
+        <section class="notice-view" data-js="notice-detail-view" aria-label="お知らせ詳細" hidden>
+          <div class="notice-top-nav">
+            <a class="notice-back-pill" href="?view=list">
+              <span class="nav-arrow" aria-hidden="true">‹</span> 一覧に戻る
+            </a>
+          </div>
+
+          <article class="notice-card notice-card--detail">
+            <header class="notice-detail__header">
+              <div class="notice-detail__title-row">
+                <span class="notice-badge" data-js="detail-badge"></span>
+                <h1 class="notice-detail__title" data-js="detail-title"></h1>
+              </div>
+              <time class="notice-detail__date" data-js="detail-date"></time>
+            </header>
+
+            <div class="notice-detail__action-bar">
+              <button class="notice-copy-btn" type="button" data-js="copy-link">
+                <span class="btn-icon" aria-hidden="true">🔗</span> リンクをコピー
+              </button>
+              <div class="notice-detail__socials">
+                <a class="notice-sns-circle notice-sns-circle--fb" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">f</a>
+                <a class="notice-sns-circle notice-sns-circle--x" href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                </a>
+                <a class="notice-sns-circle notice-sns-circle--yt" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶</a>
+              </div>
+              <span class="notice-copy-status" data-js="copy-status" aria-live="polite"></span>
+            </div>
+
+            <div class="notice-detail__content-wrap">
+              <!-- Campaign thumbnail / attached media -->
+              <div class="notice-detail__thumbnail-box" data-js="detail-thumbnail">
+                <!-- Fallback artwork when no uploaded image -->
+                <div class="notice-campaign-poster">
+                  <p class="poster-sub">サンリオキャラクター大賞</p>
+                  <p class="poster-main">投票スタート!♡</p>
+                  <div class="poster-characters">
+                    <!-- Character line art (Hello Kitty, My Melody, Kuromi, Cinnamoroll, Pompompurin) -->
+                    <img src="../images/used/sanrio-dt_40.png" alt="ハローキティ">
+                    <img src="../images/used/sanrio-dt_47.png" alt="マイメロディ">
+                    <img src="../images/used/sanrio-dt_46.png" alt="クロミ">
+                    <img src="../images/used/sanrio-dt_42.png" alt="シナモロール">
+                    <img src="../images/used/sanrio-dt_7.png" alt="ポムポムプリン">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Content HTML -->
+              <div class="notice-detail__body" data-js="detail-content"></div>
+            </div>
+
+            <!-- Decorative ribbon ornament divider -->
+            <div class="notice-card__ribbon-divider" aria-hidden="true">
+              <span class="line line--left"></span>
+              <span class="ribbon-center">🎀</span>
+              <span class="line line--right"></span>
+            </div>
+
+            <div class="notice-detail__bottom-actions">
+              <a class="notice-button notice-button--outline" href="?view=list">
+                <span class="btn-icon" aria-hidden="true">‹</span> 一覧に戻る
+              </a>
+              <a class="notice-button notice-button--primary" data-js="edit-link" href="?view=edit">
+                <span class="btn-icon" aria-hidden="true">✎</span> 編集する
+              </a>
+            </div>
+          </article>
+        </section>
+
+        <!-- 3) New / Edit Form View (画像1: 신규 작성, 画像2: 수정) -->
+        <section class="notice-view" data-js="notice-form-view" aria-label="お知らせ投稿" hidden>
+          <div class="notice-top-nav">
+            <a class="notice-back-pill" href="?view=list">
+              <span class="nav-arrow" aria-hidden="true">‹</span> 一覧に戻る
+            </a>
+          </div>
+
+          <!-- Section title with ribbons decoration -->
+          <div class="notice-form-banner-title">
+            <span class="side-ribbon" aria-hidden="true">🎀</span>
+            <h1 class="form-title" data-js="form-heading">新規投稿</h1>
+            <span class="side-ribbon" aria-hidden="true">🎀</span>
+          </div>
+
+          <div class="notice-card notice-form-card">
+            <!-- Edit Mode Current Info Banner (画像2 상단: 현재 뱃지, 제목, 날짜) -->
+            <div class="notice-edit-current" data-js="edit-current" hidden>
+              <div class="current-left">
+                <span class="notice-badge" data-js="current-badge">お知らせ</span>
+                <span class="current-title" data-js="current-title"></span>
+              </div>
+              <time class="current-date" data-js="current-date"></time>
+            </div>
+
+            <form class="notice-form" data-js="notice-form" novalidate>
+              <!-- 1. Title Row -->
+              <div class="form-group-row">
+                <div class="form-label-col">
+                  <span class="label-ribbon" aria-hidden="true">🎀</span>
+                  <label for="form-title" class="form-label">タイトル</label>
+                  <span class="badge-required">必須</span>
+                </div>
+                <div class="form-input-col">
+                  <div class="title-input-wrapper">
+                    <input
+                      id="form-title"
+                      name="title"
+                      type="text"
+                      class="form-control"
+                      maxlength="100"
+                      placeholder="タイトルを入力してください"
+                      required
+                      data-js="title-input"
+                    >
+                    <span class="char-counter" data-js="title-count">0/100</span>
+                  </div>
+                  <p class="field-error" data-js="title-error" hidden>タイトルを入力してください。</p>
+                </div>
+              </div>
+
+              <!-- 2. Category Row -->
+              <div class="form-group-row">
+                <div class="form-label-col">
+                  <span class="label-ribbon" aria-hidden="true">🎀</span>
+                  <label for="form-category" class="form-label">カテゴリ</label>
+                  <span class="badge-required">必須</span>
+                </div>
+                <div class="form-input-col">
+                  <div class="select-wrapper">
+                    <select id="form-category" name="category" class="form-control form-select" required data-js="category-input">
+                      <option value="">カテゴリを選択してください</option>
+                      <option value="お知らせ">お知らせ</option>
+                      <option value="イベント">イベント</option>
+                      <option value="ショップ">ショップ</option>
+                      <option value="グッズ">グッズ</option>
+                      <option value="スポット">スポット</option>
+                      <option value="キャンペーン">キャンペーン</option>
+                      <option value="アプリ">アプリ</option>
+                    </select>
+                  </div>
+                  <p class="field-error" data-js="category-error" hidden>カテゴリを選択してください。</p>
+                </div>
+              </div>
+
+              <!-- 3. Content Editor Row -->
+              <div class="form-group-row form-group-row--editor">
+                <div class="form-label-col">
+                  <span class="label-ribbon" aria-hidden="true">🎀</span>
+                  <label for="form-editor-body" class="form-label">本文</label>
+                  <span class="badge-required">必須</span>
+                </div>
+                <div class="form-input-col">
+                  <div class="rich-editor-box">
+                    <!-- Editor Toolbar -->
+                    <div class="editor-toolbar" role="toolbar" aria-label="テキスト装飾">
+                      <div class="toolbar-group">
+                        <button type="button" class="tool-btn" data-command="bold" title="太字"><b>B</b></button>
+                        <button type="button" class="tool-btn" data-command="italic" title="斜体"><i>I</i></button>
+                        <button type="button" class="tool-btn" data-command="underline" title="下線"><u>U</u></button>
+                        <button type="button" class="tool-btn" data-command="createLink" title="リンク挿入">🔗</button>
+                      </div>
+                      <span class="toolbar-sep" aria-hidden="true">|</span>
+                      <div class="toolbar-group">
+                        <button type="button" class="tool-btn" data-command="justifyLeft" title="左揃え">☰</button>
+                        <button type="button" class="tool-btn" data-command="insertUnorderedList" title="箇条書き">☷</button>
+                        <button type="button" class="tool-btn" data-command="insertOrderedList" title="番号付きリスト">≡</button>
+                      </div>
+                      <span class="toolbar-sep" aria-hidden="true">|</span>
+                      <div class="toolbar-group">
+                        <button type="button" class="tool-btn" data-command="insertImage" title="画像挿入">🖼</button>
+                        <button type="button" class="tool-btn" data-command="insertVideo" title="動画">🎬</button>
+                        <button type="button" class="tool-btn" data-command="insertEmoji" title="ハート挿入">♡</button>
+                      </div>
+                      <div class="toolbar-group toolbar-group--right">
+                        <button type="button" class="html-toggle-btn" data-js="html-toggle">
+                          HTML編集 ↗
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Editor Body -->
+                    <div class="editor-content-area">
+                      <div
+                        id="form-editor-body"
+                        class="editor-body"
+                        contenteditable="true"
+                        role="textbox"
+                        aria-multiline="true"
+                        data-js="content-editor"
+                      ></div>
+                      <textarea
+                        class="editor-source"
+                        data-js="html-source"
+                        aria-label="HTMLソース編集"
+                        hidden
+                      ></textarea>
+
+                      <!-- Kuromi Empty State Illustration (画像1 에디터 중앙 쿠로미 일러스트) -->
+                      <div class="editor-empty-state" data-js="editor-empty" aria-hidden="true">
+                        <img class="kuromi-guide-img" src="../images/used/editor-kuromi.png" alt="クロミ案内">
+                        <p class="kuromi-guide-text">ここに内容を入力してください ♥</p>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="field-error" data-js="content-error" hidden>本文を入力してください。</p>
+                </div>
+              </div>
+
+              <!-- 4. Attachments Row -->
+              <div class="form-group-row form-group-row--file">
+                <div class="form-label-col">
+                  <span class="label-ribbon" aria-hidden="true">🎀</span>
+                  <span class="form-label">添付ファイル</span>
+                </div>
+                <div class="form-input-col">
+                  <div class="file-uploader-wrap">
+                    <label class="notice-button notice-button--outline file-select-btn" for="form-file-input">
+                      <span class="btn-icon">📎</span> ファイルを選択する
+                    </label>
+                    <input
+                      id="form-file-input"
+                      type="file"
+                      multiple
+                      class="visually-hidden"
+                      data-js="file-input"
+                    >
+                    <span class="file-limit-note">（最大5MBまで / 10個まで）</span>
+                  </div>
+                  <ul class="file-preview-list" data-js="file-list"></ul>
+                  <p class="field-error" data-js="file-error" hidden></p>
+                </div>
+              </div>
+
+              <!-- Form Buttons -->
+              <div class="form-submit-row">
+                <a class="notice-button notice-button--outline cancel-btn" href="?view=list">
+                  <span class="btn-icon" aria-hidden="true">‹</span> キャンセル
+                </a>
+                <button class="notice-button notice-button--primary submit-btn" type="submit" data-js="submit-button">
+                  <span class="btn-icon" aria-hidden="true">✎</span> 投稿する
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- Loading indicator -->
+        <div class="notice-loading-spinner" data-js="loading" role="status" hidden>
+          <div class="spinner-heart">♥</div>
+          <p>読み込み中...</p>
+        </div>
+
+        <!-- Global Alert Message -->
+        <p class="notice-global-error" data-js="global-error" role="alert" hidden></p>
+      </div>
+
+      <!-- Corner Character Illustrations (Pompompurin on bottom left, Cinnamoroll on bottom right) -->
+      <div class="notice-corner-characters" aria-hidden="true">
+        <img class="corner-purin" src="../images/used/notice-corner-purin.png" alt="ポムポムプリン">
+        <img class="corner-cinnamoroll" src="../images/used/notice-corner-cinnamoroll.png" alt="シナモロール">
+      </div>
+    </main>
+
+    <!-- Footer: Consistent with site footer -->
+    <footer class="site-footer outer-box" role="contentinfo">
+      <div class="inner-box site-footer__inner">
+        <div class="part-box site-footer__top">
+          <div class="site-footer__follow-group">
+            <div class="site-footer__follow-card">
+              <p class="site-footer__follow-title">FOLLOW</p>
+              <nav class="site-footer__social-links" aria-label="公式SNS">
+                <a class="site-footer__social-link site-footer__social-link--facebook" href="https://www.facebook.com/Sanrio/" aria-label="Facebook"><span></span></a>
+                <a class="site-footer__social-link site-footer__social-link--x" href="https://x.com/sanrio_news" aria-label="X"><span></span></a>
+                <a class="site-footer__social-link site-footer__social-link--youtube" href="https://www.youtube.com/user/sanrio" aria-label="YouTube"><span></span></a>
+              </nav>
+            </div>
+            <nav class="site-footer__related-links" aria-label="関連リンク">
+              <a class="site-footer__triangle-link" href="../index.html">▶ ソーシャルメディア</a>
+              <a class="site-footer__triangle-link" href="../index.html">▶ 関連サイト</a>
+            </nav>
+          </div>
+          <div class="site-footer__divider-vertical" aria-hidden="true"></div>
+          <nav class="site-footer__nav" aria-label="企業情報">
+            <ul class="site-footer__nav-list">
+              <li class="site-footer__nav-item"><a class="site-footer__circle-link" href="https://corporate.sanrio.co.jp/">➜ 会社情報 ↗</a></li>
+              <li class="site-footer__nav-item"><a class="site-footer__circle-link" href="https://corporate.sanrio.co.jp/ir/">➜ 株主・投資家の皆様へ ↗</a></li>
+              <li class="site-footer__nav-item"><a class="site-footer__circle-link" href="https://corporate.sanrio.co.jp/business/">➜ サンリオのライセンスビジネス事例 ↗</a></li>
+              <li class="site-footer__nav-item"><a class="site-footer__circle-link" href="https://www.sanrio.co.jp/contact/">➜ お問い合わせ</a></li>
+              <li class="site-footer__nav-item"><a class="site-footer__circle-link" href="https://corporate.sanrio.co.jp/recruit/">➜ 採用情報 ↗</a></li>
+              <li class="site-footer__nav-item"><a class="site-footer__circle-link" href="https://corporate.sanrio.co.jp/news/">➜ ニュースリリース ↗</a></li>
+              <li class="site-footer__nav-item"><a class="site-footer__circle-link" href="https://corporate.sanrio.co.jp/sustainability/">➜ サステナビリティ ↗</a></li>
+            </ul>
+          </nav>
+        </div>
+        <hr class="site-footer__divider">
+        <nav class="site-footer__sub-nav" aria-label="サイトポリシー">
+          <ul class="site-footer__sub-list">
+            <li><a class="site-footer__triangle-link" href="?view=list">▶ 重要なお知らせ</a></li>
+            <li><a class="site-footer__triangle-link" href="../index.html">▶ このサイトについて</a></li>
+            <li><a class="site-footer__triangle-link" href="../index.html">▶ ソーシャルメディアポリシー</a></li>
+            <li><a class="site-footer__triangle-link" href="../index.html">▶ プライバシーポリシー</a></li>
+            <li><a class="site-footer__triangle-link" href="../index.html">▶ ウェブアクセシビリティ方針</a></li>
+            <li><a class="site-footer__triangle-link" href="../index.html">▶ サイトマップ</a></li>
+          </ul>
+        </nav>
+        <hr class="site-footer__divider">
+        <div class="part-box site-footer__bottom">
+          <p class="site-footer__copyright">
+            このサイトに掲載のイラスト・写真・文面の無断転載を禁じます。すべての著作権は株式会社サンリオに帰属します。<br>
+            © 2026 SANRIO CO., LTD.　著作 株式会社サンリオ
+          </p>
+          <a class="site-footer__lang-link" href="../index.html">➜ English</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

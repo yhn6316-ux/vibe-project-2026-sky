@@ -1,0 +1,846 @@
+/* ==========================================================================
+   Digital Section Styles
+   Design Tokens & BEM Conventions followed strictly.
+   No extraneous animations or interactive scripts per instructions.
+   Matches user reference images (dt1..dt4, mob1..mob4).
+   ========================================================================== */
+
+.digital-section {
+  position: relative;
+  background-color: #ffffff;
+  padding-block-start: 3.5rem;
+  padding-block-end: 4.5rem;
+  overflow: hidden;
+}
+
+/* Background Soft Warm Yellow Circle Decoration (Desktop Right) */
+.digital-section__bg-circle {
+  position: absolute;
+  top: -80px;
+  right: -120px;
+  width: 620px;
+  height: 620px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff7de 0%, #fffbf0 70%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Background Cinnamoroll Outline Drawing (Desktop Left) */
+.digital-section__cinnamoroll-outline {
+  position: absolute;
+  top: 2rem;
+  left: max(1.5rem, calc((100vw - 1200px) / 2 - 100px));
+  width: 175px;
+  height: auto;
+  opacity: 0.35;
+  filter: grayscale(1) brightness(0.7) opacity(0.5);
+  pointer-events: none;
+  z-index: 0;
+  display: block;
+}
+
+/* Background Keroppi Outline Drawing (Mobile Top Left) */
+.digital-section__keroppi-outline {
+  display: none;
+}
+
+.digital-section__inner {
+  position: relative;
+  z-index: 1;
+  width: 1200px;
+  max-width: 100%;
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Heading: Phone Icon + Digital + デジタル
+   ========================================================================== */
+.digital-section__heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-block-end: 2.75rem;
+}
+
+.digital-section__phone-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-block-end: 0.35rem;
+  fill: #72d2c4;
+}
+
+.digital-section__title {
+  font-family: var(--font-display, "Comfortaa", sans-serif);
+  font-size: 2.375rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #ebb535;
+  margin: 0;
+}
+
+.digital-section__subtitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #888888;
+  letter-spacing: 0.1em;
+  margin: 0.35rem 0 0;
+}
+
+/* Category Sub-Headings with dotted divider line extending to edges:
+   ------------------- スマートフォンアプリ ------------------- */
+.digital-category-block {
+  margin-block-end: 4rem;
+}
+
+.digital-category-block--apps {
+  margin-block-end: 4.5rem;
+}
+
+.digital-category-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 0 0 2.25rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #ebb535;
+  letter-spacing: 0.05em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.digital-category-title::before,
+.digital-category-title::after {
+  content: "";
+  flex: 1;
+  height: 0;
+  border-top: 1.5px dotted #cccccc;
+}
+
+/* ==========================================================================
+   1. スマートフォンアプリ (Smartphone Apps)
+   ========================================================================== */
+.digital-apps {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(6rem, 15vw, 12rem);
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.digital-app-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: inherit;
+  width: 260px;
+}
+
+.digital-app-item__icon {
+  width: 136px;
+  height: 136px;
+  border-radius: 28px;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.digital-app-item__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.digital-app-item__name {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #888888;
+}
+
+.digital-app-item__os {
+  margin: 0;
+  font-size: 0.6875rem;
+  color: #888888;
+  letter-spacing: 0.05em;
+}
+
+/* ==========================================================================
+   2. ブラウザ・ウェブ (Browser / Web)
+   ========================================================================== */
+.digital-web-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 340px);
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.digital-web-card {
+  display: flex;
+  flex-direction: column;
+  width: 340px;
+}
+
+.digital-web-card__link {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  height: 100%;
+}
+
+.digital-web-card__thumb-wrap {
+  width: 340px;
+  height: 190px;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-block-end: 0.75rem;
+  background-color: #f7f7f7;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.digital-web-card__image {
+  width: 340px;
+  height: 190px;
+  object-fit: cover;
+  display: block;
+}
+
+.digital-web-card__title {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #555555;
+  word-break: break-all;
+}
+
+.digital-web-card__ext-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 3px;
+  color: #888888;
+}
+
+/* ==========================================================================
+   3. コミュニケーション (Communication)
+   ========================================================================== */
+.digital-comm-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 3.5rem;
+  width: 100%;
+}
+
+.digital-comm-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.digital-comm-item__link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+}
+
+.digital-comm-item__thumb-wrap {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-block-end: 0.75rem;
+}
+
+.digital-comm-item--theme .digital-comm-item__thumb-wrap {
+  width: 130px;
+  height: 185px;
+}
+
+.digital-comm-item--theme .digital-comm-item__image {
+  width: 130px;
+  height: 185px;
+  object-fit: cover;
+  border-radius: 0;
+  display: block;
+}
+
+.digital-comm-item--stamp .digital-comm-item__thumb-wrap {
+  width: 130px;
+  height: 130px;
+}
+
+.digital-comm-item--stamp .digital-comm-item__image {
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+  border-radius: 0;
+  display: block;
+}
+
+.digital-comm-item__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem 0.75rem;
+  border-radius: var(--radius-pill, 9999px);
+  background-color: #f2c84b;
+  color: #ffffff;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   4. 壁紙・ダウンロード (Wallpaper & Download Banner)
+   ========================================================================== */
+.digital-wallpaper {
+  margin-block-end: 4rem;
+  display: flex;
+  justify-content: center;
+}
+
+.digital-wallpaper__card {
+  position: relative;
+  width: 610px;
+  height: 170px;
+  max-width: 100%;
+  margin: 0 auto;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.digital-wallpaper__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.digital-wallpaper__btn {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.55rem 1.6rem 0.55rem 1.85rem;
+  border-radius: var(--radius-pill, 9999px);
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.digital-wallpaper__text {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #ebb535;
+  letter-spacing: 0.05em;
+}
+
+.digital-wallpaper__arrow {
+  display: grid;
+  place-items: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  background-color: #f2c84b;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   5. デジタルニュース (Digital News Cards)
+   ========================================================================== */
+.digital-news-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 340px);
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.digital-news-card {
+  display: flex;
+  flex-direction: column;
+  width: 340px;
+}
+
+.digital-news-card__link {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  height: 100%;
+}
+
+.digital-news-card__thumb-wrap {
+  width: 340px;
+  height: 190px;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-block-end: 0.75rem;
+  background-color: #f7f7f7;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.digital-news-card__image {
+  width: 340px;
+  height: 190px;
+  object-fit: cover;
+  display: block;
+}
+
+.digital-news-card__title {
+  margin: 0 0 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #333333;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.digital-news-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.digital-news-card__tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.15rem 0.65rem;
+  border-radius: var(--radius-pill, 9999px);
+  background-color: #f2c84b;
+  color: #ffffff;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.digital-news-card__date {
+  font-size: 0.6875rem;
+  color: #888888;
+}
+
+/* ==========================================================================
+   Bottom Navigation Button: "デジタル TOP" (1:1 with Goods/Characters)
+   ========================================================================== */
+.digital-section__top-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(22rem, calc(100% - var(--space-8)));
+  min-height: 3rem;
+  margin: 3.5rem auto 0;
+  padding-inline: var(--space-8);
+  border-radius: var(--radius-pill);
+  background: #f2c84b;
+  color: var(--color-white);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  text-decoration: none;
+}
+
+.digital-section__top-link > img {
+  position: absolute;
+  inset-inline-start: -0.5rem;
+  inset-block-start: -0.6rem;
+  width: 2.5rem;
+  height: 2.2rem;
+  filter: brightness(0) invert(1);
+}
+
+.digital-section__arrow {
+  position: absolute;
+  inset-inline-end: var(--space-3);
+  display: grid;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--color-white);
+  color: #f2c84b;
+  font-size: var(--font-size-xs);
+  letter-spacing: 0;
+}
+
+/* ==========================================================================
+   Tablet Responsive Styles (@media (max-width: 1120px) and (min-width: 769px))
+   화면 폭 축소 시(769px ~ 1120px) 이미지와 그리드가 자연스럽게 스케일링
+   ========================================================================== */
+@media (max-width: 1120px) and (min-width: 769px) {
+  .digital-apps {
+    gap: clamp(4rem, 6vw, 6rem);
+  }
+
+  .digital-app-item {
+    width: clamp(200px, 25vw, 260px);
+  }
+
+  .digital-app-item__icon {
+    width: clamp(124px, 14vw, 136px);
+    height: clamp(124px, 14vw, 136px);
+  }
+
+  /* Browser / Web: 3열 비율 기반 축소 */
+  .digital-web-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.75rem;
+    max-width: 100%;
+    padding-inline: 1rem;
+  }
+
+  .digital-web-card {
+    width: 100%;
+  }
+
+  .digital-web-card__thumb-wrap {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 340 / 190;
+  }
+
+  .digital-web-card__image {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Communication: 6열 아이템 간격 및 크기 축소 */
+  .digital-comm-grid {
+    gap: clamp(1rem, 2vw, 1.75rem);
+    padding-inline: 0.5rem;
+  }
+
+  .digital-comm-item--theme .digital-comm-item__thumb-wrap {
+    width: clamp(112px, 12vw, 130px);
+    height: auto;
+    aspect-ratio: 130 / 185;
+  }
+
+  .digital-comm-item--theme .digital-comm-item__image {
+    width: 100%;
+    height: 100%;
+  }
+
+  .digital-comm-item--stamp .digital-comm-item__thumb-wrap {
+    width: clamp(112px, 12vw, 130px);
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+
+  .digital-comm-item--stamp .digital-comm-item__image {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Wallpaper banner: 너비 100% 및 비율 유지 */
+  .digital-wallpaper__card {
+    width: min(610px, calc(100% - 2rem));
+    height: auto;
+    aspect-ratio: 610 / 170;
+  }
+
+  /* Digital news: 3열 비율 기반 축소 */
+  .digital-news-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.75rem;
+    max-width: 100%;
+    padding-inline: 1rem;
+  }
+
+  .digital-news-card {
+    width: 100%;
+  }
+
+  .digital-news-card__thumb-wrap {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 340 / 190;
+  }
+
+  .digital-news-card__image {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* ==========================================================================
+   Mobile Responsive Styles (@media (max-width: 768px))
+   ========================================================================== */
+@media (max-width: 768px) {
+  .digital-section__inner {
+    min-width: auto;
+    width: 100%;
+    padding-inline: 1rem;
+  }
+
+  .digital-section {
+    padding-block-start: 2.5rem;
+    padding-block-end: 3.5rem;
+  }
+
+  /* Mobile Background Circle: Light cream circle in the center behind header & apps */
+  .digital-section__bg-circle {
+    top: -20px;
+    right: 50%;
+    transform: translateX(50%);
+    width: 380px;
+    height: 380px;
+    background: radial-gradient(circle, #fff9e6 0%, #fffbf0 70%, transparent 100%);
+    display: block;
+  }
+
+  /* Desktop Cinnamoroll hidden on mobile */
+  .digital-section__cinnamoroll-outline {
+    display: none;
+  }
+
+  /* Mobile Keroppi Outline visible in mob1 */
+  .digital-section__keroppi-outline {
+    display: block;
+    position: absolute;
+    top: 1rem;
+    left: 20%;
+    width: 70px;
+    height: auto;
+    opacity: 0.45;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .digital-section__heading {
+    margin-block-end: 2rem;
+  }
+
+  .digital-section__phone-icon {
+    width: 1.85rem;
+    height: 1.85rem;
+  }
+
+  .digital-section__title {
+    font-size: 1.875rem;
+  }
+
+  .digital-category-block {
+    margin-block-end: 2.75rem;
+  }
+
+  .digital-category-block--apps {
+    margin-block-end: 3rem;
+  }
+
+  .digital-category-title {
+    font-size: 1rem;
+    gap: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* 1. Apps: vertical stacked list on mobile (아이콘 왼쪽, 텍스트 오른쪽) */
+  .digital-apps {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding-inline: 0.5rem;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  .digital-app-item {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    width: 100%;
+    max-width: 420px;
+    gap: 1.5rem;
+  }
+
+  .digital-app-item__text {
+    align-items: flex-start;
+  }
+
+  .digital-app-item__icon {
+    width: clamp(84px, 20vw, 105px);
+    height: clamp(84px, 20vw, 105px);
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+
+  .digital-app-item__name {
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+  }
+
+  /* 2. Web cards: 1 column vertical stack */
+  .digital-web-cards {
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    justify-items: center;
+  }
+
+  .digital-web-card {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .digital-web-card__thumb-wrap {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 340 / 190;
+  }
+
+  .digital-web-card__image {
+    width: 100%;
+    height: 100%;
+  }
+
+  .digital-web-card__title {
+    font-size: 0.8125rem;
+  }
+
+  /* 3. Communication: 3 items in a row on mobile (items 4-6 hidden per reference) */
+  .digital-comm-grid {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: clamp(1rem, 3.5vw, 1.75rem);
+    margin-block-end: 2.5rem;
+    width: 100%;
+    max-width: 480px;
+    margin-inline: auto;
+    padding-inline: 0.5rem;
+  }
+
+  .digital-comm-item:nth-child(n+4) {
+    display: none;
+  }
+
+  .digital-comm-item--theme .digital-comm-item__thumb-wrap {
+    width: clamp(95px, 28vw, 130px);
+    height: auto;
+    aspect-ratio: 130 / 185;
+  }
+
+  .digital-comm-item--theme .digital-comm-item__image {
+    width: 100%;
+    height: 100%;
+  }
+
+  .digital-comm-item--stamp .digital-comm-item__thumb-wrap {
+    width: clamp(95px, 28vw, 130px);
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+
+  .digital-comm-item--stamp .digital-comm-item__image {
+    width: 100%;
+    height: 100%;
+  }
+
+  .digital-comm-item__badge {
+    padding: 0.2rem 0.65rem;
+    font-size: 0.6875rem;
+  }
+
+  /* 4. Wallpaper banner */
+  .digital-wallpaper {
+    margin-block-end: 2.75rem;
+    padding-inline: 0.5rem;
+  }
+
+  .digital-wallpaper__card {
+    width: 100%;
+    max-width: 610px;
+    height: auto;
+    aspect-ratio: 610 / 170;
+    border-radius: 12px;
+  }
+
+  .digital-wallpaper__btn {
+    padding: 0.45rem 1.15rem 0.45rem 1.35rem;
+    gap: 0.5rem;
+  }
+
+  .digital-wallpaper__text {
+    font-size: 0.8125rem;
+  }
+
+  .digital-wallpaper__arrow {
+    width: 1.2rem;
+    height: 1.2rem;
+    font-size: 0.6875rem;
+  }
+
+  /* 5. Digital news: 1 column vertical stack */
+  .digital-news-cards {
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    justify-items: center;
+  }
+
+  .digital-news-card {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .digital-news-card__thumb-wrap {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 340 / 190;
+  }
+
+  .digital-news-card__image {
+    width: 100%;
+    height: 100%;
+  }
+
+  .digital-news-card__title {
+    font-size: 0.8125rem;
+  }
+
+  .digital-section__top-link {
+    width: min(20rem, calc(100% - var(--space-8)));
+    margin-block-start: 2.5rem;
+  }
+}
+

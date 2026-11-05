@@ -1,0 +1,480 @@
+/* ==========================================================================
+   Spots Section Styles
+   Design Tokens & BEM Conventions followed strictly.
+   No animations added per instructions.
+   ========================================================================== */
+
+.spots-section {
+  position: relative;
+  background-color: #ffffff;
+  padding-block-start: 3.5rem;
+  padding-block-end: 4.5rem;
+  overflow: hidden;
+}
+
+/* Background Soft Mint / Sage Circle Decoration (Desktop Left) */
+.spots-section__bg-circle {
+  position: absolute;
+  top: -120px;
+  left: -140px;
+  width: 580px;
+  height: 580px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #eef9f2 0%, #f4fbf6 70%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Background Macaroon / Pudding Friend Character Outline (Desktop Right) */
+.spots-section__character-outline {
+  position: absolute;
+  top: 1.5rem;
+  right: max(1.5rem, calc((100vw - 1200px) / 2 - 60px));
+  width: 175px;
+  height: auto;
+  opacity: 0.35;
+  filter: grayscale(1) brightness(0.7) opacity(0.5);
+  pointer-events: none;
+  z-index: 0;
+  display: block;
+}
+
+.spots-section__inner {
+  position: relative;
+  z-index: 1;
+  width: 1200px;
+  max-width: 100%;
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Heading: Castle Icon + Spots + スポット
+   ========================================================================== */
+.spots-section__heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-block-end: 3rem;
+}
+
+.spots-section__icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-block-end: 0.35rem;
+  fill: #eb6877;
+}
+
+.spots-section__title {
+  font-family: var(--font-display, "Comfortaa", sans-serif);
+  font-size: 2.375rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #72cf9d;
+  margin: 0;
+}
+
+.spots-section__subtitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #888888;
+  letter-spacing: 0.1em;
+  margin: 0.35rem 0 0;
+}
+
+/* ==========================================================================
+   1. Spots Main Grid (4 Arch Cards)
+   ========================================================================== */
+.spots-main-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 260px);
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 3.75rem;
+  width: 100%;
+}
+
+.spots-arch-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 260px;
+}
+
+.spots-arch-card__link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+}
+
+.spots-arch-card__thumb-wrap {
+  width: 260px;
+  height: 358px;
+  border-radius: 130px 130px 16px 16px;
+  overflow: hidden;
+  background-color: #f7f7f7;
+  border: 4px solid #bcead1;
+  box-sizing: border-box;
+  margin-block-end: 1rem;
+  box-shadow: 0 4px 12px rgba(114, 207, 157, 0.12);
+}
+
+.spots-arch-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.spots-arch-card__title {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #666666;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.spots-arch-card__ext-icon {
+  display: inline-block;
+  vertical-align: middle;
+  color: #72cf9d;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   2. Spots News Cards (3 News Cards)
+   ========================================================================== */
+.spots-news-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 340px);
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.spots-news-card {
+  display: flex;
+  flex-direction: column;
+  width: 340px;
+}
+
+.spots-news-card__link {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  height: 100%;
+}
+
+.spots-news-card__thumb-wrap {
+  position: relative;
+  width: 340px;
+  height: 190px;
+  border-radius: 14px;
+  overflow: visible;
+  margin-block-end: 0.75rem;
+  background-color: #f7f7f7;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.spots-news-card__image {
+  width: 340px;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 14px;
+  display: block;
+}
+
+/* Green Apple NEW Badge (Overlapping top-right corner) */
+.spots-news-card__badge-new {
+  position: absolute;
+  top: -12px;
+  right: -8px;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.spots-news-card__badge-apple {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #88d49e;
+  border-radius: 50% 50% 45% 45%;
+}
+
+.spots-news-card__badge-apple::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  right: 14px;
+  width: 5px;
+  height: 7px;
+  border-radius: 50% 0 50% 0;
+  background-color: #55b778;
+  transform: rotate(25deg);
+}
+
+.spots-news-card__badge-text {
+  position: relative;
+  z-index: 1;
+  color: #ffffff;
+  font-size: 0.5625rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.spots-news-card__title {
+  margin: 0 0 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #333333;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.spots-news-card__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.6rem;
+  margin-top: auto;
+}
+
+.spots-news-card__tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.15rem 0.65rem;
+  border-radius: var(--radius-pill, 9999px);
+  background-color: #88d49e;
+  color: #ffffff;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.spots-news-card__date {
+  font-size: 0.6875rem;
+  color: #888888;
+}
+
+/* ==========================================================================
+   Bottom Navigation Button: "スポット TOP" (1:1 with Digital / Movies / Goods)
+   ========================================================================== */
+.spots-section__top-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(22rem, calc(100% - var(--space-8)));
+  min-height: 3rem;
+  margin: 3.5rem auto 0;
+  padding-inline: var(--space-8);
+  border-radius: var(--radius-pill);
+  background: #88d49e;
+  color: var(--color-white);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(136, 212, 158, 0.25);
+}
+
+.spots-section__top-link > img {
+  position: absolute;
+  inset-inline-start: -0.5rem;
+  inset-block-start: -0.6rem;
+  width: 2.5rem;
+  height: 2.2rem;
+  filter: brightness(0) invert(1);
+}
+
+.spots-section__arrow {
+  position: absolute;
+  inset-inline-end: var(--space-3);
+  display: grid;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--color-white);
+  color: #88d49e;
+  font-size: var(--font-size-xs);
+  letter-spacing: 0;
+}
+
+/* ==========================================================================
+   Tablet Responsive Styles (@media (max-width: 1120px) and (min-width: 769px))
+   ========================================================================== */
+@media (max-width: 1120px) and (min-width: 769px) {
+  .spots-section__inner {
+    padding-inline: 1rem;
+  }
+
+  .spots-main-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .spots-arch-card {
+    width: 100%;
+  }
+
+  .spots-arch-card__thumb-wrap {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 260 / 358;
+    border-radius: 80px 80px 14px 14px;
+    border-width: 3px;
+  }
+
+  .spots-news-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .spots-news-card {
+    width: 100%;
+  }
+
+  .spots-news-card__thumb-wrap {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 340 / 190;
+  }
+
+  .spots-news-card__image {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* ==========================================================================
+   Mobile Responsive Styles (@media (max-width: 768px))
+   첨부된 모바일 레퍼런스(2단 아치 그리드, 1열 뉴스 카드) 100% 반영
+   ========================================================================== */
+@media (max-width: 768px) {
+  .spots-section {
+    padding-block-start: 2.5rem;
+    padding-block-end: 3.5rem;
+  }
+
+  .spots-section__inner {
+    width: 100%;
+    padding-inline: 1rem;
+  }
+
+  .spots-section__bg-circle {
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 380px;
+    height: 380px;
+  }
+
+  .spots-section__character-outline {
+    top: 1rem;
+    right: 10%;
+    width: 85px;
+  }
+
+  .spots-section__heading {
+    margin-block-end: 2rem;
+  }
+
+  .spots-section__icon {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .spots-section__title {
+    font-size: 1.875rem;
+  }
+
+  /* Mobile 2x2 Arch Grid (첨부 이미지 2단 구성) */
+  .spots-main-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem 1rem;
+    margin-block-end: 2.75rem;
+    max-width: 440px;
+    margin-inline: auto;
+  }
+
+  .spots-arch-card {
+    width: 100%;
+  }
+
+  .spots-arch-card__thumb-wrap {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 260 / 358;
+    border-radius: 70px 70px 12px 12px;
+    border-width: 3px;
+    margin-block-end: 0.65rem;
+  }
+
+  .spots-arch-card__title {
+    font-size: 0.75rem;
+    line-height: 1.35;
+  }
+
+  /* Mobile News: 1 Column Vertical Stack */
+  .spots-news-cards {
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    justify-items: center;
+  }
+
+  .spots-news-card {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .spots-news-card__thumb-wrap {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    aspect-ratio: 340 / 190;
+  }
+
+  .spots-news-card__image {
+    width: 100%;
+    height: 100%;
+  }
+
+  .spots-news-card__title {
+    font-size: 0.8125rem;
+  }
+
+  .spots-section__top-link {
+    width: min(20rem, calc(100% - var(--space-8)));
+    margin-block-start: 2.5rem;
+  }
+}
+

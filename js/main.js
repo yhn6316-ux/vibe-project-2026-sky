@@ -893,23 +893,43 @@ const orbitCharactersData = [
   { id: "pochacco", name: "ポチャッコ", latin: "POCHACCO", image: "./images/used/sanrio-dt_50.png" },
 ];
 
-const orbitSlots = [
+const desktopOrbitSlots = [
   { left: "96%", top: "66.5%", opacity: 1, scale: 1 },    // 0: Right end
   { left: "86%", top: "49%", opacity: 1, scale: 1 },      // 1
   { left: "75.5%", top: "39%", opacity: 1, scale: 1 },    // 2
   { left: "65%", top: "33%", opacity: 1, scale: 1 },      // 3
-  { left: "50%", top: "30%", opacity: 0, scale: 1.15 },   // 4: Central feature (entered inside card)
+  { left: "50%", top: "30%", opacity: 0, scale: 1.15 },   // 4: Central feature
   { left: "35%", top: "33%", opacity: 1, scale: 1 },      // 5
   { left: "24.5%", top: "39%", opacity: 1, scale: 1 },    // 6
   { left: "14%", top: "49%", opacity: 1, scale: 1 },      // 7
   { left: "4%", top: "66.5%", opacity: 1, scale: 1 },     // 8: Left end
 ];
 
+const mobileOrbitSlots = [
+  { left: "-46px", top: "135px", opacity: 0, scale: 0.75 },  // 0: Entry from left (-140°)
+  { left: "45px", top: "77px", opacity: 1, scale: 0.88 },    // 1: badtz (-105°)
+  { left: "152px", top: "82px", opacity: 1, scale: 0.88 },   // 2: tuxedosam (-70°)
+  { left: "238px", top: "147px", opacity: 1, scale: 0.88 },  // 3: cloud (-35°)
+  { left: "270px", top: "250px", opacity: 0, scale: 1.15 },  // 4: Central feature (0°, entered into card)
+  { left: "238px", top: "353px", opacity: 1, scale: 0.88 },  // 5: twins (+35°)
+  { left: "152px", top: "418px", opacity: 1, scale: 0.88 },  // 6: kuromi (+70°)
+  { left: "45px", top: "423px", opacity: 1, scale: 0.88 },   // 7: melody (+105°)
+  { left: "-46px", top: "365px", opacity: 0, scale: 0.75 },  // 8: Exit to left (+140°)
+];
+
+const getOrbitSlots = () => (window.innerWidth <= 768 ? mobileOrbitSlots : desktopOrbitSlots);
+
 const featureContainer = document.querySelector('[data-js="characters-feature"]');
 const featureRingAccentEl = document.querySelector('[data-js="feature-ring-accent"]');
 const featureNameEl = document.querySelector('[data-js="feature-name"]');
 const featureImageEl = document.querySelector('[data-js="feature-image"]');
 const featureLatinEl = document.querySelector('[data-js="feature-latin"]');
+
+// 모바일 전용 좌측 파스텔 톤 텍스트 뱃지 요소
+const featureBadgeEl = document.querySelector('[data-js="feature-badge"]');
+const featureBadgeNameEl = document.querySelector('[data-js="feature-badge-name"]');
+const featureBadgeLatinEl = document.querySelector('[data-js="feature-badge-latin"]');
+
 const orbitElements = Array.from(document.querySelectorAll('[data-orbit-character]'));
 
 let currentOrbitStep = 0;
@@ -939,7 +959,7 @@ const characterBrandColors = {
   pochacco: "#00b2a9",
 };
 
-// 캔버스를 통해 이미지의 지배적인 유채색(채도 높은 주요 색상)을 동적 추출하는 헬퍼 함수 (포차코 등 미언급 캐릭터에 그대로 적용)
+// 캔버스를 통해 이미지의 지배적인 유채색(채도 높은 주요 색상)을 동적 추출하는 헬퍼 함수
 const extractImagePrimaryColor = (imgElement, fallbackColor) => {
   try {
     const canvas = document.createElement("canvas");
@@ -960,14 +980,11 @@ const extractImagePrimaryColor = (imgElement, fallbackColor) => {
       const b = imgData[i + 2];
       const a = imgData[i + 3];
 
-      // 투명 픽셀 제외
       if (a < 120) continue;
 
-      // 지나치게 어두운 외곽선이나 순백 배경 제외
       const brightness = (r + g + b) / 3;
       if (brightness < 25 || brightness > 240) continue;
 
-      // 채도 점수: 최대 채널 - 최소 채널
       const max = Math.max(r, g, b);
       const min = Math.min(r, g, b);
       const saturation = max - min;
@@ -997,6 +1014,7 @@ const updateFeatureCard = (charId) => {
 
   // 1단계 (0ms): 텍스트들이 자연스럽게 사라짐(0.6s)과 동시에 원 테두리가 12시 최상단부터 시계방향으로 회색(#dedede)으로 채워지기 시작 (0.9초간 여유롭게)
   featureContainer.classList.add("is-text-hidden");
+  if (featureBadgeEl) featureBadgeEl.classList.add("is-text-hidden");
   featureContainer.classList.remove("is-image-entering", "is-image-exiting");
 
   if (featureRingAccentEl) {
@@ -1016,6 +1034,8 @@ const updateFeatureCard = (charId) => {
   const t2 = window.setTimeout(() => {
     if (featureNameEl) featureNameEl.textContent = char.name;
     if (featureLatinEl) featureLatinEl.textContent = char.latin;
+    if (featureBadgeNameEl) featureBadgeNameEl.textContent = char.name;
+    if (featureBadgeLatinEl) featureBadgeLatinEl.textContent = char.latin;
 
     // 사용자가 명시한 6개 이미지인지 확인
     let specifiedColor = null;
@@ -1035,6 +1055,7 @@ const updateFeatureCard = (charId) => {
     if (specifiedColor) {
       // 사용자가 언급한 이미지만 지정된 색상으로 정확히 적용
       featureContainer.style.setProperty("--feature-accent-color", specifiedColor);
+      if (featureBadgeEl) featureBadgeEl.style.setProperty("--feature-accent-color", specifiedColor);
       if (featureImageEl && featureImageEl instanceof HTMLImageElement) {
         featureImageEl.src = char.image;
         featureImageEl.alt = char.name;
@@ -1050,16 +1071,19 @@ const updateFeatureCard = (charId) => {
         const applyExtractedColor = () => {
           const extracted = extractImagePrimaryColor(featureImageEl, fallbackColor);
           featureContainer.style.setProperty("--feature-accent-color", extracted);
+          if (featureBadgeEl) featureBadgeEl.style.setProperty("--feature-accent-color", extracted);
         };
 
         if (featureImageEl.complete && featureImageEl.naturalWidth > 0) {
           applyExtractedColor();
         } else {
           featureContainer.style.setProperty("--feature-accent-color", fallbackColor);
+          if (featureBadgeEl) featureBadgeEl.style.setProperty("--feature-accent-color", fallbackColor);
           featureImageEl.onload = applyExtractedColor;
         }
       } else {
         featureContainer.style.setProperty("--feature-accent-color", fallbackColor);
+        if (featureBadgeEl) featureBadgeEl.style.setProperty("--feature-accent-color", fallbackColor);
       }
     }
 
@@ -1080,6 +1104,7 @@ const updateFeatureCard = (charId) => {
   const t3 = window.setTimeout(() => {
     featureContainer.classList.remove("is-image-entering");
     featureContainer.classList.remove("is-text-hidden");
+    if (featureBadgeEl) featureBadgeEl.classList.remove("is-text-hidden");
   }, 2300);
   featureTimers.push(t3);
 };
@@ -1087,16 +1112,18 @@ const updateFeatureCard = (charId) => {
 const advanceCharactersOrbit = () => {
   if (
     document.hidden ||
-    window.innerWidth <= 768 ||
     window.matchMedia("(prefers-reduced-motion: reduce)").matches
   ) {
     return;
   }
 
+  const slots = getOrbitSlots();
+  const isMobile = window.innerWidth <= 768;
+
   // Clean up any lingering clone from previous transition
   document.querySelectorAll(".characters-orbit__character--clone").forEach((c) => c.remove());
 
-  // Find the character currently at slot 8 (leftmost position) before moving
+  // Find the character currently at slot 8 (exit position) before moving
   const wrappingChar = orbitElements.find((el) => {
     const initialIndex = Number(el.dataset.orbitIndex);
     return (initialIndex + currentOrbitStep) % 9 === 8;
@@ -1104,25 +1131,23 @@ const advanceCharactersOrbit = () => {
 
   currentOrbitStep = (currentOrbitStep + 1) % 9;
 
-  // Seamless wrap-around for the left-to-right character transition:
-  // 1) The real element at slot 8 slides smoothly out along the arc towards bottom-left off-screen
-  // 2) A clone simultaneously slides in along the arc from bottom-right off-screen into slot 0
-  // 3) When transition completes (1650ms), silently swap the real element into slot 0 and remove the clone
+  // Seamless wrap-around for the character transition:
   if (wrappingChar) {
+    const isMobile = window.innerWidth <= 768;
     wrappingChar.style.transition = "";
     wrappingChar.style.opacity = "0";
-    wrappingChar.style.insetInlineStart = "-4%";
-    wrappingChar.style.insetBlockStart = "85%";
-    wrappingChar.style.transform = "translate(-50%, -50%) scale(0.9)";
+    wrappingChar.style.insetInlineStart = isMobile ? "-70px" : "-4%";
+    wrappingChar.style.insetBlockStart = isMobile ? "365px" : "85%";
+    wrappingChar.style.transform = "translate(-50%, -50%) scale(0.8)";
 
     const clone = wrappingChar.cloneNode(true);
     clone.classList.add("characters-orbit__character--clone");
     clone.removeAttribute("data-orbit-character");
     clone.style.transition = "none";
     clone.style.opacity = "0";
-    clone.style.insetInlineStart = "104%";
-    clone.style.insetBlockStart = "85%";
-    clone.style.transform = "translate(-50%, -50%) scale(0.9)";
+    clone.style.insetInlineStart = isMobile ? "-70px" : "104%";
+    clone.style.insetBlockStart = isMobile ? "135px" : "85%";
+    clone.style.transform = "translate(-50%, -50%) scale(0.8)";
 
     if (wrappingChar.parentElement) {
       wrappingChar.parentElement.appendChild(clone);
@@ -1131,17 +1156,17 @@ const advanceCharactersOrbit = () => {
     void clone.offsetWidth;
 
     clone.style.transition = "";
-    clone.style.opacity = "1";
-    clone.style.insetInlineStart = orbitSlots[0].left;
-    clone.style.insetBlockStart = orbitSlots[0].top;
-    clone.style.transform = `translate(-50%, -50%) scale(${orbitSlots[0].scale})`;
+    clone.style.opacity = String(slots[0].opacity);
+    clone.style.insetInlineStart = slots[0].left;
+    clone.style.insetBlockStart = slots[0].top;
+    clone.style.transform = `translate(-50%, -50%) scale(${slots[0].scale})`;
 
     window.setTimeout(() => {
       wrappingChar.style.transition = "none";
-      wrappingChar.style.opacity = "1";
-      wrappingChar.style.insetInlineStart = orbitSlots[0].left;
-      wrappingChar.style.insetBlockStart = orbitSlots[0].top;
-      wrappingChar.style.transform = `translate(-50%, -50%) scale(${orbitSlots[0].scale})`;
+      wrappingChar.style.opacity = String(slots[0].opacity);
+      wrappingChar.style.insetInlineStart = slots[0].left;
+      wrappingChar.style.insetBlockStart = slots[0].top;
+      wrappingChar.style.transform = `translate(-50%, -50%) scale(${slots[0].scale})`;
       void wrappingChar.offsetWidth;
       wrappingChar.style.transition = "";
       clone.remove();
@@ -1154,7 +1179,7 @@ const advanceCharactersOrbit = () => {
 
     const initialIndex = Number(el.dataset.orbitIndex);
     const slotIdx = (initialIndex + currentOrbitStep) % 9;
-    const slot = orbitSlots[slotIdx];
+    const slot = slots[slotIdx];
 
     el.style.transition = "";
     el.style.opacity = String(slot.opacity);
@@ -1162,33 +1187,60 @@ const advanceCharactersOrbit = () => {
     el.style.insetBlockStart = slot.top;
     el.style.transform = `translate(-50%, -50%) scale(${slot.scale})`;
 
-    // When this character enters slot 4 (center), update the central feature!
+    // When this character enters slot 4 (feature), update the central feature!
     if (slotIdx === 4) {
       updateFeatureCard(el.dataset.characterId);
     }
   });
 };
 
+const applyOrbitPositions = (animate = false) => {
+  const slots = getOrbitSlots();
+  orbitElements.forEach((el) => {
+    const initialIndex = Number(el.dataset.orbitIndex);
+    const slotIdx = (initialIndex + currentOrbitStep) % 9;
+    const slot = slots[slotIdx];
+    if (!animate) el.style.transition = "none";
+    el.style.opacity = String(slot.opacity);
+    el.style.insetInlineStart = slot.left;
+    el.style.insetBlockStart = slot.top;
+    el.style.transform = `translate(-50%, -50%) scale(${slot.scale})`;
+    if (!animate) {
+      void el.offsetWidth;
+      el.style.transition = "";
+    }
+  });
+};
+
+window.addEventListener("resize", () => applyOrbitPositions(false));
+
 // 사이트를 열면 자동으로 처음 원(한교동)부터 12시 최상단에서 시계방향으로 색이 채워지는 인트로 애니메이션
 const initFirstFeatureRing = () => {
   if (!featureContainer || !featureRingAccentEl) return;
 
+  applyOrbitPositions(false);
+
   featureContainer.classList.add("is-text-hidden");
+  if (featureBadgeEl) {
+    featureBadgeEl.classList.add("is-text-hidden");
+    featureBadgeEl.style.setProperty("--feature-accent-color", "#5ec8ba");
+  }
   featureContainer.style.setProperty("--feature-accent-color", "#5ec8ba");
 
   window.setTimeout(() => {
     // 1. 이미지 확대 진입 시작
     featureContainer.classList.add("is-image-entering");
 
-    // 2. 테두리가 12시 최상단부터 시계방향으로 1.9s 동안 한교동 민트색으로 채워짐
+    // 2. 테두리가 12시 최상단부터 시계방향으로 2.0s 동안 한교동 민트색으로 채워짐
     currentRingOffset = 0;
     featureRingAccentEl.style.transition = "stroke-dashoffset 2.0s linear, stroke 0.4s ease";
     featureRingAccentEl.style.strokeDashoffset = "0";
 
-    // 3. 이미지가 안착된 후 텍스트 등장 시작 -> 1900ms에 테두리와 동시 완성
+    // 3. 이미지가 안착된 후 텍스트 등장 시작 -> 2000ms에 테두리와 동시 완성
     window.setTimeout(() => {
       featureContainer.classList.remove("is-image-entering");
       featureContainer.classList.remove("is-text-hidden");
+      if (featureBadgeEl) featureBadgeEl.classList.remove("is-text-hidden");
     }, 1300);
   }, 300);
 };
@@ -1199,4 +1251,220 @@ if (featureContainer) {
 
 if (orbitElements.length > 0) {
   window.setInterval(advanceCharactersOrbit, 6000);
+}
+
+// Footer Page Top Smooth Scroll
+const footerPageTop = document.querySelector('[data-js="footer-pagetop"]');
+if (footerPageTop) {
+  footerPageTop.addEventListener("click", (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+}
+
+
+// ==========================================================================
+// Movies Section Carousel (Hero와 동일한 3면 전환 및 자동 슬라이드)
+// ==========================================================================
+const movieSlides = [
+  { image: "./images/used/sanrio-dt_84.jpg", title: "ポムポムプリン「ポムポム☆PARADISE」(Full Ver.)" },
+  { image: "./images/used/sanrio-dt_81.jpg", title: "ポムポムプリン「ポムポム☆PARADISE」(Full Ver.)" },
+  { image: "./images/used/sanrio-dt_83.jpg", title: "シナモロールキッチン" },
+  { image: "./images/used/sanrio-dt_85.jpg", title: "サンリオムービー スペシャル" },
+  { image: "./images/used/sanrio-dt_82.jpg", title: "シナモロールの海の冒険" },
+];
+
+const moviesTrack = document.querySelector('[data-js="movies-track"]');
+const moviesStage = moviesTrack?.closest(".movies-stage");
+const moviesDots = Array.from(document.querySelectorAll('[data-js="movies-dot"]'));
+const moviesPrevBtn = document.querySelector('[data-js="movies-previous"]');
+const moviesNextBtn = document.querySelector('[data-js="movies-next"]');
+const moviesInfoTitle = document.querySelector('[data-js="movies-info-title"]');
+
+let activeMovieIndex = 0;
+let isMovieAnimating = false;
+let moviePendingDirections = [];
+let movieAnimatingDirection = 0;
+let movieAutoplayTimer;
+let movieContentRevealTimer;
+const movieAutoplayDelay = 5000;
+
+const updateMovieContent = (animateTitle = false) => {
+  if (!moviesTrack) return;
+  const cards = Array.from(moviesTrack.querySelectorAll(".movies-card"));
+  const roleOffsets = [
+    { name: "left", offset: -1 },
+    { name: "center", offset: 0 },
+    { name: "right", offset: 1 },
+  ];
+
+  cards.forEach((card, position) => {
+    const role = roleOffsets[position];
+    const slideIndex = (activeMovieIndex + role.offset + movieSlides.length) % movieSlides.length;
+    const slide = movieSlides[slideIndex];
+    const image = card.querySelector(".movies-card__image");
+    if (!(image instanceof HTMLImageElement)) return;
+
+    image.src = slide.image;
+    image.alt = role.name === "center" ? slide.title : "";
+  });
+
+  moviesDots.forEach((dot, index) => {
+    dot.setAttribute("aria-current", String(index === activeMovieIndex));
+  });
+
+  if (moviesInfoTitle && movieSlides[activeMovieIndex]) {
+    const nextTitle = movieSlides[activeMovieIndex].title;
+    window.clearTimeout(movieContentRevealTimer);
+    if (animateTitle) {
+      moviesInfoTitle.classList.remove("is-revealing");
+      moviesInfoTitle.classList.add("is-hidden");
+      movieContentRevealTimer = window.setTimeout(() => {
+        moviesInfoTitle.textContent = nextTitle;
+        moviesInfoTitle.classList.remove("is-hidden");
+        void moviesInfoTitle.offsetWidth;
+        moviesInfoTitle.classList.add("is-revealing");
+      }, 300);
+    } else {
+      moviesInfoTitle.textContent = nextTitle;
+      moviesInfoTitle.classList.remove("is-hidden", "is-revealing");
+    }
+  }
+};
+
+const animateNextMovieDirection = () => {
+  if (isMovieAnimating || moviePendingDirections.length === 0 || !moviesTrack) return;
+
+  isMovieAnimating = true;
+  const direction = moviePendingDirections.shift();
+  movieAnimatingDirection = direction;
+  const cards = Array.from(moviesTrack.querySelectorAll(".movies-card"));
+  const nextIndex = (activeMovieIndex + direction + movieSlides.length) % movieSlides.length;
+
+  window.clearTimeout(movieContentRevealTimer);
+  if (moviesInfoTitle) {
+    moviesInfoTitle.classList.remove("is-revealing");
+    moviesInfoTitle.classList.add("is-hidden");
+  }
+
+  const incomingImages = cards.map((card, position) => {
+    const image = card.querySelector(".movies-card__image");
+    if (!(image instanceof HTMLImageElement)) {
+      throw new Error("動画スライドの画像が見つかりません。");
+    }
+
+    const roleIndex = (nextIndex + position - 1 + movieSlides.length) % movieSlides.length;
+    const incomingImage = document.createElement("img");
+    incomingImage.className = "movies-card__image movies-card__image--incoming";
+    incomingImage.src = movieSlides[roleIndex].image;
+    incomingImage.alt = position === 1 ? movieSlides[roleIndex].title : "";
+    if (position !== 1) {
+      incomingImage.setAttribute("aria-hidden", "true");
+    }
+    card.append(incomingImage);
+    return incomingImage;
+  });
+
+  const transitionDuration = getComputedStyle(incomingImages[0]).transitionDuration.split(",")[0].trim();
+  const durationUnit = transitionDuration.endsWith("ms") ? 1 : 1000;
+  const transitionTimeout = Number.parseFloat(transitionDuration) * durationUnit + 50;
+
+  let transitionFinished = false;
+  let transitionFallback;
+  const onTransitionEnd = (event) => {
+    if (incomingImages.includes(event.target) && event.propertyName === "transform") {
+      finishTransition();
+    }
+  };
+
+  const finishTransition = () => {
+    if (transitionFinished) return;
+    transitionFinished = true;
+    window.clearTimeout(transitionFallback);
+    moviesTrack.removeEventListener("transitionend", onTransitionEnd);
+
+    cards.forEach((card, position) => {
+      const currentImage = card.querySelector(".movies-card__image:not(.movies-card__image--incoming)");
+      if (currentImage instanceof HTMLImageElement) {
+        currentImage.remove();
+      }
+      incomingImages[position].classList.remove("movies-card__image--incoming");
+    });
+    activeMovieIndex = nextIndex;
+    moviesTrack.classList.remove("is-sliding-next", "is-sliding-previous");
+    updateMovieContent(true);
+    if (moviesStage) moviesStage.scrollLeft = 0;
+
+    requestAnimationFrame(() => {
+      isMovieAnimating = false;
+      movieAnimatingDirection = 0;
+      animateNextMovieDirection();
+    });
+  };
+
+  moviesTrack.addEventListener("transitionend", onTransitionEnd);
+
+  requestAnimationFrame(() => {
+    moviesTrack.classList.add(direction > 0 ? "is-sliding-next" : "is-sliding-previous");
+    transitionFallback = window.setTimeout(finishTransition, transitionTimeout);
+  });
+};
+
+const queueMovieSlide = (targetIndex) => {
+  const startingIndex = (
+    activeMovieIndex
+    + (isMovieAnimating ? movieAnimatingDirection : 0)
+    + moviePendingDirections.reduce((total, direction) => total + direction, 0)
+    + movieSlides.length * 2
+  ) % movieSlides.length;
+  moviePendingDirections.length = 0;
+  const forward = (targetIndex - startingIndex + movieSlides.length) % movieSlides.length;
+  const backward = (startingIndex - targetIndex + movieSlides.length) % movieSlides.length;
+  const direction = forward <= backward ? 1 : -1;
+  const steps = Math.min(forward, backward);
+
+  for (let step = 0; step < steps; step += 1) {
+    moviePendingDirections.push(direction);
+  }
+  animateNextMovieDirection();
+};
+
+const startMovieAutoplay = () => {
+  window.clearTimeout(movieAutoplayTimer);
+  if (
+    document.hidden
+    || window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    return;
+  }
+
+  movieAutoplayTimer = window.setTimeout(() => {
+    moviePendingDirections.push(1);
+    animateNextMovieDirection();
+    startMovieAutoplay();
+  }, movieAutoplayDelay);
+};
+
+if (moviesTrack) {
+  moviesPrevBtn?.addEventListener("click", () => {
+    moviePendingDirections.push(-1);
+    animateNextMovieDirection();
+    startMovieAutoplay();
+  });
+
+  moviesNextBtn?.addEventListener("click", () => {
+    moviePendingDirections.push(1);
+    animateNextMovieDirection();
+    startMovieAutoplay();
+  });
+
+  moviesDots.forEach((dot, index) => {
+    dot.addEventListener("click", () => {
+      queueMovieSlide(index);
+      startMovieAutoplay();
+    });
+  });
+
+  updateMovieContent();
+  startMovieAutoplay();
 }

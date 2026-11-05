@@ -69,7 +69,7 @@
 }
 
 .news-section__inner {
-  width: min(100% - var(--space-8), var(--news-width));
+  width: min(100% - var(--space-8), 900px);
 }
 
 @media (max-width: 768px) {

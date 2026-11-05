@@ -1,0 +1,640 @@
+/* ==========================================================================
+   Movie Section (Movies)
+   Hero와 동일한 3면 양옆 노출 캐러셀 구조 및 애니메이션
+   데스크톱 & 모바일 첨부 이미지 1:1 완벽 반영
+   ========================================================================== */
+
+.movies-section {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-bg);
+  padding-block-start: var(--space-8);
+  padding-block-end: 4rem;
+}
+
+/* Background Decor 1: Lavender Circular Gradient (Desktop Left) */
+.movies-section__bg-circle {
+  position: absolute;
+  inset-inline-start: -10vw;
+  inset-block-start: -4rem;
+  width: min(52rem, 58vw);
+  height: min(52rem, 58vw);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(238 230 252 / 85%) 0%, rgb(246 242 254 / 45%) 65%, rgb(255 255 255 / 0%) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Background Decor 2: Pompompurin Outline Drawing (Desktop Right) */
+.movies-section__purin-outline {
+  position: absolute;
+  inset-inline-end: 3vw;
+  inset-block-start: -2rem;
+  width: min(22rem, 24vw);
+  height: auto;
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+}
+
+.movies-section__inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* Heading: Mint Camera Icon + "Movies" + "ムービー" */
+.movies-section__heading {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  margin-block-end: var(--space-6);
+}
+
+.movies-section__camera-icon {
+  width: 2.375rem;
+  height: 1.5rem;
+  margin-block-end: var(--space-1);
+}
+
+.movies-section__title {
+  margin: 0;
+  color: #b18bd3;
+  font-family: var(--font-display);
+  font-size: clamp(2.35rem, 3.2vw, 3rem);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.1;
+  letter-spacing: var(--letter-spacing-caption);
+}
+
+.movies-section__subtitle {
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+}
+
+/* Carousel Outer Stage */
+.movies-carousel {
+  position: relative;
+  width: 100%;
+}
+
+.movies-stage {
+  position: relative;
+  width: 100%;
+  height: calc(var(--size-hero-slide-width) * 9 / 16);
+  min-height: 18rem;
+  overflow: visible;
+}
+
+.movies-track {
+  position: absolute;
+  z-index: 0;
+  inset-block: 0;
+  inset-inline-start: 50%;
+  display: grid;
+  grid-template-columns: repeat(3, var(--size-hero-slide-width));
+  column-gap: var(--size-hero-slide-gap);
+  width: max-content;
+  transform: translateX(-50%);
+}
+
+.movies-card {
+  position: relative;
+  width: var(--size-hero-slide-width);
+  min-width: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  cursor: pointer;
+}
+
+.movies-card--center {
+  box-shadow: var(--shadow-card);
+}
+
+.movies-card__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translateX(0);
+  transition: transform var(--duration-slide) linear,
+    scale var(--duration-base) var(--ease-standard);
+}
+
+@media (hover: hover) and (min-width: 769px) {
+  .movies-card--center:hover .movies-card__image {
+    scale: 1.05;
+  }
+}
+
+/* Hero Carousel Slide Animations */
+.movies-track.is-sliding-next .movies-card__image:not(.movies-card__image--incoming) {
+  transform: translateX(-100%);
+}
+
+.movies-track.is-sliding-previous .movies-card__image:not(.movies-card__image--incoming) {
+  transform: translateX(100%);
+}
+
+.movies-card__image--incoming {
+  transform: translateX(100%);
+}
+
+.movies-track.is-sliding-previous .movies-card__image--incoming {
+  transform: translateX(-100%);
+}
+
+.movies-track.is-sliding-next .movies-card__image--incoming,
+.movies-track.is-sliding-previous .movies-card__image--incoming {
+  transform: translateX(0);
+}
+
+/* Play Button Overlay (Active Center Card Video Play Button) */
+.movies-card__play-btn {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(4.5rem, 5.5vw, 5.25rem);
+  height: clamp(4.5rem, 5.5vw, 5.25rem);
+  border-radius: 50%;
+  background: rgb(255 255 255 / 75%);
+  border: 3.5px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  pointer-events: none;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 18%);
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.movies-card--center:hover .movies-card__play-btn {
+  transform: translate(-50%, -50%) scale(1.1);
+  background: rgb(255 255 255 / 92%);
+}
+
+.movies-card__play-icon {
+  width: 0;
+  height: 0;
+  border-top: 1rem solid transparent;
+  border-bottom: 1rem solid transparent;
+  border-left: 1.55rem solid #b18bd3;
+  margin-inline-start: 0.35rem; /* Optical centering */
+}
+
+/* Nav Arrows (Positioned at vertical center of the card stage) */
+.movies-controls__arrow {
+  position: absolute;
+  z-index: 2;
+  inset-block-start: 50%;
+  transform: translateY(-50%);
+  width: var(--size-carousel-control);
+  height: var(--size-carousel-control);
+  padding: 0;
+  border: 0;
+  background: var(--color-bg);
+  color: #91dea9;
+  overflow: hidden;
+  border-radius: 50%;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.movies-controls__arrow--previous {
+  inset-inline-start: calc(50% - var(--size-hero-slide-width) / 2 - var(--size-carousel-control) - var(--space-2));
+}
+
+.movies-controls__arrow--next {
+  inset-inline-end: calc(50% - var(--size-hero-slide-width) / 2 - var(--size-carousel-control) - var(--space-2));
+}
+
+.movies-controls__circle {
+  position: absolute;
+  inset: 0;
+  background: #91dea9;
+  color: #91dea9;
+  mask: url("../../images/used/circle.svg") center / contain no-repeat;
+  pointer-events: none;
+}
+
+.movies-controls__circle::after {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(
+    from 0deg,
+    #cda1dc 0deg var(--movies-arrow-ring-progress, 0deg),
+    transparent var(--movies-arrow-ring-progress, 0deg) 360deg
+  );
+  content: "";
+  mask: url("../../images/used/circle.svg") center / contain no-repeat;
+  pointer-events: none;
+  transition: --movies-arrow-ring-progress 500ms linear;
+}
+
+.movies-controls__arrow-icon {
+  position: relative;
+  width: var(--size-carousel-arrow);
+  height: var(--size-carousel-arrow);
+  background-color: #91dea9;
+  mask: url("../../images/used/arrow.svg") center / contain no-repeat;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+  backface-visibility: hidden;
+  will-change: translate, opacity;
+}
+
+.movies-controls__arrow--previous .movies-controls__arrow-icon {
+  transform: rotate(180deg);
+}
+
+@property --movies-arrow-ring-progress {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+  initial-value: 0deg;
+}
+
+@media (hover: hover) and (min-width: 769px) {
+  .movies-controls__arrow:hover .movies-controls__circle::after {
+    --movies-arrow-ring-progress: 360deg;
+  }
+
+  .movies-controls__arrow:hover .movies-controls__arrow-icon {
+    background-color: #cda1dc;
+    animation: arrow-out-and-back 900ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .movies-controls__arrow--previous:hover .movies-controls__arrow-icon {
+    animation-name: arrow-out-and-back-previous;
+  }
+}
+
+/* Pagination Dots */
+.movies-controls {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-block: var(--space-6) 0;
+}
+
+.movies-controls__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  min-height: var(--size-carousel-control);
+}
+
+.movies-controls__dot {
+  position: relative;
+  isolation: isolate;
+  width: var(--size-pagination-dot);
+  height: var(--size-pagination-dot);
+  padding: 0;
+  border-radius: 50%;
+  border: 0;
+  background: var(--color-dot);
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-standard);
+}
+
+.movies-controls__dot[aria-current="true"] {
+  background: #50c4ad;
+}
+
+.movies-controls__dot::after {
+  position: absolute;
+  z-index: -1;
+  inset: -0.625rem;
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.movies-controls__dot[aria-current="true"]::after {
+  background: conic-gradient(
+    from 0deg,
+    #b2e8dd 0deg var(--movies-pagination-progress, 0deg),
+    transparent var(--movies-pagination-progress, 0deg) 360deg
+  );
+  mask: radial-gradient(farthest-side, transparent calc(100% - var(--border-width-strong)), #000 calc(100% - var(--border-width-strong)));
+  animation: movies-pagination-progress 5s linear forwards;
+}
+
+@property --movies-pagination-progress {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes movies-pagination-progress {
+  to {
+    --movies-pagination-progress: 360deg;
+  }
+}
+
+@media (hover: hover) {
+  .movies-controls__dot:hover {
+    transform: scale(var(--hover-scale));
+  }
+}
+
+/* Desktop & Mobile Bottom Link ("ムービー TOP" 버튼) */
+.movies-section__top-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(22rem, calc(100% - var(--space-8)));
+  min-height: 3.125rem;
+  margin: 3.5rem auto 0;
+  padding-inline: var(--space-8);
+  border-radius: var(--radius-pill);
+  background: #b18bd3;
+  color: var(--color-white);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgb(177 139 211 / 25%);
+}
+
+.movies-section__top-link-icon {
+  position: absolute;
+  inset-inline-start: -0.75rem;
+  inset-block-start: -0.65rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  filter: var(--filter-icon-white);
+}
+
+.movies-section__top-link-arrow {
+  position: absolute;
+  inset-inline-end: var(--space-3);
+  display: grid;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--color-white);
+  color: #b18bd3;
+  font-size: var(--font-size-xs);
+  letter-spacing: 0;
+}
+
+/* ==========================================================================
+   Active Movie Title & YouTube Channel Information Bar
+   ========================================================================== */
+.movies-info {
+  display: flex;
+  flex-direction: column;
+  width: var(--size-hero-slide-width);
+  max-width: 100%;
+  margin: 1.5rem auto 0;
+  padding-inline: 0.5rem;
+  box-sizing: border-box;
+}
+
+.movies-info__title {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #555555;
+  letter-spacing: 0.02em;
+  word-break: break-all;
+  transition: opacity 240ms ease-out;
+}
+
+.movies-info__title.is-hidden {
+  opacity: 0;
+}
+
+.movies-info__title.is-revealing {
+  animation: hero-title-reveal 1200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.movies-info__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.movies-info__channel {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.movies-info__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.movies-info__channel-name {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #666666;
+}
+
+.movies-info__subscribe-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1.6rem;
+  border-radius: var(--radius-pill, 9999px);
+  background-color: #e56d6d;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(229, 109, 109, 0.25);
+  transition: background-color var(--duration-fast, 150ms) ease, transform var(--duration-fast, 150ms) ease;
+}
+
+.movies-info__subscribe-btn:hover {
+  background-color: #d85b5b;
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Responsive (Max-width: 768px Mobile)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .movies-section {
+    padding-block-start: var(--space-6);
+    padding-block-end: 2.5rem;
+  }
+
+  .movies-section__bg-circle {
+    inset-inline-start: -25vw;
+    inset-block-start: -3rem;
+    width: 120vw;
+    height: 120vw;
+  }
+
+  .movies-section__purin-outline {
+    inset-inline-end: 4vw;
+    inset-block-start: 1rem;
+    width: 8.5rem;
+  }
+
+  .movies-stage {
+    overflow: visible;
+    height: calc(min(var(--size-hero-slide-mobile), var(--size-mobile-content)) * 9 / 16);
+  }
+
+  .movies-track {
+    grid-template-columns: repeat(3, min(var(--size-hero-slide-mobile), var(--size-mobile-content)));
+    column-gap: 0;
+    clip-path: inset(0 calc(50% - min(var(--size-hero-slide-mobile), var(--size-mobile-content)) / 2));
+  }
+
+  .movies-card {
+    width: min(var(--size-hero-slide-mobile), var(--size-mobile-content));
+  }
+
+  .movies-card__play-btn {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-width: 2.5px;
+  }
+
+  .movies-card__play-icon {
+    border-top-width: 0.75rem;
+    border-bottom-width: 0.75rem;
+    border-left-width: 1.15rem;
+    margin-inline-start: 0.2rem;
+  }
+
+  .movies-controls {
+    padding-block: var(--space-4) 0;
+  }
+
+  .movies-controls__pagination {
+    gap: var(--space-6);
+  }
+
+  .movies-info {
+    width: min(var(--size-hero-slide-mobile), var(--size-mobile-content));
+    margin-top: 1.25rem;
+    padding-inline: 0;
+  }
+
+  .movies-info__title {
+    font-size: 1rem;
+    line-height: 1.35;
+    margin-bottom: 0.75rem;
+  }
+
+  .movies-info__avatar {
+    width: 38px;
+    height: 38px;
+  }
+
+  .movies-info__channel-name {
+    font-size: 0.8125rem;
+  }
+
+  .movies-info__subscribe-btn {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.75rem;
+  }
+
+  /* Arrows: perfectly centered vertically over the mobile card, overlapping its left/right edges */
+  .movies-controls__arrow {
+    inset-block-start: calc(calc(min(var(--size-hero-slide-mobile), var(--size-mobile-content)) * 9 / 16) / 2);
+    transform: translateY(-50%);
+  }
+
+  .movies-controls__arrow--previous {
+    inset-inline-start: calc(50% - min(var(--size-hero-slide-mobile), var(--size-mobile-content)) / 2 - var(--size-carousel-control) / 2);
+  }
+
+  .movies-controls__arrow--next {
+    inset-inline-end: calc(50% - min(var(--size-hero-slide-mobile), var(--size-mobile-content)) / 2 - var(--size-carousel-control) / 2);
+  }
+
+  /* Mobile "ムービー TOP" Button (하단 딸기 아이콘 + 퍼플 필 버튼) */
+  .movies-section__top-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% - var(--space-8));
+    max-width: 22rem;
+    min-height: 3.125rem;
+    margin: 1.75rem auto 0;
+    padding-inline: var(--space-8);
+    border-radius: var(--radius-pill);
+    background: #b18bd3;
+    color: var(--color-white);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-label);
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgb(177 139 211 / 25%);
+  }
+
+  .movies-section__top-link-icon {
+    position: absolute;
+    inset-inline-start: -0.75rem;
+    inset-block-start: -0.65rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    filter: var(--filter-icon-white);
+  }
+
+  .movies-section__top-link-arrow {
+    position: absolute;
+    inset-inline-end: var(--space-3);
+    display: grid;
+    place-items: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    background: var(--color-white);
+    color: #b18bd3;
+    font-size: var(--font-size-xs);
+    letter-spacing: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .movies-card__image {
+    transition-duration: var(--duration-reduced);
+  }
+
+  .movies-controls__arrow,
+  .movies-controls__dot {
+    transition-duration: var(--duration-reduced);
+  }
+
+  .movies-controls__circle::after {
+    transition-duration: var(--duration-reduced);
+  }
+
+  .movies-controls__arrow-icon {
+    transition-duration: var(--duration-reduced);
+    animation-duration: var(--duration-reduced);
+  }
+
+  .movies-controls__dot[aria-current="true"]::after {
+    animation: none;
+  }
+}

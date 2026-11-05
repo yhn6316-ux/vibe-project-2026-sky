@@ -25,6 +25,16 @@
   --color-dot: #dedade;
   --color-nav-divider: rgb(112 32 63 / 30%);
   --color-search-backdrop: rgb(42 35 40 / 52%);
+  --notice-pink: #ffafd1;
+  --notice-pink-strong: #f47dad;
+  --notice-pink-deep: #b23c6a;
+  --notice-pink-soft: #fff3f8;
+  --notice-pink-border: #ffc1dc;
+  --notice-purple-soft: #f0e5fb;
+  --notice-purple-text: #8062a6;
+  --notice-green-soft: #e6f4eb;
+  --notice-green-text: #4a8960;
+  --notice-gradient: linear-gradient(110deg, #f8a0c3, #f16da7);
 
   --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
     "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;

@@ -1,0 +1,574 @@
+/* ==========================================================================
+   Goods Section Styles
+   Design Tokens & BEM Conventions followed strictly.
+   No animations added per instructions.
+   ========================================================================== */
+
+.goods-section {
+  position: relative;
+  background-color: #ffffff;
+  padding-block-start: 3rem;
+  padding-block-end: 4rem;
+  overflow: hidden;
+}
+
+/* Background Soft Pink Circle Decoration */
+.goods-section__bg-circle {
+  position: absolute;
+  top: -60px;
+  right: -100px;
+  width: 540px;
+  height: 540px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fdf1f6 0%, #fcf5fa 70%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Background Duck Character Outline (Ahiru no Pekkle) */
+.goods-section__duck-outline {
+  position: absolute;
+  top: 1rem;
+  left: max(2rem, calc((100vw - 1200px) / 2 - 40px));
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  opacity: 0.35;
+  filter: grayscale(1) brightness(0.7) opacity(0.5);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.goods-section__inner {
+  position: relative;
+  z-index: 1;
+  width: 1200px;
+  max-width: 100%;
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+/* Heading: Gift Box Icon + Goods + グッズ */
+.goods-section__heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-block-end: 2.25rem;
+}
+
+.goods-section__gift-icon {
+  width: 2rem;
+  height: 2rem;
+  margin-block-end: 0.25rem;
+  filter: invert(72%) sepia(28%) saturate(1000%) hue-rotate(130deg) brightness(92%) contrast(85%); /* #5dc8ba mint tone */
+}
+
+.goods-section__title {
+  margin: 0;
+  font-family: var(--font-display, inherit);
+  font-size: 2.25rem;
+  font-weight: var(--font-weight-medium, 500);
+  color: #ea6497;
+  line-height: 1.1;
+}
+
+.goods-section__subtitle {
+  margin: 0.25rem 0 0;
+  font-size: var(--font-size-xs, 0.75rem);
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-text-muted, #727272);
+}
+
+/* Goods Cards Grid (Desktop 3 columns) */
+.goods-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 340px);
+  justify-content: center;
+  gap: 2.5rem;
+  margin-block-end: 2rem;
+}
+
+.goods-card {
+  display: flex;
+  flex-direction: column;
+  width: 340px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.goods-card__link {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+}
+
+.goods-card__thumb-wrap {
+  position: relative;
+  width: 340px;
+  height: 190px;
+  border-radius: var(--radius-card, 16px);
+  overflow: visible;
+  margin-block-end: 0.75rem;
+  background-color: #f7f7f7;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.goods-card__image {
+  width: 340px;
+  height: 190px;
+  object-fit: cover;
+  border-radius: var(--radius-card, 16px);
+  display: block;
+}
+
+/* Apple NEW Badge: Overlapping top-right corner */
+.goods-card__new-badge {
+  position: absolute;
+  top: -12px;
+  right: -8px;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.goods-card__new-apple {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #e9527f;
+  border-radius: 50% 50% 45% 45%;
+}
+
+/* Leaf / Stem of Apple */
+.goods-card__new-apple::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  right: 14px;
+  width: 5px;
+  height: 7px;
+  border-radius: 50% 0 50% 0;
+  background-color: #8cc34c;
+  transform: rotate(25deg);
+}
+
+.goods-card__new-text {
+  position: relative;
+  z-index: 1;
+  color: #ffffff;
+  font-size: 0.5625rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.goods-card__title {
+  margin: 0 0 0.5rem;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 1.45;
+  color: #333333;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.goods-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.goods-card__category {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  background-color: #e9527f;
+  color: #ffffff;
+  font-size: 0.625rem;
+  font-weight: var(--font-weight-bold, 700);
+  line-height: 1.2;
+}
+
+.goods-card__date {
+  font-size: 0.6875rem;
+  color: var(--color-text-muted, #727272);
+}
+
+/* Middle Button: Goods TOP */
+.goods-section__top-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(22rem, calc(100% - var(--space-8)));
+  min-height: 3rem;
+  margin: 0 auto 3.5rem;
+  padding-inline: var(--space-8);
+  border-radius: var(--radius-pill);
+  background: #ea6497;
+  color: var(--color-white);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  text-decoration: none;
+}
+
+.goods-section__top-link > img {
+  position: absolute;
+  inset-inline-start: -0.5rem;
+  inset-block-start: -0.6rem;
+  width: 2.5rem;
+  height: 2.2rem;
+  filter: brightness(0) invert(1);
+}
+
+.goods-section__arrow {
+  position: absolute;
+  inset-inline-end: var(--space-3);
+  display: grid;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--color-white);
+  color: #ea6497;
+  font-size: var(--font-size-xs);
+  letter-spacing: 0;
+}
+
+/* ==========================================================================
+   Online Shop Popular Ranking Box (White Rounded Card Container)
+   ========================================================================== */
+
+.goods-ranking {
+  width: 1200px;
+  max-width: 100%;
+  margin-inline: auto;
+  box-sizing: border-box;
+  background: #f7f7f7;
+  border-radius: 24px;
+  box-shadow: 0 4px 24px rgba(220, 160, 180, 0.12), 0 1px 4px rgba(0, 0, 0, 0.04);
+  padding: 2.5rem 2rem 2rem;
+  text-align: center;
+}
+
+.goods-ranking__header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-block-end: 2rem;
+}
+
+.goods-ranking__header-dot {
+  flex: 1;
+  max-width: 180px;
+  height: 0;
+  border-bottom: 2px dotted #ea6497;
+  border-radius: 0;
+  background: none;
+}
+
+.goods-ranking__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-bold, 700);
+  color: #ea6497;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+/* Ranking Items Grid (Desktop 5 columns) */
+.goods-ranking__grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.25rem;
+  margin-block-end: 2.5rem;
+  list-style: none;
+  padding: 0;
+}
+
+.goods-ranking__item {
+  display: flex;
+  flex-direction: column;
+}
+
+.goods-ranking__link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  height: 100%;
+}
+
+.goods-ranking__thumb-wrap {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  margin-block-end: 0.875rem;
+  display: grid;
+  place-items: center;
+}
+
+.goods-ranking__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Crown Badge for Top 3 (Yellow, Silver, Bronze) */
+.goods-ranking__crown {
+  position: absolute;
+  top: -14px;
+  right: -8px;
+  width: 34px;
+  height: 28px;
+  z-index: 2;
+}
+
+.goods-ranking__item-title {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-normal, 400);
+  line-height: 1.4;
+  color: #555555;
+  text-align: left;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.goods-ranking__external-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 2px;
+  color: #888888;
+}
+
+/* Bottom Ranking Button: "オンラインショップでもっと見る" with Shopping Bag */
+.goods-ranking__btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: min(24rem, calc(100% - var(--space-8)));
+  min-height: 3rem;
+  margin: 0 auto 1.25rem;
+  padding-inline: 3.5rem;
+  border-radius: var(--radius-pill);
+  background: #ea6497;
+  color: var(--color-white);
+  font-size: var(--font-size-sm, 0.875rem);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  text-decoration: none;
+}
+
+.goods-ranking__btn-icon {
+  position: absolute;
+  inset-inline-start: 1.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  filter: brightness(0) invert(1);
+}
+
+.goods-ranking__btn-ext {
+  margin-left: 2px;
+  vertical-align: middle;
+}
+
+.goods-ranking__btn-arrow {
+  position: absolute;
+  inset-inline-end: 1.25rem;
+  display: grid;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--color-white);
+  color: #ea6497;
+  font-size: var(--font-size-xs);
+  letter-spacing: 0;
+}
+
+.goods-ranking__notice {
+  margin: 0;
+  font-size: 0.6875rem;
+  color: var(--color-text-muted, #727272);
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   Mobile Responsive Adjustments (@media (max-width: 768px))
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .goods-section {
+    padding-block-start: 2.5rem;
+    padding-block-end: 3rem;
+  }
+
+  .goods-section__bg-circle {
+    display: none;
+  }
+
+  .goods-section__duck-outline {
+    top: 0.5rem;
+    left: 1rem;
+    width: 90px;
+    height: 90px;
+  }
+
+  .goods-section__heading {
+    margin-block-end: 1.75rem;
+  }
+
+  .goods-section__gift-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .goods-section__title {
+    font-size: 1.875rem;
+  }
+
+  /* Goods cards: 1 column vertical stack */
+  .goods-cards {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 2rem;
+    margin-block-end: 2rem;
+  }
+
+  .goods-card {
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .goods-card__thumb-wrap {
+    width: 100%;
+    max-width: 340px;
+    height: auto;
+    aspect-ratio: 340 / 190;
+    margin-block-end: 0.625rem;
+  }
+
+  .goods-card__image {
+    width: 100%;
+    height: 100%;
+  }
+
+  .goods-card__new-badge {
+    top: -14px;
+    right: -6px;
+    width: 42px;
+    height: 42px;
+  }
+
+  .goods-card__new-text {
+    font-size: 0.625rem;
+  }
+
+  .goods-card__title {
+    font-size: 0.9375rem;
+    -webkit-line-clamp: 2;
+  }
+
+  .goods-section__top-link {
+    width: calc(100% - var(--space-8));
+    max-width: 22rem;
+    min-height: 3rem;
+    font-size: var(--font-size-sm);
+    margin-block-end: 2.5rem;
+  }
+
+  /* Goods Ranking Box on mobile */
+  .goods-ranking {
+    border-radius: 18px;
+    padding: 1.75rem 1rem 1.5rem;
+    box-shadow: none;
+    background: #f7f7f7;
+  }
+
+  .goods-ranking__header {
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-block-end: 1.5rem;
+  }
+
+  .goods-ranking__header-dot {
+    display: none;
+  }
+
+  .goods-ranking__title {
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+
+  /* Ranking list: vertical rows of top 3 items */
+  .goods-ranking__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-block-end: 2rem;
+  }
+
+  /* On mobile, items 4 & 5 are hidden (only Top 3 shown) */
+  .goods-ranking__item--4,
+  .goods-ranking__item--5 {
+    display: none;
+  }
+
+  .goods-ranking__link {
+    flex-direction: row;
+    align-items: center;
+    gap: 1.25rem;
+    text-align: left;
+  }
+
+  .goods-ranking__thumb-wrap {
+    flex-shrink: 0;
+    width: 90px;
+    height: 90px;
+    margin-block-end: 0;
+  }
+
+  .goods-ranking__crown {
+    top: -12px;
+    right: -6px;
+    width: 30px;
+    height: 25px;
+  }
+
+  .goods-ranking__item-title {
+    font-size: 0.8125rem;
+    -webkit-line-clamp: 3;
+    line-height: 1.45;
+  }
+
+  .goods-ranking__btn {
+    width: 100%;
+    min-height: 3rem;
+    font-size: 0.8125rem;
+  }
+
+  .goods-ranking__notice {
+    font-size: 0.625rem;
+    text-align: left;
+  }
+}
+

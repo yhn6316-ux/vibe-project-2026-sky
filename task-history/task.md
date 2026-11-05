@@ -10,6 +10,411 @@
 - 이미지 및 아이콘은 `images/used` 에셋을 우선 재사용한다.
 - `Characters` 섹션은 이전 사용자 요청으로 삭제된 상태이며 복원하지 않는다.
 
+## 2026-11-05 작업 기록
+
+### News Panel (중요 공지) - 폭(900px), 헤딩 글자색, 내용 굵기 및 더보기 화살표 아이콘 수정
+- 사용자의 `part-box news-panel의 width 900px로 수정. news-panel__heading에 사용된 글자색 더 부드러운색으로 수정. news-panel__list의 날짜 뒤의 내용글자는 볼드체로 수정. news-panel__more에 사용된 아이콘 화살표 아이콘으로 변경.` 요청 반영:
+  - `css/layout.css`:
+    - `.news-section__inner`: `width: min(100% - var(--space-8), 900px);`
+  - `css/components/sections.css`:
+    - `.news-panel`: `width: 900px; max-width: 100%; margin-inline: auto; box-sizing: border-box;`
+    - `.news-panel__heading`: 기존 짙은 버건디색(`var(--color-primary-deep) = #70203f`)에서 부드러운 로즈 핑크 계열인 `#c95484`로 변경.
+    - `.news-panel__item span`: 날짜 뒤의 공지 내용 글자에 볼드체(`font-weight: var(--font-weight-bold, 700);`) 적용. 날짜(`.news-panel__date`)는 일반체(`400`) 유지.
+    - `.news-panel__more`: 더보기 버튼을 플렉스 정렬로 구성하고, 우측에 화살표 아이콘(`.news-panel__more-arrow`, `➜`) 적용.
+  - `index.html`:
+    - `.news-panel__more` 내부의 `⊕` 기호를 전용 화살표 요소(`<span class="news-panel__more-arrow" aria-hidden="true">➜</span>`)로 교체.
+
+### Goods (굿즈) 섹션 - 박스 너비(1200px), 랭킹 박스(#F7F7F7), 제목 점선 및 버튼 아이콘 간격 수정
+- 사용자의 `goods-card__category구역 박스 width 1200px로 변경. 박스배경색은 #F7F7F7사용. goods-ranking-heading 글자 좌우에 점선 생성. goods-ranking__btn 좌우끝에 쓴 아이콘 간격 박스 끝족으로 붙어지게 조정.` 요청 반영:
+  - `css/components/goods.css`:
+    - `.goods-section__inner`: `width: 1200px; max-width: 100%; margin-inline: auto; box-sizing: border-box;` (Goods 섹션 컨테이너 박스 폭을 1200px로 변경하여 Digital, Spots 섹션과 규격 일치).
+    - `.goods-ranking`:
+      - `width: 1200px; max-width: 100%; margin-inline: auto; box-sizing: border-box;`
+      - 배경색을 기존 `#ffffff`에서 `#f7f7f7`로 변경 (모바일 포함).
+    - `goods-ranking-heading` 좌우 점선 생성:
+      - `.goods-ranking__header-dot`을 기존 단순 원형 점(3px)에서 제목 좌우에 길게 뻗는 핑크 점선(`flex: 1; max-width: 180px; border-bottom: 2px dotted #ea6497;`)으로 구현.
+      - `.goods-ranking__title`: `white-space: nowrap;`으로 점선과 줄바꿈 없이 깔끔하게 배치.
+    - `goods-ranking__btn` 좌우 아이콘 간격 조정:
+      - 좌측 쇼핑백 아이콘(`.goods-ranking__btn-icon`)을 `position: absolute; inset-inline-start: 1.25rem;`로 박스 왼쪽 끝에 밀착.
+      - 우측 원형 화살표(`.goods-ranking__btn-arrow`)를 `inset-inline-end: 1.25rem;`로 박스 오른쪽 끝에 밀착.
+      - 버튼 패딩을 `padding-inline: 3.5rem;`로 넉넉히 주어 중앙 텍스트가 양 끝 아이콘과 겹치지 않도록 정렬 완료.
+
+### Goods (굿즈) 섹션 - 카드 이미지 규격(340x190px) 및 카테고리 뱃지 모서리 반경 수정
+- 사용자의 `goods-cards이구역에 사용된 이미지들 크기 340x190px로 변경. goods-card__category해당 박스 모서리 너무 둥근것을 적당히 둥근 네모로 수정.` 요청 반영:
+  - `index.html`:
+    - `.goods-card__image` 3개 항목에 `width="340"` 및 `height="190"` 명시.
+  - `css/components/goods.css`:
+    - 데스크톱 `.goods-cards`: `grid-template-columns: repeat(3, 340px); justify-content: center; gap: 2.5rem;`
+    - 데스크톱 `.goods-card`, `.goods-card__thumb-wrap`, `.goods-card__image`: 너비 340px, 높이 190px로 통일.
+    - 모바일(`@media (max-width: 768px)`): `.goods-cards` 1열 중앙 정렬, `.goods-card` 및 `.goods-card__thumb-wrap` 최대 너비 340px 및 `aspect-ratio: 340 / 190` 비율 반응형 유지.
+    - 카테고리 뱃지 `.goods-card__category`:
+      - 기존 타원형 pill(`border-radius: var(--radius-pill, 9999px);`)에서 적당히 둥근 직사각형인 `border-radius: 4px;`로 수정.
+
+### Movies (무비) 섹션 - 모바일 화살표 위치 및 이미지 경계 오버랩 교정
+- 사용자의 `movies-info 모바일화면이되면 화살표 아이콘이 이미지 좌우끝에 걸처있게 위치 조정해` 요청 반영:
+  - `css/components/movies.css`:
+    - `@media (max-width: 768px)` 모바일 분기에서 화살표(`.movies-controls__arrow`) 위치를 모바일 슬라이드 카드 기준선에 맞추어 조정:
+      - 세로 정렬: `inset-block-start: calc(calc(min(var(--size-hero-slide-mobile), var(--size-mobile-content)) * 9 / 16) / 2); transform: translateY(-50%);`
+      - 좌우 오버랩 위치:
+        - Previous: `inset-inline-start: calc(50% - min(var(--size-hero-slide-mobile), var(--size-mobile-content)) / 2 - var(--size-carousel-control) / 2);`
+        - Next: `inset-inline-end: calc(50% - min(var(--size-hero-slide-mobile), var(--size-mobile-content)) / 2 - var(--size-carousel-control) / 2);`
+    - 카드의 가로 폭이 화면 100%가 아닌 Hero와 동일하게 뷰포트 중앙(`min(80vw, 35rem)`)에 배치될 때, 좌우 화살표 원형 버튼이 카드의 좌우 외곽 모서리에 정확히 50%씩 걸치도록(Hero와 동일) 배치 완료.
+
+### Movies (무비) 섹션 - 애니메이션, 화살표 색상 및 위치 교체 수정
+- 사용자의 `movie섹션 이미지들 hero센션 이미지랑 동일하게 왼쪽으로 흘러가게 해줘. 텍스트에 쓰인 애니메이션도 동일하게. 사용된 화살표 아이콘 색은 #91dea9이였다가 #cda1dc로 바뀌는 것으로 설정해. movies-controls__pagination와 movies-info 위치를 서로 바꿔.` 요청 반영:
+  - **위치 교체 (`index.html`)**:
+    - `.movies-info`가 슬라이드 카드 바로 아래에 오고, 그 아래에 `.movies-controls`(`.movies-controls__pagination`)가 오도록 순서 변경.
+  - **화살표 색상 인터랙션 (`css/components/movies.css`)**:
+    - 기본 상태: 화살표 및 원형 테두리 색상 `#91dea9`
+    - 호버 시: 프로그레스 링 및 화살표 아이콘 색상이 `#cda1dc`로 전환되며 `arrow-out-and-back` 애니메이션 적용.
+  - **Hero와 동일한 왼쪽 흐름 슬라이드 및 텍스트 리빌 애니메이션 (`css/components/movies.css`, `js/main.js`)**:
+    - Hero와 동일하게 5초마다 왼쪽 방향(`direction: 1`, `translateX(-100%)`)으로 자동 흐름 슬라이드 진행.
+    - 슬라이드가 전환될 때 영상 제목(`.movies-info__title`)에 Hero 텍스트와 동일한 `hero-title-reveal`(`1200ms cubic-bezier(0.22, 1, 0.36, 1)`) 애니메이션 트리거.
+
+### Movies (무비) 섹션 - 활성 영상 제목 및 공식 채널 구독 바 추가
+- 사용자의 `movie섹션 이미지 아래에 해당 내용을 추가해줘 (첨부 이미지: ポムポムプリン「ポムポム☆PARADISE」(Full Ver.) + 채널 프로필 + チャンネル登録 버튼)` 요청 반영:
+  - `index.html`:
+    - 캐러셀 스테이지 및 인디케이터 바로 아래에 `.movies-info` 구조 추가:
+      - 영상 제목: `<h3 class="movies-info__title" data-js="movies-info-title">ポムポムプリン「ポムポム☆PARADISE」(Full Ver.)</h3>`
+      - 채널 정보 바:
+        - 채널 아바타 아이콘 (`./images/used/sanrio-channel-avatar.png`, 44x44, 원형)
+        - 채널명: `サンリオキャラクターズ`
+        - 채널 등록 버튼: `<a class="movies-info__subscribe-btn" href="https://www.youtube.com">チャンネル登録</a>`
+  - `css/components/movies.css`:
+    - `.movies-info`: 데스크톱 기준 `width: var(--size-hero-slide-width);` (중앙 활성 카드 너비와 일치).
+    - `.movies-info__title`: `font-size: 1.25rem; font-weight: 700; color: #555555;`
+    - `.movies-info__bar`: `display: flex; justify-content: space-between; align-items: center;`
+    - `.movies-info__subscribe-btn`: 코랄 레드(`#e56d6d`) 필 버튼, 호버 인터랙션 적용.
+    - `@media (max-width: 768px)`: 모바일 슬라이드 카드 너비에 맞춰 폰트 및 버튼 크기 반응형 최적화.
+  - `js/main.js`:
+    - 활성 슬라이드 전환 시 `moviesInfoTitle.textContent`가 현재 슬라이드 영상 제목과 동적으로 연동되도록 업데이트.
+
+### Spots (스팟) 섹션 신규 구현 (데스크톱 및 모바일 레퍼런스 1:1 완벽 반영)
+- 사용자의 `digital섹션 밑에 spots섹션 만들거야. 첨부한 이미지대로 그대로 구현해. 순서대로 데스크탑, 모바일 화면 이야. 비율에 맞게 이미지 크기나 간격 조정되게하고 미디어쿼리를 적용해. 사용한 이미지는 sanrio-dt_68, sanrio-dt_69, sanrio-dt_70, sanrio-dt_71, sanrio-dt_34, sanrio-dt_27, sanrio-dt_80 이야. 첨부한 이미지랑 이미지파일 대조해서 같은 이미지를 사용해. 다른 구역은 건들지마.` 요청 반영:
+  - `css/main.css`: `@import url("./components/spots.css");` 추가.
+  - `css/components/spots.css`: 신규 생성.
+    1. **배경 장식**:
+       - 데스크톱 좌측 상단 은은한 민트 원형 그라데이션(`.spots-section__bg-circle`)
+       - 데스크톱 우측 상단 폼폼푸린 친구 마카롱 캐릭터 아웃라인 드로잉(`sanrio-dt_8.png`, `.spots-section__character-outline`)
+    2. **헤더**:
+       - 성(Castle) SVG 아이콘 (`viewBox="0 0 54.85 34.85549"`, 산호/레드 코랄 `#eb6877`)
+       - "Spots" 그린 타이틀 (`#72cf9d`), "スポット" 서브타이틀
+    3. **상단 4단 아치 카드 그리드 (`.spots-main-grid`)**:
+       - 1: 산리오퓨로랜드 (`./images/used/sanrio-dt_68.jpg`) + 외부링크 아이콘
+       - 2: 산리오캐릭터파크 하모니랜드 (`./images/used/sanrio-dt_69.jpg`) + 외부링크 아이콘
+       - 3: 산리오카페 & 산리오카페웨건 (`./images/used/sanrio-dt_70.jpg`)
+       - 4: 산리오캐릭터 호텔 & 카페 가이드 (`./images/used/sanrio-dt_71.jpg`)
+       - 아치 테두리: 민트색 테두리(`border: 4px solid #bcead1`), 상단 반원 둥글기(`border-radius: 130px 130px 16px 16px`)
+       - 1200px 컨테이너에 맞춰 `justify-content: space-between;`으로 균등 배치.
+    4. **하단 3단 스팟 뉴스 카드 (`.spots-news-cards`)**:
+       - 1: 리틀트윈스타즈 아쿠아리움 (`./images/used/sanrio-dt_34.jpg`) + 그린 사과 NEW 뱃지 + 태그 [その他] + 2026/11/02
+       - 2: 헬로키티 그리팅 (`./images/used/sanrio-dt_27.jpg`) + 그린 사과 NEW 뱃지 + 태그 [グリーティング] + 2026/11/02
+       - 3: 하나마루오바케 팝업스토어 (`./images/used/sanrio-dt_80.jpg`) + 태그 [グリーティング] [ポップアップストア] + 2026/10/30
+       - 1200px 컨테이너에 맞춰 `justify-content: space-between;`으로 균등 배치.
+    5. **하단 "スポット TOP" 링크 버튼 (`.spots-section__top-link`)**:
+       - 민트/그린 라운드 필 버튼 (`#88d49e`), 좌측 상단 걸쳐진 딸기 아이콘(`images/used/icon-berry.svg`), 우측 화살표(➜).
+    6. **반응형 미디어쿼리**:
+       - 태블릿(769px~1120px): 유동형 4열 아치 카드 및 3열 뉴스 카드 스케일링.
+       - 모바일(768px 이하): 첨부된 모바일 이미지와 100% 일치하게 **2x2 2단 아치 그리드** 및 **1열 세로 스택 뉴스 카드**로 변환.
+
+### Digital 섹션 - 1200px 컨테이너 기준 정밀 여백 및 이미지 간격 정렬
+- 사용자의 `1200px에 맞춰서 이미지 사이 간격 맞추라고` 요청 반영:
+  - `css/components/digital.css`:
+    - `.digital-section__inner`: `width: 1200px; max-width: 100%; margin-inline: auto;`로 명확하게 1200px 기준 너비 정렬.
+    - **웹 카드 (`.digital-web-cards`)**: 340px 카드 3개가 1200px 양 끝과 균등하게 분배되도록 `justify-content: space-between;` 적용 (카드 간 간격 정확히 90px씩 균등 확보).
+    - **디지털 뉴스 카드 (`.digital-news-cards`)**: 340px 카드 3개가 1200px 너비에 완벽하게 일치되도록 `justify-content: space-between;` 적용 (웹 카드와 수직 일치).
+    - **커뮤니케이션 (`.digital-comm-grid`)**: 6개 아이템(각 130px)이 1200px 너비 전체에 걸쳐 양 끝과 균등하게 배치되도록 `justify-content: space-between;` 적용 (아이템 간 간격 정확히 84px씩 균등 정렬).
+    - **스마트폰 앱 (`.digital-apps`)**: 2개 앱 블록이 1200px 중앙에서 안정된 간격을 유지하도록 `gap: clamp(6rem, 15vw, 12rem);` 설정.
+
+### Digital 섹션 - 구역별 이미지/카드 간격 확대 및 여백 최적화
+- 사용자의 `digital섹션 안 구역별 이미지들 간격 너무 좁아. 적절하게 수정` 요청 반영:
+  - `css/components/digital.css`:
+    - `.digital-section__inner`: `max-width: 1200px;`로 컨테이너 여유 폭 확장.
+    - **스마트폰 앱 (`.digital-apps`)**:
+      - 데스크톱: 좌우 간격 `gap: 6rem` → `gap: 8rem`
+      - 태블릿(769~1120px): `gap: clamp(4rem, 6vw, 6rem)`
+      - 모바일(768px 이하): 세로 카드 간격 `1.5rem` → `2rem`, 아이콘-텍스트 간격 `1.25rem` → `1.5rem`
+    - **웹 카드 (`.digital-web-cards`)**:
+      - 데스크톱: 3열 카드 간격 `gap: 1.75rem` → `gap: 2.5rem`
+      - 태블릿: `gap: 1.75rem`
+      - 모바일: 세로 카드 간격 `gap: 2.25rem`
+    - **커뮤니케이션 (`.digital-comm-grid`)**:
+      - 데스크톱: 6개 아이템 간격 `gap: 1.5rem` → `gap: 2.25rem`
+      - 태블릿: `gap: clamp(1rem, 2vw, 1.75rem)`
+      - 모바일: 3개 아이템 간격 `gap: clamp(1rem, 3.5vw, 1.75rem)`
+    - **디지털 뉴스 카드 (`.digital-news-cards`)**:
+      - 데스크톱: 3열 카드 간격 `gap: 1.75rem` → `gap: 2.5rem`
+      - 태블릿: `gap: 1.75rem`
+      - 모바일: 세로 카드 간격 `gap: 2.25rem`
+
+### Digital 섹션 - 브레이크포인트 전환 시점 이미지 크기 최적화
+- 사용자의 `브레이크 포인트가 시작되는 시점에서 이미지들이 너무 작음. 적절하게 이미지 크기 조정.` 피드백 반영:
+  - `css/components/digital.css`:
+    1. **모바일 브레이크포인트 진입 시점 (768px ~ 480px)**:
+       - 스마트폰 앱 아이콘: 기존 `68px ~ 84px` → `clamp(84px, 20vw, 105px)`로 상향 조정.
+       - 웹 카드 및 뉴스 카드: 기존 `340px` 고정 제한에서 `max-width: 420px; width: 100%;`로 뷰포트 너비를 풍부하게 채우도록 확대.
+       - 커뮤니케이션 영역: 기존 `80px ~ 105px` → `clamp(95px, 28vw, 130px)` 및 간격 확대로 태블릿/모바일 경계 구간에서 큼직하게 표시되도록 개선.
+    2. **태블릿/데스크톱 구간 (769px ~ 1120px)**:
+       - 스마트폰 앱 아이콘: `clamp(124px, 14vw, 136px)`로 데스크톱 원본(136px)에 가깝게 유지.
+       - 커뮤니케이션 아이콘: `clamp(112px, 12vw, 130px)`로 크기 보존.
+
+### Digital 섹션 - 미디어쿼리 대응 및 화면 크기별 반응형 이미지 스케일링 구현
+- 사용자의 `미디어쿼리 생각해서 이미지들 화면 크기에 따라 크기 적절하게 변경되도록 수정.` 요청 반영:
+  - `css/components/digital.css`:
+    1. **태블릿 / 중간 데스크톱 분기 (`@media (max-width: 1120px) and (min-width: 769px)`)**:
+       - `min-width: 769px` 환경에서 화면 폭이 좁아지더라도 카드가 넘치거나 잘리지 않도록 유동형 그리드(`minmax(0, 1fr)`) 및 `aspect-ratio` 기반 반응형 스케일링 적용.
+       - 스마트폰 앱 아이콘: `width: 120px; height: 120px;` (gap: 3.5rem)
+       - 브라우저/웹 카드 이미지: 3단 그리드 유지하며 `width: 100%; aspect-ratio: 340 / 190;` 유동형 비율 유지.
+       - 커뮤니케이션 이미지: 6개 아이템이 한 줄에 안정적으로 들어가도록 `105px x 150px` (테마) 및 `105px x 105px` (스탬프)로 비례 축소.
+       - 배경 배너: `width: min(610px, calc(100% - 2rem)); aspect-ratio: 610 / 170;`로 가변 반응.
+       - 디지털 뉴스 카드 이미지: 3단 그리드 유지하며 `width: 100%; aspect-ratio: 340 / 190;` 유동형 비율 유지.
+    2. **모바일 분기 (`@media (max-width: 768px)`)**:
+       - 모바일 앱 아이콘: `clamp(68px, 18vw, 84px)`로 디바이스 너비에 따른 부드러운 유동 스케일링.
+       - 커뮤니케이션 3개 아이템: `clamp(80px, 25vw, 105px)` 및 `aspect-ratio`로 뷰포트에 맞게 자연스럽게 가변.
+       - 웹 카드, 뉴스 카드, 벽지 배너의 비율(`aspect-ratio: 340 / 190`, `610 / 170`) 및 `max-width: 100%` 기반 반응형 최적화 완료.
+
+### Digital 섹션 - `inner-box digital-section__inner` min-width 설정 및 요소 간격 조정
+- 사용자의 `inner-box digital-section__inner 선택된 요소 min-width 769px로 설정. min-width에 적절하게 각각의 요소들 간격수정.` 요청 반영:
+  - `css/components/digital.css`:
+    - `.digital-section__inner`: `min-width: 769px; max-width: 1100px; box-sizing: border-box;` 설정.
+    - `@media (max-width: 768px)` 모바일 분기: `min-width: auto;`로 오버라이드하여 모바일 반응형 유지.
+    - `min-width: 769px` 환경에서 각 블록(앱 목록, 웹 카드 그리드, 커뮤니케이션 그리드, 뉴스 그리드 등)의 gap, margin 및 정렬이 자연스럽게 중앙 배치되도록 간격 검토 및 최적화 완료.
+
+### Digital 섹션 - デジタルニュース (News) 이미지 및 크기 수정
+- 사용자의 `digital-category-block 이미지 순서대로 sanrio-dt_35, sanrio-dt_33, sanrio-dt_24 변경. 크기는 340x190px` 요청 반영:
+  - `index.html`:
+    - 첫 번째 카드: `./images/used/sanrio-dt_35.png` (340x190)
+    - 두 번째 카드: `./images/used/sanrio-dt_33.jpg` (340x190)
+    - 세 번째 카드: `./images/used/sanrio-dt_24.jpg` (340x190)
+  - `css/components/digital.css`:
+    - `.digital-news-cards`: `grid-template-columns: repeat(3, 340px); justify-content: center;`
+    - `.digital-news-card`: `width: 340px;`
+    - `.digital-news-card__thumb-wrap`, `.digital-news-card__image`: `width: 340px; height: 190px;`
+    - 모바일 반응형: `max-width: 340px; aspect-ratio: 340 / 190;` 유지.
+
+### Digital 섹션 - 壁紙・ダウンロード (Wallpaper) 이미지 및 크기 수정
+- 사용자의 `digital-wallpaper__bg 이미지 sanrio-dt_13로 변경. 610x170px` 요청을 반영:
+  - `index.html`: `.digital-wallpaper__bg` 이미지의 `src`를 `./images/used/sanrio-dt_13.jpg`로 변경하고 `width="610" height="170"` 속성 부여.
+  - `css/components/digital.css`:
+    - `.digital-wallpaper`: 중앙 정렬(`display: flex; justify-content: center;`) 적용.
+    - `.digital-wallpaper__card`: 데스크톱 기준 `width: 610px; height: 170px; max-width: 100%;` 적용.
+    - 모바일(`@media (max-width: 768px)`): `width: 100%; max-width: 610px; height: auto; aspect-ratio: 610 / 170;`로 반응형 스케일링 유지.
+
+### Movies (무비) 섹션 레퍼런스 이미지 정밀 분석 및 1:1 완벽 재구현
+- 사용자의 "hero의 구성이나 사용한 애니메이션 똑같이하고 첨부한 이미지에 필요하지 않은 요소들은 삭제해서 만들면되지 않아? 니가 봐도 결과물이 완전 다르지 않냐? 다시 이미지 첨부할테니까. 이미지 제대로 분석해서 다시 구현해." 피드백을 철저히 반영하여 첨부 이미지(media_1793851417735_6e886368.jpg, media_1793851420012_c17ac768.jpg)의 모든 디테일을 1:1로 일치시켰다.
+  1. **Hero 구조 기반 불필요한 요소 완전 배제**:
+     - Movies 섹션에서는 제목/설명 텍스트(`copy`, `title`, `description`)와 양옆 캐릭터 배너 장식(`character-decoration`)이 존재하지 않으므로 완전히 제거했다.
+     - 오직 순수한 3면 영상 카드 슬라이더(`movies-stage`)와 중앙 세로 높이에 정확히 맞춰진 좌우 원형 화살표 버튼(`movies-controls__arrow`), 하단 5개 인디케이터 도트(`movies-controls__dot`)로만 구성했다.
+  2. **좌우 화살표 버튼 위치 및 스타일 일치**:
+     - 이전 구현에서 화살표의 상단 오프셋이 맞지 않던 문제를 해결하여, Hero와 동일하게 슬라이드 카드의 세로 정중앙(`inset-block-start: 50%; transform: translateY(-50%)`)에 완벽히 정렬했다.
+     - 데스크톱 및 모바일 모두에서 카드의 좌우 외곽 기준선에 오버랩되도록 위치를 맞췄다.
+  3. **모바일 하단 버튼 아이콘 정밀 교정**:
+     - 리본 아이콘이 아니라 레퍼런스 이미지에 맞추어 좌측 상단에 큼직하게 걸쳐진 **딸기(Berry) 아이콘**(`images/used/icon-berry.svg`, `.movies-section__top-link-icon`)을 적용했다.
+     - 배경색(#b18bd3)과 라운드 필 버튼 스타일, 우측 원형 화살표(➜)를 완벽히 일치시켰다.
+  4. **섹션 상하 패딩 및 배경 정렬**:
+     - 바닥의 불필요한 공백을 없애기 위해 데스크톱 `padding-block: var(--space-8) 0;`, 모바일 `padding-block: var(--space-6) 0;`으로 정돈했다.
+     - 좌측 은은한 연보라 원형 그라데이션(`.movies-section__bg-circle`)과 우측 폼폼푸린 라인 드로잉 실루엣(`.movies-section__purin-outline`)을 레퍼런스와 100% 동일한 비율로 맞췄다.
+
+### Movies (무비) 섹션 신규 구현 (Hero와 동일한 3면 캐러셀 및 반응형 1:1 완벽 구현)
+- 사용자가 첨부한 산리오 공식 Movies 섹션 이미지(데스크톱: media_1793850282754_ab2ba38a.jpg, 모바일: media_1793850285520_73c9a96d.jpg)를 분석하여 `goods-section` 바로 아래에 동일한 3면 캐러셀 디자인 및 슬라이드 애니메이션으로 정밀 구현했다.
+  1. **섹션 마크업 및 배치 (`index.html`)**:
+     - `goods-section` 아래, `main` 내부 마지막 섹션으로 `<section class="movies-section outer-box" aria-labelledby="movies-heading">` 배치.
+     - **배경 장식**: 상단 좌측 연보라색 은은한 원형 그라데이션(`.movies-section__bg-circle`) 및 상단 우측 폼폼푸린 라인 실루엣 드로잉 장식(`sanrio-dt_7.png`, `.movies-section__purin-outline`) 배치.
+     - **섹션 헤더**: 상단 민트색 카메라 아이콘(icon-movie.svg), "Movies" 퍼플 타이틀(#b18bd3), "ムービー" 서브타이틀 배치.
+  2. **3면 캐러셀 및 재생 오버레이 버튼 (`css/components/movies.css`)**:
+     - Hero 캐러셀과 동일한 3면 양옆 노출 스테이지 구조(Left - Center - Right) 및 5개 영상 슬라이드 데이터셋 적용:
+       - 0: 시나모롤 키친 (`sanrio-dt_84.jpg`) [Active Center]
+       - 1: 폼폼★PARADISE (`sanrio-dt_81.jpg`) [Right]
+       - 2: 산리오 무비 3 (`sanrio-dt_83.jpg`)
+       - 3: 산리오 무비 4 (`sanrio-dt_85.jpg`)
+       - 4: 시나모롤의 바다 모험 (`sanrio-dt_82.jpg`) [Left]
+     - 중앙 활성 카드(`.movies-card--center`) 정중앙에 화이트 반투명 원형 테두리와 퍼플 삼각형 재생 아이콘(`.movies-card__play-btn`) 구현.
+     - 좌우 회전 화살표 버튼(`.movies-controls__arrow`)에 퍼플 원형 프로그레스 링 마스크 애니메이션 적용.
+     - 하단 5개 인디케이터 도트(`.movies-controls__dot`)에 민트색 액센트(#50c4ad) 및 자동 타이머 프로그레스 링 애니메이션 적용.
+  3. **모바일 반응형 (`@media (max-width: 768px)`)**:
+     - 단일 슬라이드 중심 클리핑 스테이지 적용(Hero 모바일과 동일).
+     - 하단에 모바일 전용 "ムービー TOP" 퍼플 필 버튼(`background: #b18bd3`) 및 좌측 화이트 리본 아이콘(`icon-ribon.svg`), 우측 화살표(➜) 링크 버튼 배치.
+  4. **JavaScript 인터랙션 및 자동재생 (`js/main.js`)**:
+     - Hero와 동일한 GPU 가속 수평 슬라이드 트랜지션(Next / Previous), 큐 기반 연속 전환, 5초 주기 자동 재생(`movieAutoplayTimer`) 완벽 구현.
+     - 다른 기존 섹션 코드나 애니메이션은 건드리지 않고 독립적으로 모듈화 연결 완료.
+
+### Characters Orbit 데스크톱 궤적 배경 채움 및 하단 돌출 제거 복구
+- 데스크톱 화면에서 점선 궤적의 뒤쪽 배경이 궤적 점선 안쪽에 딱 맞게 가득 채워지도록 복구하고, 궤적 아랫부분(타원의 하단부)이 화면 밖이나 바닥 쪽으로 돌출되어 보이던 문제를 해결했다.
+  1. **배경 일체화 (`index.html`)**:
+     - 기존 CSS 직사각형 배경(`.characters-orbit__ground`)은 `display: none`으로 완전히 비활성화.
+     - 데스크톱 SVG([`.characters-orbit__svg--desktop`](file:///c:/Users/Administrator.User-2026SSEEIF/Documents/GitHub_SKY/vibe-project-2026-sky/index.html#L503-L511)) 내부에 점선 타원과 동일한 곡률(`rx=1000, ry=240, cy=345.6`)을 가진 채움 패스(`<path d="M -40 352 L -40 345.6 A 1000 240 0 0 1 1960 345.6 L 1960 352 Z" fill="#fcf5fa">`)를 점선 바로 뒤에 배치하여 점선 안쪽에 빈틈없이 배경색(#fcf5fa)이 채워지도록 했다.
+  2. **궤적 밑부분 돌출 클리핑 (`index.html`)**:
+     - 타원 전체(전체 둘레)가 렌더링되면서 중심선 아래로 넘어가 보이던 하단 아치를 방지하기 위해 SVG 내부에 `<clipPath id="desktop-orbit-clip"><rect x="0" y="0" width="1920" height="346" /></clipPath>`을 적용했다.
+     - 이를 통해 상단 궤적 곡선만 깨끗하게 표시되고, 기준선 밑으로 내려가는 불필요한 하단 궤적 부분은 완벽히 제거되었다.
+
+### Characters Orbit 데스크톱 전용 화면 복원 및 브레이크포인트(768px) 모바일 분리
+- 사용자의 "characters-orbit이부분 왜 데스크탑 화면에서 보이던걸 모바일 화면과 같이 쓰도록했어? 원래 쓰던 데스크탑회면으로 돌려놔. 브레이크 포인트부터 모바일 화면으로 바뀌는 거야." 요청을 완벽히 반영하여 데스크톱과 모바일 화면을 브레이크포인트 기준으로 명확하게 분리 복원했다.
+  1. **HTML 마크업 (`index.html`)**:
+     - `.characters-orbit__path` 내부에 데스크톱용 SVG(`.characters-orbit__svg--desktop`, viewBox 1920x352, 가로 아치형 타원 점선)와 모바일용 SVG(`.characters-orbit__svg--mobile`, viewBox 388x491, 원형 점선)를 모두 포함하고 클래스로 제어하도록 복원.
+  2. **CSS 스타일 분리 (`css/components/sections.css`)**:
+     - **데스크톱 (> 768px)**:
+       - `.characters-orbit`: 가로폭 `1920px`, `inset-inline-start: 50%`, `transform: translateX(-50%)`의 원본 가로 아치형 궤도로 복원.
+       - `.characters-orbit__svg--desktop`을 `display: block`으로 표시하고, `.characters-orbit__svg--mobile`을 숨김.
+       - 중앙 피처 카드(`.characters-feature`): 지름 `244px`, 정중앙(`50%, 30%`), 일본어/영문 이름 텍스트가 카드 내부 상하단에 정상 노출.
+       - 모바일 전용 뱃지(`.characters-feature-badge`): 데스크톱에서는 `display: none`으로 숨김.
+       - 궤도 캐릭터 크기: `100px x 100px`.
+     - **모바일 (<= 768px 미디어 쿼리)**:
+       - `.characters-orbit`: `width: 388px`, `height: 491px`, 좌측 고정 원형 레이아웃 적용.
+       - `.characters-orbit__svg--desktop` 숨김 및 `.characters-orbit__svg--mobile` 표시.
+       - 큰 원의 정중앙(`91px, 250px`)에 캐릭터 이름 뱃지(`.characters-feature-badge`, 140px) 배치.
+       - 피처 카드(`.characters-feature`): 140px 크기로 우측 교차점(`270px, 250px`)에 위치하며 텍스트는 숨김.
+       - 궤도 캐릭터 크기: `56px x 56px`.
+       - 하단 버튼(`.characters-section__link`): 미디어 쿼리에 유연하게 반응하도록 유지.
+  3. **JavaScript 동작 분리 (`js/main.js`)**:
+     - `desktopOrbitSlots`(기존 9개 가로 아치 슬롯 좌표)와 `mobileOrbitSlots`(기존 모바일 9개 슬롯 좌표)를 분리.
+     - `getOrbitSlots = () => (window.innerWidth <= 768 ? mobileOrbitSlots : desktopOrbitSlots)`로 화면 크기에 맞춰 동적 슬롯 좌표 반환.
+     - 궤도 회전 애니메이션 시 화면 너비에 따라 알맞은 랩어라운드 좌표 적용 및 윈도우 리사이즈 이벤트 시 실시간 재배치 수행.
+
+### Goods (굿즈) 섹션 신규 구현 (데스크톱 및 모바일 화면 1:1 완벽 구현)
+- 사용자가 첨부한 산리오 공식 Goods 섹션 이미지(데스크톱: media_1793848126321_441d4d57.jpg, 모바일: media_1793848130742_057501e4.jpg, media_1793848228899_c9d134d5.jpg)를 분석하여 애니메이션 없이 화면 그대로 정밀하게 신규 구현했다.
+- characters-section outer-box 바로 밑, site-footer outer-box 이전에 <section class="goods-section outer-box" aria-labelledby="goods-heading">으로 배치했다.
+  1. **섹션 헤더 및 배경 장식 (.goods-section)**:
+     - 상단 우측 파스텔 핑크 반투명 원형 그라데이션 장식(.goods-section__bg-circle) 및 상단 좌측 오리 캐릭터(아히루노페클, sanrio-dt_9.png) 라인 드로잉 실루엣 장식 배치.
+     - 중앙에 민트색 선물상자 아이콘(icon-goods.svg), "Goods" 타이틀(#ea6497), "グッズ" 서브타이틀 배치.
+  2. **Goods 카드 그리드 (.goods-cards, 3개 아이템)**:
+     - **아이템 1**: 에리스·나츄라 산리오 콜라보 한정 디자인 (sanrio-dt_58.jpg)
+     - **아이템 2**: 【갱신】 산리오 캐릭터즈 마이크로화이버 시리즈 돈키호테 신작 (sanrio-dt_59.jpg)
+     - **아이템 3**: 치도리 무늬 베루나 하ロー키티 신작 손목시계 (sanrio-dt_29.jpg)
+     - 각 카드 우측 상단에 잎사귀가 달린 빨간 사과 모양의 'NEW' 뱃지(.goods-card__new-badge) 오버랩 배치.
+     - 하단에 핑크색 캡슐 알약 형태의 'サンリオライセンス' 카테고리 태그 및 날짜(2026/11/02, 2026/10/23) 메타 정보 구현.
+     - 데스크톱: 3열 그리드 가로 배치 / 모바일: 1열 세로 스택 배치.
+  3. **중간 이동 링크 버튼 (.goods-section__top-link)**:
+     - 핑크색 필 버튼(#ea6497), 좌측 상단 화이트 리본 아이콘(icon-ribon.svg), "グッズ TOP", 우측 원형 화살표(➜) 배치.
+     - 모바일 미디어 쿼리에서 가로폭 유연 축소(width: calc(100% - var(--space-8))) 반응형 적용.
+  4. **온라인 숍 인기 랭킹 박스 (.goods-ranking, 화이트 라운드 카드)**:
+     - 상단 헤더: 좌우 작은 핑크 도트와 함께 "オンラインショップ人気ランキング" 타이틀 배치.
+     - 랭킹 5개 아이템 그리드 (데스크톱: 5열 가로 배치 / 모바일: 상위 1~3위만 1열 세로 리스트 배치, 4~5위는 화면대로 숨김 처리):
+       - **1위**: 산리오 캐릭터즈 시크릿 ID 포토홀더 (sanrio-dt_87.jpg) + 골드 왕관 뱃지(1)
+       - **2위**: 플라가리아 메모리즈 (클로드) 캔뱃지 (sanrio-dt_88.jpg) + 실버 왕관 뱃지(2)
+       - **3위**: 헬로키티 시크릿 마스코트 참 (sanrio-dt_89.jpg) + 브론즈 왕관 뱃지(3)
+       - **4위**: 플라가리아 메모리즈 (클로드) 아크릴 스탠드 (sanrio-dt_90.jpg)
+       - **5위**: 플라가리아 메모리즈 (할릿) 캔뱃지 (sanrio-dt_91.jpg)
+       - 각 텍스트 뒤에 공식 외부 링크 아이콘([↗]) 첨부.
+     - 하단 핑크 버튼: 쇼핑백 아이콘(icon-onlineshop.svg) + "オンラインショップでもっと見る" + 외부 링크 아이콘 + 우측 원형 화살표(➜).
+     - 최하단 주의문구: "※ 在庫切れの場合がございます。詳細はオンラインショップでご確認ください。".
+  5. **CSS 모듈 및 스타일 가이드 준수**:
+     - css/components/goods.css로 분리 작성하고 css/main.css에 등록(tokens -> base -> layout -> components -> utilities 순서 엄수).
+     - 사용자 지침에 따라 별도의 자바스크립트나 애니메이션은 일절 추가하지 않고 정적 화면으로 깔끔하게 구현.
+
+### 하단 링크 버튼 미디어 쿼리 반응형 복원 및 캐릭터 이름 뱃지 큰 원 정중앙 정렬
+- 사용자의 "밑에 버튼은 왜 고정시킨거야. 버튼은 미디어 쿼리에 반응해야지. 그리고 캐릭터 이름 나오는 원 위치를 조정해 큰 원의 정중앙에 오도록" 요청에 따라 즉각 교정했다.
+  1. **캐릭터 이름 뱃지(.characters-feature-badge) 큰 원 정중앙 배치**:
+     - 큰 원형 궤도의 기하학적 중심점인 (cx: 91px, cy: 250px)과 완벽히 일치하도록 위치를 inset-inline-start: 91px; inset-block-start: 250px; transform: translate(-50%, -50%);로 지정했다.
+     - 이를 통해 캐릭터 이름과 영문명이 들어가는 파스텔 톤 원형 뱃지가 큰 궤도 원의 정확한 정중앙에 자리잡게 되었다.
+  2. **하단 링크 버튼(.characters-section__link) 미디어 쿼리 반응형 복원**:
+     - 데스크톱/기본: width: min(27.5rem, calc(100% - var(--space-8))); min-height: 3.25rem; font-size: var(--font-size-base); margin: 2rem auto 2.5rem;
+     - 모바일 미디어 쿼리(@media (max-width: 768px)): width: calc(100% - var(--space-8)); max-width: 22rem; min-height: 3rem; font-size: var(--font-size-sm); margin: 1.5rem auto 2rem;
+     - 화면 너비에 따라 버튼의 가로폭, 높이, 폰트 크기, 마진이 중앙 정렬을 유지하며 유연하게 반응하도록 정상 복원했다.
+
+### Characters Orbit 좌측 고정 및 원형 피처 카드 겹침 방지 크기 조정
+- 사용자의 "위치를 왼쪽으로 고정시켜, 원이 잘려도 되니까 캐릭터 이미지가 보이는 곳 전까진 원이 화면 밖으로 나가서 안보여도 돼. 그리고 이미지 들어가는 원이랑 이미지 겹쳐지니까 원의 크기를 수정해서 겹쳐져서 보이는 요소가 없도록 조정해" 요청에 맞춰 레이아웃을 교정했다.
+  1. **궤도 컨테이너 좌측 고정 (inset-inline-start: 0; margin-inline-start: 0;)**:
+     - 기존 중앙 정렬(margin: 0 auto;) 대신 화면 좌측 정렬(margin-inline-start: 0; margin-inline-end: auto; inset-inline-start: 0;)로 고정하여, 궤도 원의 좌측 곡선 및 퇴장/진입 지점이 화면 왼쪽 밖으로 자연스럽게 빠져나가며 캐릭터가 등장하는 영역부터 명확히 보이도록 했다.
+     - 하단 "キャラクター TOP" 버튼도 margin: 2rem 0 2.5rem 1rem;로 좌측 시작선에 맞춰 안정적으로 배치했다.
+  2. **원형 카드 겹침(Overlap) 제거를 위한 크기 및 간격 최적화**:
+     - 궤도 상의 캐릭터(Slot 3 및 Slot 5, 56px 크기)와 중앙 메인 원형 카드 간에 발생하던 9.6px의 시각적 겹침을 완벽히 해소하기 위해:
+       - 우측 메인 원형 카드(.characters-feature) 및 좌측 텍스트 뱃지(.characters-feature-badge)의 지름을 기존 179px에서 **140px**(width: 140px; height: 140px;)로 축소 조정했다.
+       - 내부 이미지 크기를 width: 82px; height: 82px;로 균형감 있게 맞추고, 좌측 텍스트 뱃지의 중심 위치를 inset-inline-start: 130px;로 설정하여 우측 카드와의 오버랩 비율을 유지했다.
+       - 이를 통해 Slot 3(코기뮨) 및 Slot 5(리틀트윈스타)의 이미지 외곽과 메인 원 테두리 사이에 **약 10px의 여유로운 클리어런스(Clearance)**가 확보되어 어떤 요소도 겹치지 않고 깔끔하게 분리되어 표시되도록 했다.
+
+### Characters Orbit 고정 크기/위치(Fixed Pixel Layout) 및 미디어 쿼리 비반응 적용
+- 사용자가 첨부한 화면 레퍼런스(media_1793846206245_37310e3a.png, 388px x 491px)의 원형 궤적과 레이아웃을 1:1로 픽셀 단위 정밀 분석하여, 어떤 뷰포트 크기에서든 미디어 쿼리에 반응하지 않고 완벽하게 동일한 크기와 위치를 유지하도록 고정화(Fixed Layout)했다.
+  1. **고정 픽셀 규격 컨테이너 및 SVG 궤도 (.characters-orbit)**:
+     - 궤도 컨테이너 규격을 고정 크기 width: 388px; height: 491px; margin: 0 auto;로 지정하고 overflow: visible;을 적용했다.
+     - SVG 점선 궤도를 viewBox="0 0 388 491" 기준, 중심 (91px, 250px), 반지름 179px (<circle cx="91" cy="250" r="179">)로 고정하여 첨부 이미지의 점선 궤적과 정확히 일치시켰다.
+     - 점선 스타일은 stroke: #85d6c6; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 0 12;로 통일했다.
+  2. **중앙 피처 카드 및 텍스트 뱃지 고정 픽셀 배치**:
+     - **우측 메인 피처 카드 (.characters-feature)**: width: 179px; height: 179px; inset-inline-start: 270px; inset-block-start: 250px; transform: translate(-50%, -50%);로 고정하여 궤도 동쪽 정점(91 + 179 = 270px)에 안착.
+     - **좌측 텍스트 뱃지 (.characters-feature-badge)**: width: 179px; height: 179px; inset-inline-start: 98px; inset-block-start: 250px; transform: translate(-50%, -50%);로 고정 배치하여 우측 메인 카드와 조화롭게 오버랩.
+  3. **9개 슬롯의 고정 픽셀 좌표 (orbitSlots)**:
+     - 동적 백분율 및 분기 로직을 전면 제거하고 단일 orbitSlots 배열(픽셀 단위)로 통합:
+       - Slot 0 (-140°): left: -46px, top: 135px (진입)
+       - Slot 1 (-105°, 포차코/바츠마루 위치): left: 45px, top: 77px
+       - Slot 2 (-70°, 폼폼푸린/턱시도샘 위치): left: 152px, top: 82px
+       - Slot 3 (-35°, 코기뮨 위치): left: 238px, top: 147px
+       - Slot 4 (0°, 시나모롤/한교동 중앙 피처 위치): left: 270px, top: 250px
+       - Slot 5 (+35°, 리틀트윈스타 위치): left: 238px, top: 353px
+       - Slot 6 (+70°, 헬로키티/쿠로미 위치): left: 152px, top: 418px
+       - Slot 7 (+105°, 마이멜로디 위치): left: 45px, top: 423px
+       - Slot 8 (+140°): left: -46px, top: 365px (퇴장)
+     - 궤도 회전 애니메이션의 랩어라운드 클론 좌표 또한 -70px, 365px 퇴장 및 -70px, 135px 진입으로 픽셀 단위 일치.
+  4. **미디어 쿼리 비반응(Responsive Immunity) 보장**:
+     - 기존 CSS 하단의 @media (max-width: 768px) 내 캐릭터 궤도 오버라이드 규칙을 완전히 제거하여, 모바일·태블릿·데스크톱을 막론하고 화면 크기에 따라 크기나 위치가 가변되지 않고 항상 첨부 이미지와 100% 동일하게 렌더링되도록 구현했다.
+
+### Characters Orbit 모바일 화면 끝 자연스러운 걸침(Cut-off) 및 점선 테두리 일치 교정
+- 사용자의 "원모양이 화면 끝에 좀 잘리게 걸쳐지게 해서 이미지들이 어느 화면에서든 원의 점선 테두리에 위치할 수 있도록 크기와 위치 수정" 요청에 따라 기하학 및 반응형 배치를 최적화했다.
+  1. **원형 궤도 확대 및 화면 우측/좌측 걸침 기하학 구성**:
+     - SVG 모바일 뷰포트 `viewBox="0 0 390 460"` 및 반지름 `R = 215px`, 중심 `(97, 230)` (`<circle cx="97" cy="230" r="215">`)으로 교정했다.
+     - 메인 피처 카드의 중심 위치를 `80.0%, 50.0%` (`x = 312px`)로 배치하여, 카드의 우측 테두리가 화면 우측 가장자리(390px) 밖으로 약 12~20px 자연스럽게 잘리며 걸쳐지도록 구현했다.
+     - 궤도 원의 좌측 곡선 또한 화면 좌측 바깥(`x = -118px`)까지 확장되어 궤도 전체가 화면 양 끝에 걸치며 탁 트인 느낌을 선사하도록 했다.
+     - 좌측 파스텔 톤 텍스트 뱃지는 `inset-inline-start: 42%`로 위치를 조정하여 우측 메인 카드와 자연스러운 오버랩 비율을 유지했다.
+  2. **모든 캐릭터의 점선 테두리 정중앙 일치 배치 (`mobileOrbitSlots`)**:
+     - 원의 기하학적 궤적(`x = 97 + 215 * cos(θ)`, `y = 230 + 215 * sin(θ)`)을 따라 9개 슬롯의 백분율 좌표를 재계산하여, 어떤 화면 너비에서도 모든 캐릭터 이미지가 점선의 정중앙을 완벽하게 따라 순환하도록 설정했다:
+       - Slot 0 (-140°): `left: -17.4%, top: 20.0%`
+       - Slot 1 (-105°, 바츠마루): `left: 10.6%, top: 4.9%`
+       - Slot 2 (-70°, 턱시도샘): `left: 43.7%, top: 6.1%`
+       - Slot 3 (-35°, 코기뮨): `left: 70.0%, top: 23.2%`
+       - Slot 4 (0°, 중앙 피처 한교동): `left: 80.0%, top: 50.0%`
+       - Slot 5 (+35°, 리틀트윈스타): `left: 70.0%, top: 76.8%`
+       - Slot 6 (+70°, 쿠로미): `left: 43.7%, top: 93.9%`
+       - Slot 7 (+105°, 마이멜로디): `left: 10.6%, top: 95.1%`
+       - Slot 8 (+140°): `left: -17.4%, top: 80.0%`
+
+### HTML 꼬리말 잔여 스크립트 코드 제거 및 데스크톱 뱃지 숨김 처리
+- 푸터 생성 당시 `index.html` 최하단 `</body>` 뒤쪽에 실수로 삽입되어 화면에 텍스트로 노출되던 잔여 스크립트 문자열(``; html = html.replace(' </main>\\n </body>', ...)`)을 깔끔하게 제거하고 표준 `</footer>\r\n </body>\r\n</html>` 닫는 태그로 정상화했다.
+- 모바일 전용으로 생성되었던 좌측 텍스트 뱃지(`.characters-feature-badge`)가 데스크톱 뷰포트에서 기본 노출되지 않도록 데스크톱 기본 CSS에 `display: none;`을 명시하고, 모바일 미디어 쿼리(`max-width: 768px`)에서만 `display: flex;`로 정상 표시되도록 분리했다.
+
+### Characters Orbit 모바일 완벽한 원형 궤도 및 점선 정중앙 배치 & 버튼 간격 조정
+- 사용자의 수정 요청에 따라 모바일 Characters Orbit의 타원형 왜곡을 완벽한 원(Perfect Circle)으로 수정하고 점선 정중앙 정렬 및 하단 버튼 여백을 최적화했다.
+  1. **완벽한 원(Perfect Circle) 기하학적 교정**:
+     - 기존 타원형 SVG(`rx="265" ry="172"`)에서 발생하던 찌그러짐을 제거하고, `viewBox="0 0 390 440"` 내에서 중심점 `(92, 220)`, 반지름 `185px`의 완벽한 원(`<circle cx="92" cy="220" r="185">`)으로 변경했다.
+     - 우측 중앙 피처 카드의 위치 `(277px, 220px)` (71.0%, 50.0%)가 원의 정동쪽(0°) 정점과 정확히 맞물려 자연스러운 진입/진출 곡선을 형성하도록 했다.
+  2. **궤도 캐릭터 점선 정중앙 일치 배치 (`mobileOrbitSlots`)**:
+     - 모든 슬롯의 중심 좌표를 원의 방정식 `x = 92 + 185 * cos(θ)`, `y = 220 + 185 * sin(θ)`로 엄밀하게 산출하고 `transform: translate(-50%, -50%)`를 적용하여 캐릭터 이미지 중심이 점선 정중앙을 정확하게 관통하도록 배치했다:
+       - Slot 0 (-140°): `left: -12.7%, top: 23.0%`
+       - Slot 1 (-105°, 바츠마루): `left: 11.3%, top: 9.4%`
+       - Slot 2 (-70°, 턱시도샘): `left: 39.8%, top: 10.5%`
+       - Slot 3 (-35°, 코기뮨): `left: 62.4%, top: 25.9%`
+       - Slot 4 (0°, 한교동 중앙 피처): `left: 71.0%, top: 50.0%`
+       - Slot 5 (+35°, 리틀트윈스타): `left: 62.4%, top: 74.1%`
+       - Slot 6 (+70°, 쿠로미): `left: 39.8%, top: 89.5%`
+       - Slot 7 (+105°, 마이멜로디): `left: 11.3%, top: 90.6%`
+       - Slot 8 (+140°): `left: -12.7%, top: 77.0%`
+  3. **하단 "キャラクター TOP" 버튼 간격 조정**:
+     - 기존 절대 위치(`position: absolute; inset-block-end: var(--space-4)`)로 인해 하단 궤도 캐릭터들과 겹치거나 답답했던 문제를 해결하기 위해 모바일에서 `position: relative; inset-block-end: auto; margin: 2rem auto 2.5rem`로 전환하여 궤도 하단과 버튼 사이에 넉넉하고 쾌적한 40~50px 간격을 확보했다.
+
+### Characters Orbit 모바일 화면 구현 및 데스크톱 애니메이션 동일 적용
+- 사용자가 첨부한 모바일 레퍼런스 화면(`media_1793843241817_b31f66ed.png`)을 정밀 분석하여 모바일 레이아웃을 교정하고, 데스크톱과 100% 동일한 회전 궤도 및 피처 카드 애니메이션을 통합 구현했다.
+  1. **모바일 중앙 카드 이중 원형 레이아웃 (`characters-feature` & `characters-feature-badge`)**:
+     - **우측 원형 피처 카드**: `71%, 50%` 위치에 180px x 180px 크기로 흰색 원형 배경, SVG 테두리 링 채움 애니메이션, 캐릭터 이미지를 배치하고 데스크톱의 전경 피처로 연동.
+     - **좌측 파스텔 톤 텍스트 뱃지**: `34%, 50%` 위치에 180px x 180px 크기로 캐릭터 고유 색상의 파스텔 틴트(`color-mix 18%`) 배경을 적용하고, 일본어 이름(`1rem, bold`)과 영문명(`0.6875rem, bold, opacity 0.8`)을 배치하여 우측 카드가 좌측 뱃지 위로 자연스럽게 겹치도록 구현.
+  2. **모바일 궤도 타원 기하학적 정렬 (`mobileOrbitSlots`)**:
+     - 모바일 첨부 이미지의 점선 궤적에 완벽히 맞추어 9개 슬롯 좌표 재설정: `Slot 1 바츠마루 (9%, 26%)`, `Slot 2 턱시도샘 (37%, 24%)`, `Slot 3 코기뮨 (59%, 30%)`, `Slot 4 중앙 진입 피처 (71%, 50%)`, `Slot 5 리틀트윈스타 (59%, 69%)`, `Slot 6 쿠로미 (37%, 74%)`, `Slot 7 마이멜로디 (8%, 72%)`, `Slot 0/8 진출입 (-12%)`.
+     - SVG 모바일 점선 타원 기하학을 `cx="10" cy="240" rx="265" ry="172"`로 교정하여 캐릭터 궤도 중심선과 일치.
+  3. **데스크톱과 동일한 애니메이션 엔진 완전 통합**:
+     - 모바일 뷰포트에서 회전을 차단하던 `window.innerWidth <= 768` 가드를 해제하여 모바일에서도 6.0초 주기의 반시계 회전, 랩어라운드 클론 루프, 퇴장(0ms 텍스트 숨김 + 테두리 시계방향 회색 채움 -> 300ms 기존 이미지 축소 페이드아웃 -> 1000ms 100% 완전 소멸 직후 다음 이미지 교체 및 2.0s 테두리 시계방향 컬러 채움 -> 2300ms 텍스트 슬라이드인 -> 3000ms 동시 안착) 애니메이션이 데스크톱과 일치하게 작동하도록 구현.
+     - 사이트 진입 시 한교동 인트로 채움(`initFirstFeatureRing`) 및 윈도우 리사이즈 시 동적 슬롯 재계산 연동.
+
+### Footer (푸터) 컴포넌트 신규 구현 (데스크톱 및 모바일 반응형)
+- 사용자가 첨부한 산리오 공식 푸터 화면(데스크톱 및 모바일)을 애니메이션 없이 정적이고 정확하게 구현했다.
+  1. **페이지 최상단 이동 아치형 돔 (`site-footer__pagetop`)**: 푸터 상단 중앙에 분홍색 반원 돔(`#fa9fc6`, `border-radius: 58px 58px 0 0`)을 배치하고 노란 새 캐릭터 아이콘(`icon-pagetop-bird.png`) 및 `PAGE TOP` 텍스트를 배치하여 부드러운 스크롤 이동을 구현했다.
+  2. **FOLLOW 카드 및 관련 링크**:
+     - 흰색 라운드 카드 내부 `FOLLOW` 타이틀(`#59b6d7`)과 3개 공식 SNS 아이콘(Facebook, X, YouTube) 배치.
+     - 우측/하단 `▶ 소셜미디어`, `▶ 관련 사이트` 링크 배치.
+  3. **기업 및 서비스 네비게이션 (`site-footer__nav`)**:
+     - 원형 화살표(`➔`) 및 외부 링크 아이콘(`[↗]`, `icon-blank`)이 포함된 7개 주요 링크(`회사정보`, `주주·투자자`, `라이선스 비즈니스`, `채용정보`, `뉴스릴리스`, `지속가능성`, `문의하기`) 구현.
+     - 데스크톱: 4열 그리드 배치, 모바일: 1열 세로 스택 배치.
+  4. **하위 정책 링크 (`site-footer__sub-nav`)**:
+     - 데스크톱: 중앙 정렬 단일 행 가로 배치.
+     - 모바일: 첨부 이미지와 동일한 2열 x 3행 그리드 재정렬(`중요 공지` - `사이트맵`, `사이트 소개` - `소셜미디어 정책`, `개인정보처리방침` - `웹 접근성 방침`).
+  5. **구분선 및 하단 정보**: 점선 구분선(`1px dotted rgba(255, 255, 255, 0.6)`), 좌측 저작권 고지문 2줄, 우측 `➔ English` 언어 전환 링크 배치.
+  6. **규칙 준수**: CSS 모듈 순서(`tokens → base → layout → components → utilities`)에 따라 `css/components/footer.css` 분리 및 `css/main.css` 등록.
+
 ## 2026-11-04 작업 기록
 
 ### Characters 중앙 카드(`characters-feature`) 마우스 호버 인터랙션 구현
@@ -332,7 +737,26 @@
 - `section.news` 아래에 Characters 섹션을 추가했다. 데스크톱에는 제목, 캐릭터가 놓인 아치형 점선과 중앙 Hangyodon 원형 카드, TOP 버튼을 배치하고 모바일에는 크림색 타원 궤도와 캐릭터 장식, Pompompurin 강조 원형 구성을 적용했다. 기존 `images/used`의 캐릭터 이미지와 `icon-ribon.svg`, `kitty_symbol.svg`를 사용했으며 애니메이션은 추가하지 않았다.
 - 모바일 Characters 섹션의 최소 높이를 42rem에서 39rem으로 줄여 궤적 하단과 섹션 하단 사이의 빈 공간을 줄였다.
 - Characters 섹션 캐릭터 장식 이미지의 중심을 데스크톱 아치와 모바일 타원 점선 경로에 맞춰 재배치했다. 모바일 하단 이미지 간 좌우 간격을 넓혀 겹치지 않게 했다.
-
+- Movies 섹션 최하단에 첨부 이미지와 동일한 'ムービー TOP' 필(Pill) 스타일 바로가기 버튼(딸기 아이콘 + 원형 화살표)을 데스크톱 및 모바일 모두에서 자연스럽게 노출되도록 스타일 및 하단 여백을 적용했다.
+- `digital-category-block` (コミュニケーション)에 사용된 이미지 크기를 요청대로 변경하고 둥근 모서리(`border-radius: 0`)를 제거했다:
+  - 1번(こぎみゅん 着せかえ): `130px x 185px`
+  - 2번(サンリオキャラクターズ スタンプ): `130px x 130px`
+  - 3번(クロミ 着せかえ): `130px x 185px`
+  - 4번(はなまるおばけ スタンプ): `130px x 130px`
+  - 5번(バッドばつ丸 着せかえ): `130px x 185px`
+  - 6번(クロミ スタンプ): `130px x 130px`
+  - 이미지 상단 정렬(`align-items: flex-start;`)을 적용하여 185px 높이의 착세카에와 130px 높이의 스탬프가 상단 라인에 맞추어 깔끔하게 정렬되도록 수정했다.
+  - 이미지 모서리 둥글게 처리되었던 스타일(`border-radius`)을 완전히 삭제(`border-radius: 0;`).
+  1. 모든 에셋을 `images/used/`의 기존 원본 에셋으로 전면 매핑 및 통일했다:
+     - 헤더: 스마트폰 SVG 아이콘(`icon-digital.svg`), 데스크톱 배경 장식 시나모롤(`sanrio-dt_6.png`), 소프트 웜옐로우 원형 그라디언트.
+     - 스마트폰 앱: 헬로스위트데이즈(`sanrio-dt_26.webp`), 구데타마(`sanrio-dt_12.png`).
+     - 브라우저 웹: `sanrio-dt_31.jpg`, `sanrio-dt_27.jpg`, `sanrio-dt_24.jpg`.
+     - 커뮤니케이션: `sanrio-dt_68.jpg`, `sanrio-dt_69.jpg`, `sanrio-dt_70.jpg`, `sanrio-dt_71.jpg`, `sanrio-dt_65.png`, `sanrio-dt_86.png`.
+     - 벽지·다운로드: `sanrio-dt_66.png`.
+     - 디지털 뉴스: `sanrio-dt_35.png`, `sanrio-dt_32.jpg`, `sanrio-dt_34.jpg`.
+     - 하단 버튼: 리본 아이콘(`icon-ribon.svg`)과 골드 필의 "デジタル TOP ➜" 버튼 (Goods / Characters 규격 통일).
+- 임의로 추출했던 불필요한 이미지 파일들을 삭제하고 `images/used/` 폴더 내 기존 에셋만을 일관되게 사용하도록 정돈했다.
+- `css/main.css`의 순서(`movies.css`와 `footer.css` 사이)에 `css/components/digital.css`를 임포트하고 불필요한 스크립트나 추가 애니메이션 없이 순수 BEM 반응형 정적 레이아웃으로 완료했다.
 ## 검수 기록
 
 - 과거 통합 브라우저 검수에서 데스크톱/모바일 레이아웃, 슬라이드 자동 및 수동 전환, 현재 페이지 표시, 메뉴 열기·닫기, Escape 동작, 내부 메뉴 스크롤, 페이지 스크롤 잠금/복원, 링크 선택 후 닫힘을 확인했다.
