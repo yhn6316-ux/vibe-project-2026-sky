@@ -4,9 +4,9 @@
   margin-inline: auto;
   box-sizing: border-box;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-6, 1.5rem);
   min-height: var(--size-news-panel);
-  padding: var(--space-3) var(--space-6);
+  padding: 1.25rem 2rem;
   border-radius: var(--radius-sm);
   background: var(--color-surface-muted);
 }
@@ -18,18 +18,18 @@
   justify-items: center;
   gap: var(--space-2);
   min-height: var(--size-carousel-control);
-  padding-inline-end: var(--space-4);
+  padding-inline-end: 1.5rem;
   border-inline-end: var(--border-width-thin) solid var(--color-border);
-  color: #c95484;
-  font-size: var(--font-size-sm);
+  color: #ea6497;
+  font-size: 0.9375rem;
   font-weight: var(--font-weight-bold);
 }
 
 .news-panel__more {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  padding: 0.15rem var(--space-2);
+  gap: 0.35rem;
+  padding: 0.2rem 0.625rem;
   border-radius: var(--radius-pill);
   background: var(--color-bg);
   color: var(--color-secondary-deep);
@@ -47,7 +47,7 @@
 .news-panel__list {
   display: grid;
   flex: 1;
-  gap: var(--space-2);
+  gap: 0.75rem;
   min-width: 0;
   padding: 0;
   list-style: none;
@@ -55,10 +55,10 @@
 
 .news-panel__item {
   display: flex;
-  gap: var(--space-2);
+  gap: 0.75rem;
   color: var(--color-text-muted);
-  font-size: var(--font-size-xs);
-  line-height: 1.5;
+  font-size: var(--font-size-sm, 0.8125rem);
+  line-height: 1.6;
 }
 
 .news-panel__item span {
@@ -472,15 +472,17 @@
   display: none;
 }
 .characters-section__link {
-  position: relative;
-  inset: auto;
-  transform: none;
+  position: absolute;
+  z-index: 3;
+  inset-inline-start: 50%;
+  inset-block-end: 1.5rem;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
   width: min(27.5rem, calc(100% - var(--space-8)));
   min-height: 3.25rem;
-  margin: 2rem auto 2.5rem;
+  margin: 0;
   padding-inline: var(--space-8);
   border-radius: var(--radius-pill);
   background: var(--color-secondary);
@@ -632,6 +634,10 @@
   }
 
   .characters-section__link {
+    position: relative;
+    inset: auto;
+    transform: none;
+    z-index: 3;
     width: calc(100% - var(--space-8));
     max-width: 22rem;
     min-height: 3rem;

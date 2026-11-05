@@ -12,6 +12,71 @@
 
 ## 2026-11-05 작업 기록
 
+### Goods (굿즈) 섹션 - 랭킹 링크 외부 아이콘 색상 (#f49cc2 -> 호버 시 #68bfd0) 적용
+- 사용자의 `goods-ranking__grid 타이틀 마지막에 사용된 링크 아이콘 처음엔 #f49cc2이였다가 호버시 #68bfd0로 변경` 요청 반영:
+  - `css/components/goods.css`:
+    - `.goods-ranking__external-icon`: 기본 색상을 `#f49cc2`로 설정하고 부드러운 색상 전환을 위해 `transition: color 0.25s ease;` 추가.
+    - 호버 인터랙션: `.goods-ranking__item:hover .goods-ranking__external-icon`, `.goods-ranking__link:hover .goods-ranking__external-icon`에 `color: #68bfd0;` 적용.
+
+### Goods (굿즈) 섹션 - 카드 및 랭킹 타이틀 글자색 #777 및 볼드체(700) 적용
+- 사용자의 `goods-cards, goods-ranking__grid 타이틀 글자색 #777 볼드체로 변경` 요청 반영:
+  - `css/components/goods.css`:
+    - `.goods-card__title`: `color: #777777; font-weight: var(--font-weight-bold, 700);`
+    - `.goods-ranking__item-title`: `color: #777777; font-weight: var(--font-weight-bold, 700);`
+
+### Goods (굿즈) 섹션 - 카드 및 랭킹 타이틀 글자 크기 15px로 변경
+- 사용자의 `goods-cards, goods-ranking__grid 타이틀 글자 크기 15px로 변경` 요청 반영:
+  - `css/components/goods.css`:
+    - `.goods-card__title`: `font-size: 15px;`
+    - `.goods-ranking__item-title`: `font-size: 15px;`
+
+### Goods (굿즈) 섹션 - 분홍색 계열 색상 #f49cc2 통일
+- 사용자의 `goods-section outer-box에 사용된 분홍색들을 #f49cc2로 동일하게 변경.` 요청 반영:
+  - `css/components/goods.css`:
+    - Goods 섹션 내 사용되던 기존 분홍색(#ea6497, #e9527f)을 산리오 메인 핑크 컬러인 `#f49cc2`로 일괄 통일.
+    - 대상 요소:
+      - `.goods-section__title`: `color: #f49cc2;`
+      - `.goods-card__new-apple`: `background-color: #f49cc2;` (NEW 사과 뱃지)
+      - `.goods-card__category`: `background-color: #f49cc2;` (카테고리 뱃지)
+      - `.goods-section__top-link`: `background: #f49cc2;` (굿즈 TOP 버튼 배경)
+      - `.goods-section__arrow`: `color: #f49cc2;` (버튼 내부 화살표)
+      - `.goods-ranking__header-dot`: `border-bottom: 2px dotted #f49cc2;` (랭킹 헤더 점선)
+      - `.goods-ranking__title`: `color: #f49cc2;` (랭킹 헤더 텍스트)
+      - `.goods-ranking__btn`: `background: #f49cc2;` (더보기 버튼 배경)
+      - `.goods-ranking__btn-arrow`: `color: #f49cc2;` (더보기 버튼 내부 화살표)
+
+### Goods (굿즈) 섹션 - 헤딩 확대, 호버 시 이미지 줌 & 타이틀 #68bfd0, 랭킹 162px 및 점선 연장
+- 사용자의 `goods-section__heading 글자 크기 키워. goods-cards 이미지에 마우스 호버되면 이미지 확대되게 & 타이틀 글자색 #68bfd0으로 변경. goods-ranking__image 사용된 이미지 162x162px로 변경. goods-ranking__header 텍스트 크기 23px로 변경 & 점선 길이 길게 수정. goods-ranking__grid 이미지나 글씨에 마우스 호버시 이미지는 확대, 글자색 #68bfd0로 변경.` 요청 반영:
+  - `css/components/goods.css`:
+    - `.goods-section__title`: 폰트 크기 `2.25rem` → `2.625rem`로 확대, `.goods-section__subtitle` 크기 `0.875rem`로 확대.
+    - `.goods-card__thumb-wrap`: `overflow: hidden;` 적용 및 `.goods-card__image`에 부드러운 트랜지션 부여.
+    - 호버 인터랙션: `.goods-card:hover .goods-card__image` 호버 시 `scale(1.08)` 줌 인, `.goods-card__title` 호버 시 글자색 `#68bfd0`로 변경.
+    - 랭킹 헤더: `.goods-ranking__title` 글자 크기를 정확히 `23px`로 변경, `.goods-ranking__header-dot` 점선 길이 `max-width: 280px`로 대폭 연장.
+    - 랭킹 이미지: `.goods-ranking__thumb-wrap` 및 `.goods-ranking__image` 크기를 `162px × 162px`로 확대.
+    - 랭킹 호버: `.goods-ranking__item:hover .goods-ranking__image` `scale(1.08)` 줌 인, `.goods-ranking__item-title` 글자색 `#68bfd0`로 변경.
+  - `index.html`:
+    - `.goods-ranking__image` 5개 항목에 `width="162" height="162"` 속성 일치 적용.
+
+### Characters (캐릭터) 섹션 - 모바일 화면 버튼 위치 겹침 방지 수정
+- 사용자의 `'데스크탑 화면에서 characters-section__link 버튼 궤적 배경 안에 위치하도록 위치 수정' 내가 데스크탑화면이라고 언급했는데 모바일화면에서도 버튼 위치가 바뀌어서 다른 요소랑 겹쳐짐. 모바일 화면에서 버튼이 다른 요소랑 겹쳐지지 않게 위치 수정.` 요청 반영:
+  - 데스크톱 전용 절대 위치(`position: absolute`) 속성이 모바일 미디어 쿼리 상속으로 겹치는 문제를 해결하기 위해,
+  - `css/components/sections.css`의 `@media (max-width: 768px)` 내에 `.characters-section__link`에 `position: relative; inset: auto; transform: none; margin: 1.5rem auto 2rem;`을 명시하여 원래대로 캐릭터 오빗 및 배지 아래로 자연스럽게 흐르는 문서 흐름(relative flow)으로 복원 완료.
+
+### News Panel (중요 공지) - 상하 패딩 및 간격, 목록 폰트 크기 확대, 헤딩 핑크색 조정
+- 사용자의 `part-box news-panel 전체 텍스트 위아래 여백줘서 간격 적절하게 조정. news-panel__list 글자 크기 키워. news-panel__heading 글자색 더 부드러운 색으로 변경.` 요청 반영:
+  - `css/components/sections.css`:
+    - `.news-panel`: 패딩을 `1.25rem 2rem`으로 넓히고, 헤딩과 목록 사이 간격을 `gap: 1.5rem`으로 여유 있게 확장.
+    - `.news-panel__heading`: 색상을 부드럽고 산뜻한 산리오 시그니처 핑크인 `#ea6497`로 변경하고 폰트 크기 0.9375rem(15px)로 조정. 우측 구분선 패딩 `1.5rem` 부여.
+    - `.news-panel__list`: 항목 간 상하 간격을 `0.75rem`으로 확대.
+    - `.news-panel__item`: 글자 크기를 기존 `0.6875rem (11px)`에서 `0.8125rem (13px, var(--font-size-sm))`로 가독성 있게 키우고 `line-height: 1.6`, 날짜와 제목 간격 `0.75rem`으로 균형감 있게 조정.
+
+### Characters (캐릭터) 섹션 - 데스크톱 궤적 배경 내부 버튼 배치 수정
+- 사용자의 `데스크탑 화면에서 characters-section__link 버튼 궤적 배경 안에 위치하도록 위치 수정` 요청 반영:
+  - `css/components/sections.css`:
+    - `.characters-section__link`를 데스크톱 화면에서 `position: absolute; z-index: 3; inset-inline-start: 50%; inset-block-end: 1.5rem; transform: translateX(-50%); margin: 0;`로 수정.
+    - 핑크색 궤적 언덕 배경(`.characters-orbit__svg` 곡면 패스) 안쪽에 버튼이 자연스럽게 안착되도록 배치.
+    - 모바일 화면(`@media (max-width: 768px)`)에서는 기존처럼 상대 배치 및 콤팩트 규격(`position: relative; margin: 1.5rem auto 2rem; width: calc(100% - var(--space-8));`)을 유지.
+
 ### News Panel (중요 공지) - 폭(900px), 헤딩 글자색, 내용 굵기 및 더보기 화살표 아이콘 수정
 - 사용자의 `part-box news-panel의 width 900px로 수정. news-panel__heading에 사용된 글자색 더 부드러운색으로 수정. news-panel__list의 날짜 뒤의 내용글자는 볼드체로 수정. news-panel__more에 사용된 아이콘 화살표 아이콘으로 변경.` 요청 반영:
   - `css/layout.css`:

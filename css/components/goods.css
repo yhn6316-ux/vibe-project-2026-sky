@@ -68,15 +68,15 @@
 .goods-section__title {
   margin: 0;
   font-family: var(--font-display, inherit);
-  font-size: 2.25rem;
+  font-size: 2.625rem;
   font-weight: var(--font-weight-medium, 500);
-  color: #ea6497;
+  color: #f49cc2;
   line-height: 1.1;
 }
 
 .goods-section__subtitle {
-  margin: 0.25rem 0 0;
-  font-size: var(--font-size-xs, 0.75rem);
+  margin: 0.35rem 0 0;
+  font-size: 0.875rem;
   font-weight: var(--font-weight-bold, 700);
   color: var(--color-text-muted, #727272);
 }
@@ -110,7 +110,7 @@
   width: 340px;
   height: 190px;
   border-radius: var(--radius-card, 16px);
-  overflow: visible;
+  overflow: hidden;
   margin-block-end: 0.75rem;
   background-color: #f7f7f7;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -122,6 +122,19 @@
   object-fit: cover;
   border-radius: var(--radius-card, 16px);
   display: block;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (hover: hover) {
+  .goods-card:hover .goods-card__image,
+  .goods-card__link:hover .goods-card__image {
+    transform: scale(1.08);
+  }
+
+  .goods-card:hover .goods-card__title,
+  .goods-card__link:hover .goods-card__title {
+    color: #68bfd0;
+  }
 }
 
 /* Apple NEW Badge: Overlapping top-right corner */
@@ -142,7 +155,7 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  background-color: #e9527f;
+  background-color: #f49cc2;
   border-radius: 50% 50% 45% 45%;
 }
 
@@ -171,10 +184,11 @@
 
 .goods-card__title {
   margin: 0 0 0.5rem;
-  font-size: 0.875rem;
-  font-weight: var(--font-weight-medium, 500);
+  font-size: 15px;
+  font-weight: var(--font-weight-bold, 700);
   line-height: 1.45;
-  color: #333333;
+  color: #777777;
+  transition: color 0.25s ease;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -192,7 +206,7 @@
   display: inline-block;
   padding: 0.2rem 0.55rem;
   border-radius: 4px;
-  background-color: #e9527f;
+  background-color: #f49cc2;
   color: #ffffff;
   font-size: 0.625rem;
   font-weight: var(--font-weight-bold, 700);
@@ -215,7 +229,7 @@
   margin: 0 auto 3.5rem;
   padding-inline: var(--space-8);
   border-radius: var(--radius-pill);
-  background: #ea6497;
+  background: #f49cc2;
   color: var(--color-white);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
@@ -241,7 +255,7 @@
   height: 1.25rem;
   border-radius: 50%;
   background: var(--color-white);
-  color: #ea6497;
+  color: #f49cc2;
   font-size: var(--font-size-xs);
   letter-spacing: 0;
 }
@@ -266,24 +280,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 1.75rem;
   margin-block-end: 2rem;
 }
 
 .goods-ranking__header-dot {
   flex: 1;
-  max-width: 180px;
+  max-width: 280px;
   height: 0;
-  border-bottom: 2px dotted #ea6497;
+  border-bottom: 2px dotted #f49cc2;
   border-radius: 0;
   background: none;
 }
 
 .goods-ranking__title {
   margin: 0;
-  font-size: 1.125rem;
+  font-size: 23px;
   font-weight: var(--font-weight-bold, 700);
-  color: #ea6497;
+  color: #f49cc2;
   letter-spacing: 0.05em;
   white-space: nowrap;
 }
@@ -314,17 +328,37 @@
 
 .goods-ranking__thumb-wrap {
   position: relative;
-  width: 110px;
-  height: 110px;
+  width: 162px;
+  height: 162px;
   margin-block-end: 0.875rem;
   display: grid;
   place-items: center;
+  overflow: hidden;
+  border-radius: 12px;
 }
 
 .goods-ranking__image {
-  width: 100%;
-  height: 100%;
+  width: 162px;
+  height: 162px;
   object-fit: contain;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (hover: hover) {
+  .goods-ranking__item:hover .goods-ranking__image,
+  .goods-ranking__link:hover .goods-ranking__image {
+    transform: scale(1.08);
+  }
+
+  .goods-ranking__item:hover .goods-ranking__item-title,
+  .goods-ranking__link:hover .goods-ranking__item-title {
+    color: #68bfd0;
+  }
+
+  .goods-ranking__item:hover .goods-ranking__external-icon,
+  .goods-ranking__link:hover .goods-ranking__external-icon {
+    color: #68bfd0;
+  }
 }
 
 /* Crown Badge for Top 3 (Yellow, Silver, Bronze) */
@@ -339,10 +373,11 @@
 
 .goods-ranking__item-title {
   margin: 0;
-  font-size: 0.75rem;
-  font-weight: var(--font-weight-normal, 400);
+  font-size: 15px;
+  font-weight: var(--font-weight-bold, 700);
   line-height: 1.4;
-  color: #555555;
+  color: #777777;
+  transition: color 0.25s ease;
   text-align: left;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -355,7 +390,8 @@
   display: inline-block;
   vertical-align: middle;
   margin-left: 2px;
-  color: #888888;
+  color: #f49cc2;
+  transition: color 0.25s ease;
 }
 
 /* Bottom Ranking Button: "オンラインショップでもっと見る" with Shopping Bag */
@@ -370,7 +406,7 @@
   margin: 0 auto 1.25rem;
   padding-inline: 3.5rem;
   border-radius: var(--radius-pill);
-  background: #ea6497;
+  background: #f49cc2;
   color: var(--color-white);
   font-size: var(--font-size-sm, 0.875rem);
   font-weight: var(--font-weight-bold);
@@ -400,7 +436,7 @@
   height: 1.25rem;
   border-radius: 50%;
   background: var(--color-white);
-  color: #ea6497;
+  color: #f49cc2;
   font-size: var(--font-size-xs);
   letter-spacing: 0;
 }
