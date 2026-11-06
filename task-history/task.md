@@ -12,6 +12,58 @@
 
 ## 2026-11-06 작업 기록
 
+### Goods (굿즈) 섹션 세부 디자인 고도화
+- **Goods 섹션 헤더 및 아이콘/텍스트 스타일 조정**:
+  - `goods-section__gift-icon`: 크기를 `38x44px`로 조정하고, 전용 CSS filter를 적용하여 `#71C6D6` 민트블루 색상으로 정확히 렌더링.
+  - `goods-heading` (`.goods-section__title`): 글자 크기 `52px`, 색상 `#E383A8`로 변경.
+  - `goods-section__subtitle`: 글자 크기 `17px`, 색상 `#a2a2a2`로 변경.
+- **Goods 카드 (`.goods-cards`) 스타일 개선**:
+  - `goods-cards`의 `gap`을 `6.5rem`으로 넓혀 카드 간의 가독성과 여백 확보.
+  - 카드 썸네일 우측 상단 NEW 뱃지를 `images/used/apple.svg`로 교체하고, 크기 `59x59px`, 이미지 위로 겹쳐 돋보이도록 위치 조정.
+  - `goods-card__title`: 위아래 간격을 `0.6rem 0 1rem`으로 넓히고, 폰트 굵기를 `500` (Medium)으로 변경.
+  - `goods-card__category`: 글자 크기 `12px`, 모서리 둥글기 `6px`, 좌우 패딩 여백 `0.8rem`으로 조정.
+  - `goods-card__date`: 글자 크기 `14px`, 색상 `#777` (`#777777`)로 변경.
+- **Goods TOP 버튼 간격 조정**:
+  - `goods-section__top-link`: 위쪽 요소(카드 목록)와의 거리를 넓히기 위해 `margin-top: 3.5rem` 적용.
+- **Goods 랭킹 (`.goods-ranking`) 스타일 개선**:
+  - 랭킹 뱃지 아이콘: `ranking1.svg`로 교체, 크기 `50x54px`, 이미지 위로 오버랩되도록 배치.
+  - 1위, 2위, 3위 순서대로 전용 색상 적용: 1위 `#DBCF81`, 2위 `#D6D4C7`, 3위 `#F2AF90`.
+  - 뱃지 중앙에 순위 번호(1, 2, 3) 텍스트를 배치하고, 아이콘 비율에 맞게 살짝 왼쪽 아래로 위치 미세 조정 (`transform: translate(-3px, 3px)`).
+  - `goods-ranking__item-title`: 이미지 너비와 동일하게 `width: 162px`를 부여하여 텍스트 정렬 정리 및 굵기를 `500` (Medium)으로 변경.
+  - `goods-ranking__image`: 모서리 둥글기 `border-radius: 14px` 적용.
+  - `goods-ranking__header` 양옆 점선: 색상을 `#888` (`#888888`)로 변경.
+  - `goods-ranking__btn` 내부 아이콘 크기 순서대로 재조정:
+    - 쇼핑백 아이콘: `30px`
+    - 외부링크 아이콘: `14px`
+    - 우측 화살표 원형 아이콘: `18px`
+
+### News Panel (중요 안내) 스타일 개선
+- `news-heading`: 글자 크기 `14px`, 색상 `#E383A8`로 변경.
+- `news-panel__more`: 글자 크기 `11px`, 색상 `#71C6D6`로 변경.
+- `news-panel__more-arrow`: `#71C6D6` 원형 배경 안에 흰색 `#fff` 화살표가 들어가도록 스타일링.
+- `news-heading`과 `news-panel__more` 간격(`gap: 0.75rem`) 확대 및 `news-panel__heading` 왼쪽 여백(`padding-inline-start: 1rem`) 추가.
+- `news-panel__list`: 날짜 폰트 `11px`, 색상 `#a2a2a2`로 변경, 공지 본문 내용 텍스트 굵기 볼드 제거 (`font-weight: normal`).
+
+### Firebase 기반 로그인 / 회원가입 및 관리자 권한 제어 기능 구현
+- **Firebase Firestore 연동 인증 서비스 구축 (`js/services/authService.js`)**:
+  - 회원가입 정보: `이름`, `아이디`, `비밀번호`, `이메일` 입력 및 저장.
+  - 아이디 중복 체크 (`checkUserIdAvailable`) 및 이메일 중복 체크 (`checkEmailAvailable`) 구현.
+  - 기본 관리자 계정 Firestore 자동 초기화/등록:
+    - 이름: 관리자 / 아이디: `admin` / 비밀번호: `1111` / 이메일: `admin.com@company.co.kr`
+  - 로그인/로그아웃 세션 관리 및 커스텀 이벤트(`sanrio:authChange`)를 통한 실시간 상태 동기화.
+- **로그인 / 회원가입 통합 화면 구현 (`pages/login.html`, `js/login.js`, `css/components/auth.css`)**:
+  - 공지사항(Notice) 화면과 동일한 산리오 파스텔 핑크 테마, 구름 배너, 리본 데코레이션 적용.
+  - 화면 상단: 로그인 폼 + 관리자 계정 안내 및 자동입력 버튼.
+  - 화면 하단: 리본 구분선 밑 회원가입 폼 (실시간 유효성 검사 및 중복확인).
+- **공통 헤더 및 내비게이션 로그인 상태 연동 (`js/authUi.js`)**:
+  - 로그인 시: 상단에 `🎀 [이름]님 환영합니다` (관리자는 `ADMIN` 뱃지 포함) 상태 표시.
+  - 로그인 버튼이 `로그아웃` 버튼으로 동적 전환되며, 클릭 시 세션 클리어 지원.
+  - 데스크톱 및 모바일 헤더, 퀵 메뉴(Quick Links) 모두 양방향 연동.
+- **공지사항(Notice) 관리자(admin) 전용 권한 제어 (`pages/notices.html`, `js/notices.js`)**:
+  - 글쓰기(`新規投稿`): `admin` 로그인 시에만 노출.
+  - 상세 화면의 수정(`✎ 編集する`) 및 삭제(`🗑 削除する`): `admin` 로그인 시에만 노출 및 삭제 로직 연동.
+  - 일반 사용자 또는 비로그인 상태에서 작성/수정 URL 직접 접근 차단 및 리다이렉트 처리.
+
 ### Header Navigation 아이템 정중앙 정렬 (`site-nav__link`)
 - 사용자의 `site-nav__link 안의 요소를 해당 박스의 정중앙에 위치하도록` 요청 반영:
   - `css/components/header.css`:
