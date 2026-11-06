@@ -1,77 +1,162 @@
 /**
- * Firestore 기반 공지사항 서비스 구현체 스텁 (마이그레이션 대비용)
+ * Firestore 기반 공지사항 서비스 구현체
  * 
- * localstorage_to_firebase_guidelines.md 5단계 명세에 맞춘 구현 템플릿입니다.
- * Firebase SDK 설치 및 firebaseConfig 설정 후 postService 진입점만 교체하면 즉시 동작합니다.
+ * - Firestore 연동 및 기존 첨부파일(Base64 인라인 저장) 유지
+ * - 컬렉션이 비어있는 경우 초기 시드 데이터(1001~1007) 자동 주입 지원
  */
 
-/*
-// [Firebase 마이그레이션 활성화 시 주석 해제]
-import { 
-  collection, getDocs, getDoc, doc, addDoc, updateDoc, deleteDoc, query, orderBy, where 
-} from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  getDoc,
+  doc,
+  setDoc,
+  updateDoc,
+  deleteDoc,
+  query,
+  orderBy,
+  where,
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { db } from "./firebaseConfig.js";
+import { initialNoticesSeed } from "../mock/noticeMockService.js";
 
 const COLLECTION_NAME = "notices";
-*/
 
 export const noticeFirebaseService = {
+  /**
+   * 공지사항 목록 조회 (카테고리 필터, 검색어 필터, no 내림차순 정렬)
+   */
   getNotices: async ({ category = "すべて", keyword = "" } = {}) => {
-    throw new Error("noticeFirebaseService: Firebase SDK와 Firestore 설정이 아직 연결되지 않았습니다. noticeService.js에서 Mock 모드를 사용하세요.");
-    /*
     const colRef = collection(db, COLLECTION_NAME);
-    let q = query(colRef, orderBy("no", "desc"));
+
+    // 1. 전체 또는 카테고리 쿼리
+    let q;
     if (category && category !== "すべて") {
-      q = query(colRef, where("category", "==", category), orderBy("no", "desc"));
+      q = query(colRef, where("category", "==", category));
+    } else {
+      q = query(colRef);
     }
-    const snapshot = await getDocs(q);
-    let list = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
-    if (keyword.trim()) {
+
+    let snapshot = await getDocs(q);
+
+    // 컬렉션이 완전히 비어있을 경우, 최초 1회 초기 시드 데이터 자동 주입
+    if (snapshot.empty && (!category || category === "すべて")) {
+      await noticeFirebaseService.resetToSeed();
+      snapshot = await getDocs(query(colRef));
+    }
+
+    let list = snapshot.docs.map((d) => ({
+      id: d.id,
+      ...d.data(),
+    }));
+
+    // 번호(no) 내림차순 정렬
+    list.sort((a, b) => (b.no ?? 0) - (a.no ?? 0));
+
+    // 키워드 검색 필터링 (클라이언트 단 검색)
+    if (keyword && keyword.trim()) {
       const kw = keyword.trim().toLowerCase();
-      list = list.filter((item) => item.title.toLowerCase().includes(kw));
+      list = list.filter((item) => (item.title || "").toLowerCase().includes(kw));
     }
+
     return list;
-    */
   },
 
+  /**
+   * ID로 공지사항 단건 조회
+   */
   getNoticeById: async (id) => {
-    throw new Error("noticeFirebaseService: Firestore 연결 대기 중");
-    /*
-    const d = await getDoc(doc(db, COLLECTION_NAME, id));
-    return d.exists() ? ({ id: d.id, ...d.data() }) : null;
-    */
-  },
-
-  createNotice: async (data) => {
-    throw new Error("noticeFirebaseService: Firestore 연결 대기 중");
-    /*
-    const nowIso = new Date().toISOString();
-    const docRef = await addDoc(collection(db, COLLECTION_NAME), {
-      ...data,
-      createdAt: nowIso,
-      updatedAt: nowIso,
-    });
-    return { id: docRef.id, ...data, createdAt: nowIso, updatedAt: nowIso };
-    */
-  },
-
-  updateNotice: async (id, data) => {
-    throw new Error("noticeFirebaseService: Firestore 연결 대기 중");
-    /*
+    if (!id) return null;
     const docRef = doc(db, COLLECTION_NAME, id);
-    await updateDoc(docRef, {
-      ...data,
-      updatedAt: new Date().toISOString(),
-    });
-    return { id, ...data };
-    */
+    const snap = await getDoc(docRef);
+    return snap.exists() ? { id: snap.id, ...snap.data() } : null;
   },
 
+  /**
+   * 신규 공지사항 생성
+   */
+  createNotice: async (data) => {
+    // 가장 큰 no 번호 계산
+    const allNotices = await noticeFirebaseService.getNotices();
+    const maxNo = allNotices.reduce((max, cur) => Math.max(max, cur.no || 0), 1000);
+    const now = new Date().toISOString();
+    const newId = crypto.randomUUID();
+
+    const newNotice = {
+      no: maxNo + 1,
+      title: data.title?.trim() || "",
+      category: data.category || "お知らせ",
+      badge:
+        data.badge ||
+        (data.category === "キャンペーン"
+          ? "キャンペーン"
+          : data.category === "イベント"
+          ? "イベント"
+          : "お知らせ"),
+      content: data.content || "",
+      // 첨부파일 기존 base64 인라인 방식 유지
+      attachments: Array.isArray(data.attachments) ? data.attachments : [],
+      createdAt: now,
+      updatedAt: now,
+    };
+
+    const docRef = doc(db, COLLECTION_NAME, newId);
+    await setDoc(docRef, newNotice);
+
+    return { id: newId, ...newNotice };
+  },
+
+  /**
+   * 공지사항 수정
+   */
+  updateNotice: async (id, data) => {
+    const docRef = doc(db, COLLECTION_NAME, id);
+    const snap = await getDoc(docRef);
+
+    if (!snap.exists()) {
+      throw new Error(`Notice with ID "${id}" was not found.`);
+    }
+
+    const current = snap.data();
+    const now = new Date().toISOString();
+
+    const updatedFields = {
+      title: data.title !== undefined ? data.title.trim() : current.title,
+      category: data.category !== undefined ? data.category : current.category,
+      badge:
+        data.badge !== undefined
+          ? data.badge
+          : data.category === "キャンペーン"
+          ? "キャンペーン"
+          : data.category === "イベント"
+          ? "イベント"
+          : "お知らせ",
+      content: data.content !== undefined ? data.content : current.content,
+      attachments:
+        Array.isArray(data.attachments) ? data.attachments : current.attachments,
+      updatedAt: now,
+    };
+
+    await updateDoc(docRef, updatedFields);
+    return { id, ...current, ...updatedFields };
+  },
+
+  /**
+   * 공지사항 삭제
+   */
   deleteNotice: async (id) => {
-    throw new Error("noticeFirebaseService: Firestore 연결 대기 중");
-    /*
-    await deleteDoc(doc(db, COLLECTION_NAME, id));
-    */
+    const docRef = doc(db, COLLECTION_NAME, id);
+    await deleteDoc(docRef);
+  },
+
+  /**
+   * 초기 시드 데이터 Firestore에 주입
+   */
+  resetToSeed: async () => {
+    for (const item of initialNoticesSeed) {
+      const docRef = doc(db, COLLECTION_NAME, item.id);
+      const { id, ...data } = item;
+      await setDoc(docRef, data);
+    }
   },
 };
-

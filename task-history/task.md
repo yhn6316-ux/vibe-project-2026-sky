@@ -10,6 +10,103 @@
 - 이미지 및 아이콘은 `images/used` 에셋을 우선 재사용한다.
 - `Characters` 섹션은 이전 사용자 요청으로 삭제된 상태이며 복원하지 않는다.
 
+## 2026-11-06 작업 기록
+
+### Digital & Spots 섹션 - 뱃지 및 태그 모서리 둥근 네모(border-radius: 4px)로 변경
+- 사용자의 `digital-comm-item__badge, digital-news-card__tag, spots-news-card__tag 박스 모서리 둥근 네모로 변경.` 요청 반영:
+  - `css/components/digital.css`:
+    - `.digital-comm-item__badge`: `border-radius: 4px;` 적용 (기존 pill 형태에서 둥근 사각형으로 변경).
+    - `.digital-news-card__tag`: `border-radius: 4px;` 적용.
+  - `css/components/spots.css`:
+    - `.spots-news-card__tag`: `border-radius: 4px;` 적용.
+
+### Spots (스팟) 섹션 - spots-news-cards 호버 확대 및 텍스트 #F08080, 타이틀 15px #777, 날짜 14px 적용
+- 사용자의 `spots-news-cards 이구역의 이미지나 텍스트에 마우스 호버시 이미지 확대 & 텍스트 #F08080로 변경. 타이틀 텍스트 15px #777로 변경. 날짜 텍스트는 14px로 변경.` 요청 반영:
+  - `index.html`:
+    - `.spots-news-card__thumb-wrap` 내부에 `.spots-news-card__img-box` 래퍼를 감싸 이미지는 내부에서 확대(`overflow: hidden`)되고 우측 상단 NEW 사과 뱃지는 가려지지 않도록 구조 정리.
+  - `css/components/spots.css`:
+    - `.spots-news-card__img-box`: `border-radius: 14px; overflow: hidden;` 설정.
+    - `.spots-news-card__image`: `transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);` 추가.
+    - `.spots-news-card__title`: 글자 크기 `15px`, 색상 `#777777`, `transition: color 0.25s ease;` 적용 (모바일 반응형 타이틀 크기도 15px로 동기화).
+    - `.spots-news-card__date`: 글자 크기 `14px` 적용.
+    - `@media (hover: hover)`:
+      - `.spots-news-card:hover .spots-news-card__image`, `.spots-news-card__link:hover .spots-news-card__image`: `transform: scale(1.08);` (이미지 박스 내부에서 확대).
+      - `.spots-news-card:hover .spots-news-card__title`, `.spots-news-card__link:hover .spots-news-card__title`: `color: #F08080;` (타이틀 텍스트 색상 전환).
+
+### Spots (스팟) 섹션 - spots-arch-card 외부 링크 아이콘 크기 확대 재반영 (12px -> 18px)
+- 사용자의 `'사용된 아이콘 크기 키우기' 다시 구현` 요청 반영:
+  - `index.html`: `.spots-arch-card__ext-icon` SVG의 인라인 속성을 `width="18" height="18"`로 확대.
+  - `css/components/spots.css`: `.spots-arch-card__ext-icon`의 CSS 크기를 `width: 18px !important; height: 18px !important; margin-left: 4px;`로 명확히 키워 가시성을 확보.
+
+### Spots (스팟) 섹션 - spots-main-grid 테두리 확대, 타이틀 15px #777, 아이콘 확대 및 #72cf9d, 호버 확대 & 텍스트 #F08080 적용
+- 사용자의 `spots-main-grid 이미지 테두리 두껍게 수정. 타이틀 텍스트 15px #777로 변경. 끝에 사용된 아이콘 크기 키우기 & #72cf9d로 변경. 이미지나 텍스트에 마우스 호버시 이미지 확대& 텍스트 #F08080로 변경.` 요청 반영:
+  - `css/components/spots.css`:
+    - `.spots-arch-card__thumb-wrap`: 테두리 두께를 기존 `4px`에서 `6px`(`border: 6px solid #bcead1;`)로 두껍게 수정.
+    - `.spots-arch-card__image`: `transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);` 추가.
+    - `.spots-arch-card__title`: 글자 크기 `15px`, 글자색 `#777777`, `transition: color 0.25s ease;` 적용.
+    - `.spots-arch-card__ext-icon`: 크기 `15px x 15px`로 확대 및 색상 `#72cf9d` 설정.
+    - `@media (hover: hover)`:
+      - `.spots-arch-card:hover .spots-arch-card__image`, `.spots-arch-card__link:hover .spots-arch-card__image`: `transform: scale(1.08);` 적용 (이미지 박스 내부에서 부드럽게 확대).
+      - `.spots-arch-card:hover .spots-arch-card__title`, `.spots-arch-card__link:hover .spots-arch-card__title`: `color: #F08080;` 적용 (마우스 호버 시 텍스트 코랄 핑크 색상 전환).
+
+### Spots (스팟) 섹션 - spots-main-grid 카드 순서 재배치
+- 사용자의 `spots-main-grid 이미지 순서 변경 1 -> 2, 2 -> 4, 3 -> 1, 4 -> 3` 요청 반영:
+  - `index.html`:
+    - 기존 3번째 카드(`sanrio-dt_70.jpg` / サンリオカフェ＆ サンリオカフェワゴン) -> **1번째 카드**로 이동
+    - 기존 1번째 카드(`sanrio-dt_68.jpg` / サンリオピューロランド) -> **2번째 카드**로 이동
+    - 기존 4번째 카드(`sanrio-dt_71.jpg` / サンリオキャラクター ホテル＆カフェ ガイド) -> **3번째 카드**로 이동
+    - 기존 2번째 카드(`sanrio-dt_69.jpg` / サンリオキャラクターパーク ハーモニーランド) -> **4번째 카드**로 이동
+
+### Digital (디지털) 섹션 - digital-news-cards 호버 확대 및 텍스트 #68bfd0, 타이틀 15px #777, 날짜 14px 적용
+- 사용자의 `digital-news-cards 이미지와 텍스트에 마우스 호버시 이미지 박스 확대 & 텍스트 색 #68bfd0로 변경. 타이틀 크기 15px #777로 변경.  날짜 텍스트는 14px로 변경` 요청 반영:
+  - `css/components/digital.css`:
+    - `.digital-news-card__thumb-wrap`: 기존 `overflow: hidden;` 유지.
+    - `.digital-news-card__image`: `transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);` 추가.
+    - `.digital-news-card__title`: `font-size: 15px; color: #777777; transition: color 0.25s ease;` 적용. (모바일 미디어 쿼리 포함 15px 일치)
+    - `.digital-news-card__date`: `font-size: 14px;` 적용.
+    - `@media (hover: hover)`:
+      - `.digital-news-card:hover .digital-news-card__image`, `.digital-news-card__link:hover .digital-news-card__image`: `transform: scale(1.08);` (썸네일 박스 내부 확대).
+      - `.digital-news-card:hover .digital-news-card__title`, `.digital-news-card__link:hover .digital-news-card__title`: `color: #68bfd0;` (타이틀 텍스트 색상 변경).
+
+### Digital (디지털) 섹션 - digital-wallpaper 호버 이미지 교체 제거 및 흰색 딤드(dimmed) 효과 적용
+- 사용자의 `digital-wallpaper 마우스 호버시 이미지 바뀌는거 삭제하고, 흰색으로 딤드처리 되게 수정.` 요청 반영:
+  - `index.html`:
+    - `.digital-wallpaper`: 이전에 추가했던 두 번째 이미지(`sanrio-dt_14.jpg`)를 제거하고 기본 단일 이미지(`sanrio-dt_13.jpg`) 구조로 복원.
+  - `css/components/digital.css`:
+    - `.digital-wallpaper__card::after` 가상 요소를 생성하여 `background-color: #ffffff; opacity: 0; transition: opacity 0.25s ease;` 설정.
+    - `@media (hover: hover)` 내 `.digital-wallpaper__card:hover::after`에 `opacity: 0.35;`를 부여하여 호버 시 은은하고 부드러운 흰색 딤드(dimmed/overlay) 오버레이 효과 적용.
+    - 불필요해진 크로스페이드 이미지 전환 스타일 삭제.
+
+### Digital (디지털) 섹션 - digital-comm-grid 이미지 호버 확대 & digital-wallpaper 버튼 삭제 및 호버 시 sanrio-dt_14 전환
+- 사용자의 `digital-comm-grid에 쓰인 이미지들에 마우스 호버시 이미지 자체가 확대되도록. digital-wallpaper의 이미지 안에 있는 버튼 삭제 & 마우스 호버시 sanrio-dt_14로 변경.` 요청 반영:
+  - `index.html`:
+    - `.digital-wallpaper`: 내부 버튼 태그(`.digital-wallpaper__btn`)를 삭제하고, 기본 배경 이미지(`sanrio-dt_13.jpg`)와 호버 전환용 배경 이미지(`sanrio-dt_14.jpg`)를 나란히 배치.
+  - `css/components/digital.css`:
+    - `.digital-comm-item--theme .digital-comm-item__image`, `.digital-comm-item--stamp .digital-comm-item__image`: `transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);` 속성 추가.
+    - 호버 인터랙션 추가: `@media (hover: hover)` 내 `.digital-comm-item:hover .digital-comm-item__image`, `.digital-comm-item__link:hover .digital-comm-item__image`에 `transform: scale(1.08);`을 적용하여 마우스 호버 시 이미지 자체가 확대되도록 설정.
+    - `.digital-wallpaper__bg--default`, `.digital-wallpaper__bg--hover`: 기본 상태에서는 `dt_13` 노출 (`opacity: 1`), `dt_14` 숨김 (`opacity: 0`), 호버 시 `transition: opacity 0.3s ease;`를 통해 부드럽게 `sanrio-dt_14.jpg`로 전환.
+    - `.digital-wallpaper__btn`: 버튼 요소 삭제 및 잔여 스타일 숨김 처리.
+
+### Digital (디지털) 섹션 - digital-web-cards 호버 확대 및 색상 변경 (#68bfd0, 아이콘 #ebb535 -> #68bfd0 & 크기 확대)
+- 사용자의 `digital-web-cards 해당구역 마우스 호버시 이미지 박스 안에서 확대, 글자색 #68bfd0으로 변경. 타이틀 텍스트 끝에 쓰인 아이콘 처음엔 #ebb535이였다가 호버시 #68bfd0으로 변경 & 아이콘 크기 키워줘.` 요청 반영:
+  - `css/components/digital.css`:
+    - `.digital-web-card__image`: `transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);` 추가 (`.digital-web-card__thumb-wrap`의 `overflow: hidden;` 내부에서 부드럽게 확대).
+    - `.digital-web-card__title`: `transition: color 0.25s ease;` 추가.
+    - `.digital-web-card__ext-icon`: 크기 `15px x 15px`로 확대, 초기 색상 `#ebb535` 적용, `transition: color 0.25s ease, transform 0.25s ease;` 설정.
+    - `@media (hover: hover)`:
+      - `.digital-web-card:hover .digital-web-card__image`, `.digital-web-card__link:hover .digital-web-card__image`: `transform: scale(1.08);` (박스 안에서 1.08배 확대).
+      - `.digital-web-card:hover .digital-web-card__title`, `.digital-web-card__link:hover .digital-web-card__title`: `color: #68bfd0;` (타이틀 텍스트 색상 변경).
+      - `.digital-web-card:hover .digital-web-card__ext-icon`, `.digital-web-card__link:hover .digital-web-card__ext-icon`: `color: #68bfd0;` (외부 링크 아이콘 색상 변경).
+
+### Digital (디지털) 섹션 - digital-apps 호버 인터랙션 (타이틀 #68bfd0, 이미지 테두리 4px #68bfd0) 추가
+- 사용자의 `digital-apps 해당구역 타이틀텍스트랑 이미지에 마우스 호버 시 텍스트 색 #68bfd0으로 변경. 이미지는 테두리 #68bfd0 색으로 두껍게 생성.` 요청 반영:
+  - `css/components/digital.css`:
+    - `.digital-app-item__icon`: `box-sizing: border-box; border: 4px solid transparent; transition: border-color 0.25s ease, box-shadow 0.25s ease;` 설정.
+    - `.digital-app-item__name`: `transition: color 0.25s ease;` 설정.
+    - `@media (hover: hover)`:
+      - `.digital-app-item:hover .digital-app-item__icon`: `border-color: #68bfd0;` (4px 두께의 민트 테두리 생성).
+      - `.digital-app-item:hover .digital-app-item__name`: `color: #68bfd0;` (타이틀 텍스트 색상 전환).
+
 ## 2026-11-05 작업 기록
 
 ### Goods (굿즈) 섹션 - 랭킹 링크 외부 아이콘 색상 (#f49cc2 -> 호버 시 #68bfd0) 적용
