@@ -13,6 +13,12 @@
     <header class="site-header outer-box" id="page-top">
       <div class="inner-box site-header__inner">
         <div class="part-box site-header__top">
+          <div class="site-header__mobile-tools">
+            <a class="site-header__mobile-login" href="./login.html">
+              <img src="../images/used/icon-mypage-portal.svg" alt="" aria-hidden="true">
+              <span>ログイン</span>
+            </a>
+          </div>
           <a class="site-header__logo" href="../index.html" aria-label="Sanrio ホーム">
             <img src="../images/used/logo.svg" alt="Sanrio">
           </a>
@@ -179,9 +185,14 @@
               <a class="notice-button notice-button--outline" href="?view=list">
                 <span class="btn-icon" aria-hidden="true">‹</span> 一覧に戻る
               </a>
-              <a class="notice-button notice-button--primary" data-js="edit-link" href="?view=edit">
-                <span class="btn-icon" aria-hidden="true">✎</span> 編集する
-              </a>
+              <div class="notice-admin-actions" data-js="admin-detail-actions" style="display:inline-flex; gap:0.5rem;">
+                <a class="notice-button notice-button--primary" data-js="edit-link" href="?view=edit">
+                  <span class="btn-icon" aria-hidden="true">✎</span> 編集する
+                </a>
+                <button type="button" class="notice-button notice-button--outline btn-delete" data-js="delete-button" style="color: #ff3366; border-color: #ffb8c8;">
+                  <span class="btn-icon" aria-hidden="true">🗑</span> 削除する
+                </button>
+              </div>
             </div>
           </article>
         </section>

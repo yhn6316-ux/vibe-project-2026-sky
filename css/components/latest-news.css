@@ -1,0 +1,393 @@
+/* ==========================================================================
+   News Section (Spots 하단 News 섹션)
+   - 3개의 뉴스 카드: sanrio-dt_31, sanrio-dt_11, sanrio-dt_57
+   - 우측 상단 대형 핑크 원형 배경 데코 & 좌측 상단 폼폼푸린 라인 아트 데코
+   - ニュース TOP 버튼 & 하단 꼬리 장식 데코
+   - 모바일: 1열 세로 스택 & 반응형 미디어 쿼리
+   ========================================================================== */
+
+.latest-news-section {
+  position: relative;
+  background-color: #ffffff;
+  padding-block-start: 3.5rem;
+  padding-block-end: 4.5rem;
+  overflow: hidden;
+}
+
+/* Background Large Soft Pink Circle Decoration (Desktop Right) */
+.latest-news-section__bg-circle {
+  position: absolute;
+  top: -60px;
+  right: -120px;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fdebee 0%, #fff2f4 70%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Background Character Line Art Decoration (Desktop Left) */
+.latest-news-section__purin-outline {
+  position: absolute;
+  top: 2rem;
+  left: max(1.5rem, calc((100vw - 1200px) / 2 - 80px));
+  width: 170px;
+  height: auto;
+  opacity: 0.35;
+  filter: grayscale(1) brightness(0.7) opacity(0.5);
+  pointer-events: none;
+  z-index: 0;
+  display: block;
+}
+
+.latest-news-section__inner {
+  position: relative;
+  z-index: 1;
+  width: 1200px;
+  max-width: 100%;
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Heading: Newspaper Icon + News + ニュース
+   ========================================================================== */
+.latest-news-section__heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-block-end: 3rem;
+}
+
+.latest-news-section__icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-block-end: 0.35rem;
+  fill: #ebbe5b;
+}
+
+.latest-news-section__title {
+  font-family: var(--font-display, "Comfortaa", sans-serif);
+  font-size: 2.375rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #ea7070;
+  margin: 0;
+}
+
+.latest-news-section__subtitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #888888;
+  letter-spacing: 0.1em;
+  margin: 0.35rem 0 0;
+}
+
+/* ==========================================================================
+   News Cards Grid (3 Cards)
+   ========================================================================== */
+.latest-news-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 340px);
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.latest-news-card {
+  display: flex;
+  flex-direction: column;
+  width: 340px;
+}
+
+.latest-news-card__link {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  height: 100%;
+}
+
+.latest-news-card__thumb-wrap {
+  position: relative;
+  width: 340px;
+  height: 190px;
+  border-radius: 14px;
+  overflow: visible;
+  margin-block-end: 0.75rem;
+  background-color: #f7f7f7;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.latest-news-card__img-box {
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.latest-news-card__image {
+  width: 340px;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 14px;
+  display: block;
+}
+
+/* Red Apple NEW Badge (Overlapping top-right corner on 1st card) */
+.latest-news-card__badge-new {
+  position: absolute;
+  top: -12px;
+  right: -8px;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.latest-news-card__badge-apple {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ef7d8b;
+  border-radius: 50% 50% 45% 45%;
+}
+
+.latest-news-card__badge-apple::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  right: 14px;
+  width: 5px;
+  height: 7px;
+  border-radius: 50% 0 50% 0;
+  background-color: #e56575;
+  transform: rotate(25deg);
+}
+
+.latest-news-card__badge-text {
+  position: relative;
+  z-index: 1;
+  color: #ffffff;
+  font-size: 0.5625rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.latest-news-card__title {
+  margin: 0 0 0.5rem;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #777777;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.latest-news-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.latest-news-card__tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.15rem 0.65rem;
+  border-radius: 4px;
+  background-color: #ef7d8b;
+  color: #ffffff;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.latest-news-card__date {
+  font-size: 14px;
+  color: #888888;
+}
+
+/* ==========================================================================
+   Bottom Navigation Button: "ニュース TOP"
+   ========================================================================== */
+.latest-news-section__btn-wrap {
+  position: relative;
+  width: min(22rem, calc(100% - var(--space-8)));
+  margin: 3.5rem auto 0;
+}
+
+.latest-news-section__top-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 3rem;
+  padding-inline: var(--space-8);
+  border-radius: var(--radius-pill);
+  background: #ea7070;
+  color: var(--color-white);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(234, 112, 112, 0.25);
+}
+
+.latest-news-section__top-link > span:first-child {
+  flex: 1;
+  text-align: center;
+}
+
+.latest-news-section__arrow {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: #ea7070;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-left: auto;
+}
+
+.latest-news-section__bottom-tail {
+  position: absolute;
+  bottom: -1.75rem;
+  left: -2.5rem;
+  width: 55px;
+  height: auto;
+  opacity: 0.45;
+  filter: grayscale(1) brightness(0.7) opacity(0.6);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Tablet Responsive Styles (@media (max-width: 1120px) and (min-width: 769px))
+   ========================================================================== */
+@media (max-width: 1120px) and (min-width: 769px) {
+  .latest-news-section__inner {
+    padding-inline: 1rem;
+  }
+
+  .latest-news-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .latest-news-card {
+    width: 100%;
+  }
+
+  .latest-news-card__thumb-wrap {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 340 / 190;
+  }
+
+  .latest-news-card__image {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* ==========================================================================
+   Mobile Responsive Styles (@media (max-width: 768px))
+   - 세로 1열 카드 배치
+   - 배경 원 및 라인아트 크기 조정
+   ========================================================================== */
+@media (max-width: 768px) {
+  .latest-news-section {
+    padding-block-start: 2.5rem;
+    padding-block-end: 3.5rem;
+  }
+
+  .latest-news-section__inner {
+    width: 100%;
+    padding-inline: 1rem;
+  }
+
+  .latest-news-section__bg-circle {
+    top: -20px;
+    right: -100px;
+    width: 380px;
+    height: 380px;
+  }
+
+  .latest-news-section__purin-outline {
+    top: 1rem;
+    left: 8%;
+    width: 95px;
+  }
+
+  .latest-news-section__heading {
+    margin-block-end: 2rem;
+  }
+
+  .latest-news-section__icon {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .latest-news-section__title {
+    font-size: 1.875rem;
+  }
+
+  /* Mobile News: 1 Column Vertical Stack */
+  .latest-news-cards {
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    justify-items: center;
+  }
+
+  .latest-news-card {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .latest-news-card__thumb-wrap {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    aspect-ratio: 340 / 190;
+  }
+
+  .latest-news-card__image {
+    width: 100%;
+    height: 100%;
+  }
+
+  .latest-news-card__title {
+    font-size: 15px;
+  }
+
+  .latest-news-section__btn-wrap {
+    width: min(20rem, calc(100% - var(--space-8)));
+    margin-block-start: 2.5rem;
+  }
+
+  .latest-news-section__bottom-tail {
+    left: -1.25rem;
+    bottom: -1.5rem;
+    width: 45px;
+  }
+}
+

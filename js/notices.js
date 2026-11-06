@@ -15,7 +15,10 @@ import {
   getNoticeById,
   createNotice,
   updateNotice,
+  deleteNotice,
 } from "./services/noticeService.js";
+import { isAdminUser } from "./services/authService.js";
+import { initHeaderAuthUI } from "./authUi.js";
 
 // DOM 셀렉터 헬퍼
 const $ = (selector) => document.querySelector(selector);
@@ -139,6 +142,12 @@ const renderListView = async () => {
   setLoading(true);
 
   try {
+    // 관리자 여부에 따라 글쓰기(新規投稿) 버튼 표시/숨김
+    const newBtn = $('.notice-btn-new');
+    if (newBtn) {
+      newBtn.style.display = isAdminUser() ? "inline-flex" : "none";
+    }
+
     const category = $('[data-js="category-filter"]')?.value || "すべて";
     const keyword = $('[data-js="keyword-input"]')?.value || "";
 
@@ -267,10 +276,39 @@ const renderDetailView = async (id) => {
       }
     }
 
+    // 관리자 전용 수정/삭제 버튼 제어
+    const adminActions = $('[data-js="admin-detail-actions"]');
+    if (adminActions) {
+      adminActions.style.display = isAdminUser() ? "inline-flex" : "none";
+    }
+
     // 편집 버튼 링크
     const editBtn = $('[data-js="edit-link"]');
     if (editBtn) {
       editBtn.href = `?view=edit&id=${encodeURIComponent(currentNotice.id)}`;
+    }
+
+    // 삭제 버튼 이벤트
+    const deleteBtn = $('[data-js="delete-button"]');
+    if (deleteBtn) {
+      deleteBtn.onclick = async () => {
+        if (!isAdminUser()) {
+          alert("관리자만 삭제할 수 있습니다.");
+          return;
+        }
+        if (confirm("정말로 이 공지사항을 삭제하시겠습니까?")) {
+          setLoading(true);
+          try {
+            await deleteNotice(currentNotice.id);
+            alert("공지사항이 삭제되었습니다.");
+            window.location.href = "?view=list";
+          } catch (err) {
+            alert(err.message || "삭제 실패");
+          } finally {
+            setLoading(false);
+          }
+        }
+      };
     }
   } catch (error) {
     console.error("Failed to render notice detail:", error);
@@ -317,6 +355,13 @@ const updateKuromiEmptyState = () => {
 };
 
 const renderFormView = async (isEdit, id) => {
+  // 관리자 권한 확인 (비관리자 접근 차단)
+  if (!isAdminUser()) {
+    alert("관리자만 접근할 수 있는 페이지입니다.");
+    window.location.href = "?view=list";
+    return;
+  }
+
   hideGlobalError();
   setLoading(true);
 
@@ -687,6 +732,7 @@ const initRouter = () => {
 
 // 페이지 로드 시 구동
 document.addEventListener("DOMContentLoaded", () => {
+  initHeaderAuthUI();
   setupFormEvents();
   initRouter();
 });

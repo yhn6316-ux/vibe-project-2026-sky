@@ -644,14 +644,9 @@
               <li class="goods-ranking__item goods-ranking__item--1">
                 <a class="goods-ranking__link" href="https://shop.sanrio.co.jp/item/detail/1" target="_blank" rel="noopener noreferrer">
                   <div class="goods-ranking__thumb-wrap">
-                    <svg class="goods-ranking__crown" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="1位">
-                      <path d="M4 26 L8 12 L18 20 L20 6 L22 20 L32 12 L36 26 Z" fill="#d2983b" stroke="#ffffff" stroke-width="2"/>
-                      <circle cx="20" cy="5" r="2.5" fill="#f5c258"/>
-                      <circle cx="8" cy="11" r="2" fill="#f5c258"/>
-                      <circle cx="32" cy="11" r="2" fill="#f5c258"/>
-                      <circle cx="20" cy="18" r="9" fill="#ffffff" stroke="#e0a944" stroke-width="1.5"/>
-                      <text x="20" y="21.5" text-anchor="middle" font-size="10" font-weight="900" fill="#c48a28">1</text>
-                    </svg>
+                    <div class="goods-ranking__crown goods-ranking__crown--1" aria-label="1위">
+                      <span class="goods-ranking__crown-num">1</span>
+                    </div>
                     <img class="goods-ranking__image" src="./images/used/sanrio-dt_87.jpg" width="162" height="162" alt="サンリオキャラクターズ シークレットIDフォトホルダー（エンジョイアイドル カラ" loading="lazy">
                   </div>
                   <p class="goods-ranking__item-title">
@@ -664,14 +659,9 @@
               <li class="goods-ranking__item goods-ranking__item--2">
                 <a class="goods-ranking__link" href="https://shop.sanrio.co.jp/item/detail/2" target="_blank" rel="noopener noreferrer">
                   <div class="goods-ranking__thumb-wrap">
-                    <svg class="goods-ranking__crown" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="2位">
-                      <path d="M4 26 L8 12 L18 20 L20 6 L22 20 L32 12 L36 26 Z" fill="#9da3a8" stroke="#ffffff" stroke-width="2"/>
-                      <circle cx="20" cy="5" r="2.5" fill="#c5cbd0"/>
-                      <circle cx="8" cy="11" r="2" fill="#c5cbd0"/>
-                      <circle cx="32" cy="11" r="2" fill="#c5cbd0"/>
-                      <circle cx="20" cy="18" r="9" fill="#ffffff" stroke="#9da3a8" stroke-width="1.5"/>
-                      <text x="20" y="21.5" text-anchor="middle" font-size="10" font-weight="900" fill="#7d848a">2</text>
-                    </svg>
+                    <div class="goods-ranking__crown goods-ranking__crown--2" aria-label="2위">
+                      <span class="goods-ranking__crown-num">2</span>
+                    </div>
                     <img class="goods-ranking__image" src="./images/used/sanrio-dt_88.jpg" width="162" height="162" alt="フラガリアメモリーズ（クロード）缶バッジ（バースデーグッズ 2026）" loading="lazy">
                   </div>
                   <p class="goods-ranking__item-title">
@@ -684,14 +674,9 @@
               <li class="goods-ranking__item goods-ranking__item--3">
                 <a class="goods-ranking__link" href="https://shop.sanrio.co.jp/item/detail/3" target="_blank" rel="noopener noreferrer">
                   <div class="goods-ranking__thumb-wrap">
-                    <svg class="goods-ranking__crown" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="3位">
-                      <path d="M4 26 L8 12 L18 20 L20 6 L22 20 L32 12 L36 26 Z" fill="#c47d51" stroke="#ffffff" stroke-width="2"/>
-                      <circle cx="20" cy="5" r="2.5" fill="#e8a880"/>
-                      <circle cx="8" cy="11" r="2" fill="#e8a880"/>
-                      <circle cx="32" cy="11" r="2" fill="#e8a880"/>
-                      <circle cx="20" cy="18" r="9" fill="#ffffff" stroke="#c47d51" stroke-width="1.5"/>
-                      <text x="20" y="21.5" text-anchor="middle" font-size="10" font-weight="900" fill="#a45e33">3</text>
-                    </svg>
+                    <div class="goods-ranking__crown goods-ranking__crown--3" aria-label="3위">
+                      <span class="goods-ranking__crown-num">3</span>
+                    </div>
                     <img class="goods-ranking__image" src="./images/used/sanrio-dt_89.jpg" width="162" height="162" alt="ハローキティ シークレットマスコットチャーム（ハローキティのお気に入り）" loading="lazy">
                   </div>
                   <p class="goods-ranking__item-title">
@@ -1158,6 +1143,191 @@
             <span>スポット TOP</span>
             <span class="spots-section__arrow" aria-hidden="true">➜</span>
           </a>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           News Section (Spots 하단 News 섹션)
+           ===================================================================== -->
+      <section class="latest-news-section outer-box" aria-labelledby="latest-news-heading">
+        <!-- Background Decor: Soft Pink Circle & Pompompurin Outline -->
+        <div class="latest-news-section__bg-circle" aria-hidden="true"></div>
+        <img class="latest-news-section__purin-outline" src="./images/used/sanrio-dt_65.png" alt="" aria-hidden="true">
+
+        <div class="inner-box latest-news-section__inner">
+          <!-- Section Heading: Newspaper Icon + News + ニュース -->
+          <div class="latest-news-section__heading">
+            <svg class="latest-news-section__icon" viewBox="0 0 36 36" aria-hidden="true">
+              <path d="M28.0502 36.0001H8.77519C8.11519 36.0001 7.5752 35.4601 7.5752 34.8001C7.5752 34.1401 8.11519 33.6001 8.77519 33.6001H28.0502C30.6902 33.6001 32.8502 31.4401 32.8502 28.8001V7.15508C32.8502 6.49508 33.3902 5.95508 34.0502 5.95508C34.7102 5.95508 35.2502 6.49508 35.2502 7.15508V28.8001C35.2502 32.7751 32.0252 36.0001 28.0502 36.0001Z"></path>
+              <path d="M26.25 2.4C27.405 2.4 28.35 3.345 28.35 4.5V27C28.35 28.155 27.405 29.1 26.25 29.1H5.25C4.095 29.1 3.15 28.155 3.15 27V4.5C3.15 3.345 4.095 2.4 5.25 2.4H26.25ZM26.25 0H5.25C2.76 0 0.75 2.01 0.75 4.5V27C0.75 29.49 2.76 31.5 5.25 31.5H26.25C28.74 31.5 30.75 29.49 30.75 27V4.5C30.75 2.01 28.74 0 26.25 0Z"></path>
+              <path d="M16.6051 18.9748C16.6051 18.9748 16.6051 18.8399 16.6351 18.7799C16.7701 18.4949 17.0251 18.2549 17.3251 18.1499C17.4451 18.1049 17.5351 17.9848 17.5501 17.8498C17.5501 17.6998 17.4601 17.5649 17.3251 17.5199C16.7251 17.3699 16.2151 16.9799 15.9001 16.4549C15.8851 16.4099 15.8701 16.3498 15.8701 16.2898C15.8701 16.1848 15.9151 16.0798 15.9601 16.0048C16.1101 15.7648 16.3501 15.5998 16.6351 15.5548C16.9051 15.5248 17.3101 16.0948 17.5651 16.4248L17.9401 16.8898C18.0151 16.9798 18.1351 17.0248 18.2551 17.0098C18.3751 16.9798 18.4801 16.8899 18.5101 16.7699C18.7201 16.4099 19.1251 16.1999 19.5451 16.2149C19.8451 16.1999 20.1301 16.3798 20.2201 16.6648C20.2501 16.7698 20.2651 16.8749 20.2501 16.9649C20.2501 17.1449 20.2051 17.3248 20.1151 17.4898C20.0401 17.5948 19.9801 17.6998 19.9351 17.8048L19.8451 17.9698C19.8451 17.9698 19.8001 17.9999 19.7851 18.0299C19.7551 18.0749 19.7401 18.1348 19.7401 18.1798C19.7401 18.2998 19.7851 18.4049 19.8901 18.4649C20.4301 18.7799 20.8201 19.3049 20.9401 19.9049V19.9348C20.9251 20.1748 20.7301 20.3848 20.3701 20.5648C20.1001 20.6548 19.8001 20.5799 19.5901 20.3999C19.2151 20.1749 18.9901 19.7848 18.9601 19.3498C18.9601 19.1998 18.8851 19.0648 18.7501 19.0048C18.6151 18.9448 18.4501 18.9898 18.3601 19.0948C18.1351 19.4248 17.7901 19.6348 17.4001 19.6948C17.1751 19.6948 16.9501 19.6198 16.7701 19.4698C16.6651 19.3048 16.6051 19.1248 16.6051 18.9448"></path>
+              <path d="M20.6847 21.1499C20.1597 21.5249 19.4547 21.5099 18.9447 21.1199C18.6147 20.8799 18.3447 20.5649 18.1947 20.1899C17.9247 20.4149 17.5947 20.5499 17.2347 20.5649C16.8147 20.5649 16.4097 20.4149 16.1097 20.1299C16.0947 20.1149 16.0797 20.0999 16.0647 20.0699C15.8847 19.7999 15.7947 19.4999 15.7947 19.1699C15.7947 19.0349 15.8247 18.9149 15.8547 18.7949C15.9447 18.5399 16.1097 18.3149 16.3347 18.1499C15.8097 17.9249 15.4047 17.5199 15.1497 17.0099C15.1047 16.8899 15.0747 16.7399 15.0897 16.6049C15.0897 16.5599 15.0897 16.5299 15.1047 16.4849H14.9697C13.7097 16.6049 12.5697 17.2349 11.7747 18.2249C10.7397 19.5899 10.3197 21.3149 10.6047 22.9949C10.7247 24.2549 11.3997 25.4099 12.4347 26.1449C14.5497 27.4949 18.0147 26.5049 19.4697 24.7949C20.3247 23.8649 20.7597 22.6349 20.6997 21.3749C20.6997 21.2999 20.6697 21.2249 20.6697 21.1499H20.6847Z"></path>
+              <path d="M22.7852 5.95508H8.71519C8.08559 5.95508 7.5752 6.46547 7.5752 7.09508V7.21508C7.5752 7.84468 8.08559 8.35508 8.71519 8.35508H22.7852C23.4148 8.35508 23.9252 7.84468 23.9252 7.21508V7.09508C23.9252 6.46547 23.4148 5.95508 22.7852 5.95508Z"></path>
+              <path d="M22.7852 10.7549H8.71519C8.08559 10.7549 7.5752 11.2653 7.5752 11.8949V12.0149C7.5752 12.6445 8.08559 13.1549 8.71519 13.1549H22.7852C23.4148 13.1549 23.9252 12.6445 23.9252 12.0149V11.8949C23.9252 11.2653 23.4148 10.7549 22.7852 10.7549Z"></path>
+            </svg>
+            <h2 id="latest-news-heading" class="latest-news-section__title">News</h2>
+            <p class="latest-news-section__subtitle">ニュース</p>
+          </div>
+
+          <!-- News Cards (3 items) -->
+          <ul class="latest-news-cards">
+            <!-- Card 1: sanrio-dt_31 -->
+            <li class="latest-news-card">
+              <a class="latest-news-card__link" href="#">
+                <div class="latest-news-card__thumb-wrap">
+                  <div class="latest-news-card__img-box">
+                    <img class="latest-news-card__image" src="./images/used/sanrio-dt_31.jpg" alt="「キレイキレイ×ハローキティ」オリジナルぬいぐるみ当たるキャンペーンを実施中♡" width="340" height="190">
+                  </div>
+                  <span class="latest-news-card__badge-new" aria-label="NEW">
+                    <span class="latest-news-card__badge-apple" aria-hidden="true"></span>
+                    <span class="latest-news-card__badge-text">NEW</span>
+                  </span>
+                </div>
+                <h3 class="latest-news-card__title">「キレイキレイ×ハローキティ」オリジナルぬいぐるみ当たるキャンペーンを実施中♡</h3>
+                <div class="latest-news-card__meta">
+                  <span class="latest-news-card__tag">キャンペーン</span>
+                  <time class="latest-news-card__date" datetime="2026-11-02">2026/11/02</time>
+                </div>
+              </a>
+            </li>
+
+            <!-- Card 2: sanrio-dt_11 -->
+            <li class="latest-news-card">
+              <a class="latest-news-card__link" href="#">
+                <div class="latest-news-card__thumb-wrap">
+                  <div class="latest-news-card__img-box">
+                    <img class="latest-news-card__image" src="./images/used/sanrio-dt_11.jpg" alt="富士薬品ドラッグストアグループでシナモロールグッズが当たるキャンペーンを実施！" width="340" height="190">
+                  </div>
+                </div>
+                <h3 class="latest-news-card__title">富士薬品ドラッグストアグループでシナモロールグッズが当たるキャンペーンを実施！</h3>
+                <div class="latest-news-card__meta">
+                  <span class="latest-news-card__tag">キャンペーン</span>
+                  <time class="latest-news-card__date" datetime="2026-10-30">2026/10/30</time>
+                </div>
+              </a>
+            </li>
+
+            <!-- Card 3: sanrio-dt_57 -->
+            <li class="latest-news-card">
+              <a class="latest-news-card__link" href="#">
+                <div class="latest-news-card__thumb-wrap">
+                  <div class="latest-news-card__img-box">
+                    <img class="latest-news-card__image" src="./images/used/sanrio-dt_57.jpg" alt="サーティワンとマイメロディ・クロミのコラボキャンペーンを開催！" width="340" height="190">
+                  </div>
+                </div>
+                <h3 class="latest-news-card__title">サーティワンとマイメロディ・クロミのコラボキャンペーンを開催！</h3>
+                <div class="latest-news-card__meta">
+                  <span class="latest-news-card__tag">キャンペーン</span>
+                  <time class="latest-news-card__date" datetime="2026-10-30">2026/10/30</time>
+                </div>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Bottom Button: "ニュース TOP" -->
+          <div class="latest-news-section__btn-wrap">
+            <a class="latest-news-section__top-link" href="#latest-news-heading">
+              <span>ニュース TOP</span>
+              <span class="latest-news-section__arrow" aria-hidden="true">➜</span>
+            </a>
+            <img class="latest-news-section__bottom-tail" src="./images/used/sanrio-dt_66.png" alt="" aria-hidden="true">
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           Plus Section (Sanrio+ 섹션)
+           ===================================================================== -->
+      <section class="plus-section outer-box" aria-labelledby="plus-heading">
+        <div class="inner-box plus-section__inner">
+          <!-- Section Heading: Sanrio+ Logo & Description -->
+          <div class="plus-section__heading">
+            <h2 id="plus-heading" class="visually-hidden">Sanrio+</h2>
+            <img class="plus-section__logo" src="./images/used/sanrio-dt_56.png" alt="Sanrio+ サンリオプラス">
+            <p class="plus-section__desc">
+              お買い物やサービス利用で「スマイル（ポイント）」をためたり、<br>
+              ギフトへの交換やイベント参加ができるサンリオの無料会員サービスです。
+            </p>
+          </div>
+
+          <!-- Cards Grid (3 items) -->
+          <ul class="plus-cards">
+            <!-- Card 1: sanrio-dt_32 -->
+            <li class="plus-card">
+              <a class="plus-card__link" href="#">
+                <div class="plus-card__thumb-wrap">
+                  <div class="plus-card__img-box">
+                    <img class="plus-card__image" src="./images/used/sanrio-dt_32.jpg" alt="【Sanrio+会員限定】ハローキティ デジタルコンテンツプレゼントキャンペーン11月☆" width="340" height="190">
+                  </div>
+                  <span class="plus-card__badge-new" aria-label="NEW">
+                    <span class="plus-card__badge-apple" aria-hidden="true"></span>
+                    <span class="plus-card__badge-text">NEW</span>
+                  </span>
+                </div>
+                <h3 class="plus-card__title">【Sanrio+会員限定】ハローキティ デジタルコンテンツプレゼントキャンペーン11月☆</h3>
+                <div class="plus-card__meta">
+                  <span class="plus-card__tag">Sanrio+</span>
+                  <time class="plus-card__date" datetime="2026-11-02">2026/11/02</time>
+                </div>
+              </a>
+            </li>
+
+            <!-- Card 2: sanrio-dt_36 -->
+            <li class="plus-card">
+              <a class="plus-card__link" href="#">
+                <div class="plus-card__thumb-wrap">
+                  <div class="plus-card__img-box">
+                    <img class="plus-card__image" src="./images/used/sanrio-dt_36.jpg" alt="「Sanrio+ de チャンス！KUROMI'S MYSTERIOUS DEPARTMENT STOREくじ」を実施☆" width="340" height="190">
+                  </div>
+                </div>
+                <h3 class="plus-card__title">「Sanrio+ de チャンス！KUROMI'S MYSTERIOUS DEPARTMENT STOREくじ」を実施☆</h3>
+                <div class="plus-card__meta">
+                  <span class="plus-card__tag">Sanrio+</span>
+                  <time class="plus-card__date" datetime="2026-10-19">2026/10/19</time>
+                </div>
+              </a>
+            </li>
+
+            <!-- Card 3: sanrio-dt_61 -->
+            <li class="plus-card">
+              <a class="plus-card__link" href="#">
+                <div class="plus-card__thumb-wrap">
+                  <div class="plus-card__img-box">
+                    <img class="plus-card__image" src="./images/used/sanrio-dt_61.jpg" alt="Sanrio+ダイヤモンドステージ限定☆予約制の特別な景品が登場！" width="340" height="190">
+                  </div>
+                </div>
+                <h3 class="plus-card__title">Sanrio+ダイヤモンドステージ限定☆予約制の特別な景品が登場！</h3>
+                <div class="plus-card__meta">
+                  <span class="plus-card__tag">Sanrio+</span>
+                  <time class="plus-card__date" datetime="2026-10-15">2026/10/15</time>
+                </div>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Action Buttons Area: 会員登録 & Sanrio+ TOP -->
+          <div class="plus-section__actions">
+            <a class="plus-section__btn-register" href="#" target="_blank" rel="noopener noreferrer">
+              <span>会員登録</span>
+              <svg class="plus-section__ext-icon" viewBox="0 0 14 14" aria-hidden="true">
+                <path d="M11 2h-4v1.5h2.44L4.72 8.22l1.06 1.06L10.5 4.56V7H12V2h-1zM2 4v8h8V7h-1.5v3.5h-5v-5H7V4H2z"/>
+              </svg>
+            </a>
+            <a class="plus-section__btn-top" href="#plus-heading">
+              <span>Sanrio+ TOP</span>
+              <span class="plus-section__arrow" aria-hidden="true">➜</span>
+            </a>
+          </div>
+
+          <!-- Banners Area: sanrio-dt_67 & sanrio-dt_10 -->
+          <div class="plus-section__banners">
+            <a class="plus-section__banner-large" href="#">
+              <img class="plus-section__banner-large-img" src="./images/used/sanrio-dt_67.png" alt="Sanrio+ サンリオプラス 会員限定コンテンツ・お誕生月500スマイル・特別なイベント ほかにも特典や機能がいっぱい！詳しくはコチラ☆" width="840" height="472">
+            </a>
+            <a class="plus-section__banner-small" href="#">
+              <img class="plus-section__banner-small-img" src="./images/used/sanrio-dt_10.jpg" alt="全国のサンリオショップでスタッフ募集！ 共に“Kawaii”エンターテイメントの発信をしませんか？" width="390" height="219">
+            </a>
+          </div>
         </div>
       </section>
 

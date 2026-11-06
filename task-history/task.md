@@ -12,6 +12,40 @@
 
 ## 2026-11-06 작업 기록
 
+### Header Navigation 아이템 정중앙 정렬 (`site-nav__link`)
+- 사용자의 `site-nav__link 안의 요소를 해당 박스의 정중앙에 위치하도록` 요청 반영:
+  - `css/components/header.css`:
+    - `.site-nav__link`에 `flex: 1 1 0; display: inline-flex; justify-content: center; align-items: center;`를 적용하여 94px 높이의 primary navigation 내에서 각 아이템 박스가 균등하게 공간을 차지하고, 내부 아이콘 및 텍스트 요소가 해당 박스의 정중앙에 배치되도록 수정.
+
+### Plus (Sanrio+) 섹션 - News 섹션 하단에 신규 구현 (데스크톱 및 모바일 1:1 완벽 반영)
+- 사용자의 `news 섹션 아래에 plus섹션을 만들거야. 첨부한 이미지대로 그대로 구현해줘. 이미지는 순서대로 데스크탑, 모바일 화면이야. 사용할 이미지는 sanrio-dt_56, sanrio-dt_32, sanrio-dt_36, sanrio-dt_61, sanrio-dt_67, sanrio-dt_10야. 첨부한 이미지를 그대로 분석해서 구현하고 언급하지 않은 기능은 넣지마. 이미지들이 화면 비율에 맞게 크기가 변하도록하고 미디어쿼리에 반응하도록 구현해줘.` 요청 반영:
+  - `css/components/plus.css` 신규 생성 및 `css/main.css`에 `@import url("./components/plus.css");` 등록:
+    - 섹션 상단: 완만하고 부드러운 아치형 연청록(#f0f9fa) 배경 (`border-radius: 50% 50% 0 0 / 120px 120px 0 0;`).
+    - 헤더: `sanrio-dt_56.png` (Sanrio+ 로고) 및 회원 서비스 소개 텍스트 배치.
+    - 뉴스 카드 3종:
+      - 카드 1: `sanrio-dt_32.jpg` + 하늘색 사과 NEW 뱃지 + 타이틀 15px + 태그 `Sanrio+` (민트 배경, 둥근 모서리) + 날짜 14px.
+      - 카드 2: `sanrio-dt_36.jpg` + 타이틀 15px + 태그 `Sanrio+` + 날짜 14px.
+      - 카드 3: `sanrio-dt_61.jpg` + 타이틀 15px + 태그 `Sanrio+` + 날짜 14px.
+    - 액션 버튼 2종:
+      - `会員登録 ↗` (핑크 타원형 버튼 + 외부 링크 SVG 아이콘)
+      - `Sanrio+ TOP ➜` (민트 타원형 버튼 + 우측 원형 화살표)
+    - 하단 배너 2종:
+      - 대형 특전 배너: `sanrio-dt_67.png` (둥근 모서리, 비율 유지).
+      - 스태프 모집 배너: `sanrio-dt_10.jpg` (둥근 모서리, 비율 유지).
+    - 미디어 쿼리: 데스크톱 가로 3열 배치에서 모바일(768px 이하) 1열 세로 스택으로 전환되며, 이미지 및 배너가 화면 폭에 맞추어 유연하게 크기 조절되도록 구현.
+
+### News 섹션 - Spots 섹션 하단에 신규 뉴스 섹션 구현 (데스크톱 및 모바일 1:1 완벽 반영)
+- 사용자의 `spots 섹션 아래에 news섹션을 만들거야. 첨부한 이미지대로 그대로 구현해줘. 이미지는 순서대로 데스크탑, 모바일 화면이야. 사용할 이미지는 sanrio-dt_31, sanrio-dt_11, sanrio-dt_57야. 첨부한 이미지를 그대로 분석해서 구현하고 언급하지 않은 기능은 넣지마. 이미지들이 화면 비율에 맞게 크기가 변하도록하고 미디어쿼리에 반응하도록 구현해줘.` 요청 반영:
+  - `css/components/latest-news.css` 파일 신규 생성 및 `css/main.css`에 `@import url("./components/latest-news.css");` 등록:
+    - 상단 섹션 타이틀: 뉴스페이퍼 SVG 아이콘 + `News` (#ea7070) + `ニュース`.
+    - 배경 장식: 데스크톱 우측 상단 대형 핑크 원형 배경(`radial-gradient`), 좌측 상단 폼폼푸린 라인 아트(`sanrio-dt_65.png`).
+    - 뉴스 카드 3종 (`sanrio-dt_31.jpg`, `sanrio-dt_11.jpg`, `sanrio-dt_57.jpg`):
+      - 1번 카드 우측 상단 붉은 사과 `NEW` 뱃지 적용.
+      - 타이틀 15px 볼드, 태그 `キャンペーン` (분홍 배경에 둥근 사각 `border-radius: 4px`), 날짜 14px.
+      - 화면 비율에 맞게 크기가 변하도록 aspect-ratio 및 `object-fit: cover` 적용.
+    - 하단 버튼: `ニュース TOP` 타원형 버튼 (#ea7070) 및 우측 원형 화살표 `➜`, 좌측 하단 캐릭터 꼬리 라인 아트(`sanrio-dt_66.png`) 배치.
+    - 모바일(768px 이하) 및 태블릿(1120px 이하) 반응형 미디어 쿼리 완벽 대응 (모바일 시 1열 세로 스택 카드 배치).
+
 ### Digital & Spots 섹션 - 뱃지 및 태그 모서리 둥근 네모(border-radius: 4px)로 변경
 - 사용자의 `digital-comm-item__badge, digital-news-card__tag, spots-news-card__tag 박스 모서리 둥근 네모로 변경.` 요청 반영:
   - `css/components/digital.css`:

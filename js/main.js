@@ -1,5 +1,8 @@
 "use strict";
 
+import { initHeaderAuthUI } from "./authUi.js";
+initHeaderAuthUI();
+
 const slides = [
   {
     image: "./images/used/sanrio-dt_38.jpg",
@@ -874,7 +877,63 @@ window.addEventListener("resize", () => {
   if (isMobileMenuOpen && !window.matchMedia("(max-width: 768px)").matches) {
     closeMobileMenu(undefined, false, true);
   }
+  handleHeaderScroll();
 });
+
+// --- Desktop Header Scroll Sticky & Merge ---
+const headerTopBox = document.querySelector(".site-header__top");
+const headerNavBox = document.querySelector("#primary-navigation");
+const headerLogo = document.querySelector(".site-header__logo");
+const headerTools = document.querySelector(".site-header__tools");
+const headerMobileTools = document.querySelector(".site-header__mobile-tools");
+
+let isHeaderScrolled = false;
+
+const restoreHeaderToOriginal = () => {
+  if (!isHeaderScrolled && headerTopBox && headerLogo?.parentElement === headerTopBox && headerTools?.parentElement === headerTopBox) {
+    return;
+  }
+  isHeaderScrolled = false;
+  siteHeader.classList.remove("is-scrolled");
+
+  if (headerTopBox) {
+    if (headerMobileTools && headerMobileTools.parentElement === headerTopBox) {
+      headerTopBox.insertBefore(headerLogo, headerMobileTools.nextSibling);
+    } else {
+      headerTopBox.insertBefore(headerLogo, headerTopBox.firstChild);
+    }
+    headerTopBox.appendChild(headerTools);
+  }
+};
+
+const handleHeaderScroll = () => {
+  if (window.matchMedia("(max-width: 768px)").matches) {
+    restoreHeaderToOriginal();
+    return;
+  }
+
+  const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+  const shouldScroll = scrollY > 10;
+
+  if (shouldScroll) {
+    if (!isHeaderScrolled) {
+      isHeaderScrolled = true;
+      siteHeader.classList.add("is-scrolled");
+      if (headerLogo && headerNavBox) {
+        headerNavBox.insertBefore(headerLogo, headerNavBox.firstChild);
+      }
+      if (headerTools && headerNavBox) {
+        headerNavBox.appendChild(headerTools);
+      }
+    }
+  } else {
+    restoreHeaderToOriginal();
+  }
+};
+
+window.addEventListener("scroll", handleHeaderScroll, { passive: true });
+window.addEventListener("scrollend", handleHeaderScroll, { passive: true });
+handleHeaderScroll();
 
 updateSlideContent();
 startAutoplay();
